@@ -14,7 +14,7 @@ namespace air_3550
             string userID = txtUserID.Text;
             string password = txtPassword.Text;
 
-            // Replace these hardcoded values with the ones from your authentication system
+            // TODO: Replace hardcoded values with values from database.
             const string customerID = "customer";
             const string marketingManagerID = "marketingManager";
             const string accountingManagerID = "accountingManager";
@@ -26,7 +26,7 @@ namespace air_3550
                 switch (userID)
                 {
                     case customerID:
-                        CustomerForm customerForm = new CustomerForm(); // Replace 'MainForm' with the name of your main application form
+                        CustomerForm customerForm = new CustomerForm();
                         customerForm.Show();
                         break;
                     case marketingManagerID:
@@ -48,8 +48,7 @@ namespace air_3550
                 }
                 this.Hide();
             }
-            else
-            {
+            else {
                 // Login failed, show an error message
                 MessageBox.Show("Invalid username or password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPassword.Clear();
