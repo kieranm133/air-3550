@@ -287,10 +287,10 @@
             // dataGridView4
             // 
             dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView4.Location = new Point(-4, 22);
+            dataGridView4.Location = new Point(6, 22);
             dataGridView4.Name = "dataGridView4";
             dataGridView4.RowTemplate.Height = 25;
-            dataGridView4.Size = new Size(442, 184);
+            dataGridView4.Size = new Size(316, 184);
             dataGridView4.TabIndex = 0;
             // 
             // label8
