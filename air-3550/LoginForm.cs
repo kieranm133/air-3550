@@ -30,11 +30,11 @@ namespace air_3550
                         customerForm.Show();
                         break;
                     case marketingManagerID:
-                        MarketingManagerForm marketingManagerForm = new MarketingManagerForm(); 
-                        marketingManagerForm.Show();   
+                        MarketingManagerForm marketingManagerForm = new MarketingManagerForm();
+                        marketingManagerForm.Show();
                         break;
                     case accountingManagerID:
-                        AccountingManagerForm accountingManagerForm = new AccountingManagerForm(); 
+                        AccountingManagerForm accountingManagerForm = new AccountingManagerForm();
                         accountingManagerForm.Show();
                         break;
                     case loadEngineerID:
@@ -42,17 +42,25 @@ namespace air_3550
                         loadEngineerForm.Show();
                         break;
                     case flightManagerID:
-                        FlightManagerForm flightManagerForm = new FlightManagerForm(); 
+                        FlightManagerForm flightManagerForm = new FlightManagerForm();
                         flightManagerForm.Show();
                         break;
                 }
                 this.Hide();
             }
-            else {
+            else
+            {
                 // Login failed, show an error message
                 MessageBox.Show("Invalid username or password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPassword.Clear();
             }
+        }
+
+        private void btnCreateAccount_Click(object sender, EventArgs e)
+        {
+            RegisterForm registerForm = new RegisterForm();
+            registerForm.Show();
+            this.Hide();
         }
     }
 }

@@ -33,6 +33,7 @@
             txtUserID = new TextBox();
             txtPassword = new TextBox();
             btnLogin = new Button();
+            btnCreateAccount = new Button();
             SuspendLayout();
             // 
             // labelUserID
@@ -70,19 +71,30 @@
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(416, 183);
+            btnLogin.Location = new Point(236, 249);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(75, 23);
+            btnLogin.Size = new Size(181, 23);
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
+            // 
+            // btnCreateAccount
+            // 
+            btnCreateAccount.Location = new Point(262, 278);
+            btnCreateAccount.Name = "btnCreateAccount";
+            btnCreateAccount.Size = new Size(137, 23);
+            btnCreateAccount.TabIndex = 5;
+            btnCreateAccount.Text = "Create an account";
+            btnCreateAccount.UseVisualStyleBackColor = true;
+            btnCreateAccount.Click += btnCreateAccount_Click;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnCreateAccount);
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
             Controls.Add(txtUserID);
@@ -101,5 +113,6 @@
         private TextBox txtUserID;
         private TextBox txtPassword;
         private Button btnLogin;
+        private Button btnCreateAccount;
     }
 }
