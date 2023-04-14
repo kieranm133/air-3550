@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using air_3550.Logging;
 
 namespace air_3550.Repositories
 {
@@ -20,29 +21,35 @@ namespace air_3550.Repositories
 
         public void AddCustomer(Customer customer)
         {
-            using var connection = new SqliteConnection(connectionString);
-            connection.Open();
-            using var command = new SqliteCommand(
-               "INSERT INTO Customers (user_id, first_name, last_name, address, phone, age, points_used, points_available, credit_card) " +
-               "VALUES (@UserID, @FirstName, @LastName, @Address, @Phone, @Age, @PointsUsed, @PointsAvailable, @CreditCard)",
-               connection
-            );
-            command.Parameters.AddWithValue("@UserID", customer.UserID);
-            command.Parameters.AddWithValue("@FirstName", customer.FirstName);
-            command.Parameters.AddWithValue("@LastName", customer.LastName);
-            command.Parameters.AddWithValue("@Address", customer.Address);
-            command.Parameters.AddWithValue("@Phone", customer.Phone);
-            command.Parameters.AddWithValue("@Age", customer.Age);
-            command.Parameters.AddWithValue("@PointsUsed", customer.PointsUsed);
-            command.Parameters.AddWithValue("@PointsAvailable", customer.PointsAvailable);
-            command.Parameters.AddWithValue("@CreditCard", customer.CreditCard);
-            command.ExecuteNonQuery();  
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString)) 
+                { 
+                    string sql = 
+                       "INSERT INTO Customers (UserID, FirstName, LastName, Address, Phone, Age, PointsUsed, PointsAvailable, CreditCard) " +
+                       "VALUES (@UserID, @FirstName, @LastName, @Address, @Phone, @Age, @PointsUsed, @PointsAvailable, @CreditCard)";
+                    connection.Execute(sql, customer);
+                }
+            }
+            catch (SqliteException sqlEx) {
+                Logger.LogException(sqlEx);
+            }
         }
 
-        public Customer getCustomerByID(int userID)
+        public Customer GetCustomerByID(int userID)
         {
-            using var connection = new SqliteConnection(connectionString);
-            return connection.QuerySingleOrDefault<Customer>("SELECT * FROM Customer WHERE user_id = @userID", new { userID = userID });
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    return connection.QuerySingleOrDefault<Customer>("SELECT * FROM Customer WHERE UserID = @userID", new { userID = userID });
+                }
+            }
+            catch(SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
         }
     }
 }

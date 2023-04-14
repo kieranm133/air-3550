@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             txtPassword = new TextBox();
-            txtUserID = new TextBox();
             label2 = new Label();
-            labelUserID = new Label();
             txtFirstName = new TextBox();
             label3 = new Label();
             txtLastName = new TextBox();
@@ -49,40 +47,24 @@
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(168, 129);
+            txtPassword.Location = new Point(168, 187);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(100, 23);
             txtPassword.TabIndex = 7;
             // 
-            // txtUserID
-            // 
-            txtUserID.Location = new Point(168, 100);
-            txtUserID.Name = "txtUserID";
-            txtUserID.Size = new Size(100, 23);
-            txtUserID.TabIndex = 6;
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(91, 132);
+            label2.Location = new Point(91, 190);
             label2.Name = "label2";
             label2.Size = new Size(57, 15);
             label2.TabIndex = 5;
             label2.Text = "Password";
             // 
-            // labelUserID
-            // 
-            labelUserID.AutoSize = true;
-            labelUserID.Location = new Point(91, 103);
-            labelUserID.Name = "labelUserID";
-            labelUserID.Size = new Size(44, 15);
-            labelUserID.TabIndex = 4;
-            labelUserID.Text = "User ID";
-            // 
             // txtFirstName
             // 
-            txtFirstName.Location = new Point(168, 158);
+            txtFirstName.Location = new Point(168, 129);
             txtFirstName.Name = "txtFirstName";
             txtFirstName.Size = new Size(100, 23);
             txtFirstName.TabIndex = 10;
@@ -90,7 +72,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(91, 161);
+            label3.Location = new Point(91, 132);
             label3.Name = "label3";
             label3.Size = new Size(62, 15);
             label3.TabIndex = 8;
@@ -98,7 +80,7 @@
             // 
             // txtLastName
             // 
-            txtLastName.Location = new Point(168, 187);
+            txtLastName.Location = new Point(168, 158);
             txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(100, 23);
             txtLastName.TabIndex = 12;
@@ -106,7 +88,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(91, 190);
+            label1.Location = new Point(91, 161);
             label1.Name = "label1";
             label1.Size = new Size(61, 15);
             label1.TabIndex = 11;
@@ -205,9 +187,7 @@
             Controls.Add(txtFirstName);
             Controls.Add(label3);
             Controls.Add(txtPassword);
-            Controls.Add(txtUserID);
             Controls.Add(label2);
-            Controls.Add(labelUserID);
             Name = "RegisterForm";
             Text = "Create a new account";
             ResumeLayout(false);
@@ -217,9 +197,7 @@
         #endregion
 
         private TextBox txtPassword;
-        private TextBox txtUserID;
         private Label label2;
-        private Label labelUserID;
         private TextBox txtFirstName;
         private Label label3;
         private TextBox txtLastName;
