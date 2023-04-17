@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             btnLogout = new Button();
+            dataGridView1 = new DataGridView();
+            listViewLocations = new ListView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
@@ -40,19 +43,42 @@
             btnLogout.Text = "Logout";
             btnLogout.UseVisualStyleBackColor = true;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(12, 12);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(240, 150);
+            dataGridView1.TabIndex = 2;
+            // 
+            // listViewLocations
+            // 
+            listViewLocations.Location = new Point(12, 199);
+            listViewLocations.Name = "listViewLocations";
+            listViewLocations.Size = new Size(253, 97);
+            listViewLocations.TabIndex = 3;
+            listViewLocations.UseCompatibleStateImageBehavior = false;
+            // 
             // LoadEngineerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(listViewLocations);
+            Controls.Add(dataGridView1);
             Controls.Add(btnLogout);
             Name = "LoadEngineerForm";
             Text = "Load Engineer Form";
+            Load += LoadEngineerForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button btnLogout;
+        private DataGridView dataGridView1;
+        private ListView listViewLocations;
     }
 }

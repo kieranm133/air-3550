@@ -1,20 +1,24 @@
 ﻿using air_3550.Database;
 using air_3550.Models;
+using Microsoft.VisualBasic.ApplicationServices;
 using System.Security.Cryptography;
 using System.Text;
+using User = air_3550.Models.User;
 
 namespace air_3550
 {
     public partial class RegisterForm : Form
     {
+        private DatabaseManager db;
         public RegisterForm()
         {
             InitializeComponent();
+            db = DatabaseManager.Instance;
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
         {
-            DatabaseManager db = DatabaseManager.Instance;
+
             if (!IsValidFormat())
             {
                 MessageBox.Show("Invalid registration data: One or more fields was not in the proper format. Please try again.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -51,13 +55,12 @@ namespace air_3550
 
             db.Users.AddUser(user);
             db.Customers.AddCustomer(customer);
-            MessageBox.Show($"Registration successful! Please save your User ID and use it for all future login attempts: {user.UserID}", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Registration successful! Please save your User ID and use it for all future login attempts: {user.UserID}", "Registration successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Hide();
-
-
         }
+        //TODO: validate user input.
         private bool IsValidFormat()
         {
             return true;

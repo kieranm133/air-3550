@@ -13,6 +13,7 @@ namespace air_3550.Logging
             if (string.IsNullOrEmpty(message))
                 message = "An error occured:";
             Console.Error.WriteLine($"{message} {ex.Message}");
+            Console.WriteLine(new System.Diagnostics.StackTrace().ToString());
             MessageBox.Show($"{message} {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
