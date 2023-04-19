@@ -19,7 +19,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
-        public void AddCustomer(Customer customer)
+        public void Add(Customer customer)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace air_3550.Repositories
             }
         }
 
-        public Customer GetCustomerByID(int userID)
+        public Customer GetByID(int userID)
         {
             try
             {

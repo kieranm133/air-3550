@@ -15,28 +15,47 @@ namespace air_3550
     public partial class LoadEngineerForm : Form
     {
         private DatabaseManager db;
-
+        private List<Airport> airports;
         public LoadEngineerForm()
         {
             InitializeComponent();
             db = DatabaseManager.Instance;
+            this.airports = db.Airports.GetAll();
 
         }
 
         // On load, get the possible locations for a Load Engineer to send flights to and from.
         private void LoadEngineerForm_Load(object sender, EventArgs e)
         {
-            List<Airport>? airports = db.Airports.GetAllAirports();
-            foreach (var airport in airports)
+            comboBoxOrigin.DataSource = new List<Airport>(airports);
+            comboBoxOrigin.DisplayMember = "Name";
+            comboBoxOrigin.ValueMember = "AirportID";
+            comboBoxOrigin.SelectedIndex = -1;
+
+            comboBoxDestination.DataSource = new List<Airport>(airports);
+            comboBoxDestination.DisplayMember = "Name";
+            comboBoxDestination.ValueMember = "AirportID";
+            comboBoxDestination.SelectedIndex = -1;
+
+            List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
+            dataGridViewSchedule.DataSource = scheduledFlights;
+            dataGridViewSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+        }
+
+        private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox changed = sender as ComboBox;
+            ComboBox other = (changed == comboBoxOrigin ? comboBoxDestination : comboBoxOrigin);
+
+            if (changed.SelectedIndex != -1 && other.SelectedIndex != -1)
             {
-                ListViewItem item = new ListViewItem(airport.AirportID);
-                item.SubItems.Add(airport.Name);
-                item.SubItems.Add(airport.City);
-                item.SubItems.Add(airport.State);
-                listViewLocations.Items.Add(item);
+                if (changed.SelectedIndex == other.SelectedIndex)
+                {
+                    // Set the other ComboBox to have no selection
+                    other.SelectedIndex = -1;
+                }
             }
-
-
         }
     }
 }

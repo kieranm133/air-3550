@@ -29,9 +29,14 @@
         private void InitializeComponent()
         {
             btnLogout = new Button();
-            dataGridView1 = new DataGridView();
-            listViewLocations = new ListView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dataGridViewSchedule = new DataGridView();
+            comboBoxOrigin = new ComboBox();
+            comboBoxDestination = new ComboBox();
+            label1 = new Label();
+            label2 = new Label();
+            btnRemoveFromSchedule = new Button();
+            btnAddToSchedule = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSchedule).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
@@ -43,42 +48,104 @@
             btnLogout.Text = "Logout";
             btnLogout.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridViewSchedule
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(240, 150);
-            dataGridView1.TabIndex = 2;
+            dataGridViewSchedule.CellBorderStyle = DataGridViewCellBorderStyle.RaisedVertical;
+            dataGridViewSchedule.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSchedule.Location = new Point(12, 121);
+            dataGridViewSchedule.Name = "dataGridViewSchedule";
+            dataGridViewSchedule.RowTemplate.Height = 25;
+            dataGridViewSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSchedule.Size = new Size(650, 279);
+            dataGridViewSchedule.TabIndex = 2;
             // 
-            // listViewLocations
+            // comboBoxOrigin
             // 
-            listViewLocations.Location = new Point(12, 199);
-            listViewLocations.Name = "listViewLocations";
-            listViewLocations.Size = new Size(253, 97);
-            listViewLocations.TabIndex = 3;
-            listViewLocations.UseCompatibleStateImageBehavior = false;
+            comboBoxOrigin.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOrigin.FormattingEnabled = true;
+            comboBoxOrigin.Location = new Point(85, 34);
+            comboBoxOrigin.Name = "comboBoxOrigin";
+            comboBoxOrigin.Size = new Size(221, 23);
+            comboBoxOrigin.TabIndex = 3;
+            comboBoxOrigin.SelectedIndexChanged += comboBox_SelectedIndexChanged;
+            // 
+            // comboBoxDestination
+            // 
+            comboBoxDestination.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxDestination.FormattingEnabled = true;
+            comboBoxDestination.Location = new Point(85, 63);
+            comboBoxDestination.Name = "comboBoxDestination";
+            comboBoxDestination.Size = new Size(221, 23);
+            comboBoxDestination.TabIndex = 4;
+            comboBoxDestination.SelectedIndexChanged += comboBox_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(39, 37);
+            label1.Name = "label1";
+            label1.Size = new Size(40, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Origin";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 66);
+            label2.Name = "label2";
+            label2.Size = new Size(67, 15);
+            label2.TabIndex = 6;
+            label2.Text = "Destination";
+            // 
+            // btnRemoveFromSchedule
+            // 
+            btnRemoveFromSchedule.Location = new Point(513, 406);
+            btnRemoveFromSchedule.Name = "btnRemoveFromSchedule";
+            btnRemoveFromSchedule.Size = new Size(149, 23);
+            btnRemoveFromSchedule.TabIndex = 7;
+            btnRemoveFromSchedule.Text = "Remove from schedule";
+            btnRemoveFromSchedule.UseVisualStyleBackColor = true;
+            // 
+            // btnAddToSchedule
+            // 
+            btnAddToSchedule.Location = new Point(193, 92);
+            btnAddToSchedule.Name = "btnAddToSchedule";
+            btnAddToSchedule.Size = new Size(113, 23);
+            btnAddToSchedule.TabIndex = 8;
+            btnAddToSchedule.Text = "Add to schedule";
+            btnAddToSchedule.UseVisualStyleBackColor = true;
             // 
             // LoadEngineerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             ClientSize = new Size(800, 450);
-            Controls.Add(listViewLocations);
-            Controls.Add(dataGridView1);
+            Controls.Add(btnAddToSchedule);
+            Controls.Add(btnRemoveFromSchedule);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(comboBoxDestination);
+            Controls.Add(comboBoxOrigin);
+            Controls.Add(dataGridViewSchedule);
             Controls.Add(btnLogout);
             Name = "LoadEngineerForm";
             Text = "Load Engineer Form";
             Load += LoadEngineerForm_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSchedule).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button btnLogout;
-        private DataGridView dataGridView1;
-        private ListView listViewLocations;
+        private DataGridView dataGridViewSchedule;
+        private ComboBox comboBoxOrigin;
+        private ComboBox comboBoxDestination;
+        private Label label1;
+        private Label label2;
+        private Button btnRemoveFromSchedule;
+        private Button btnAddToSchedule;
     }
 }

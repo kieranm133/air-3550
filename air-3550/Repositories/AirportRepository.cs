@@ -19,7 +19,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
-        public List<Airport>? GetAllAirports()
+        public List<Airport>? GetAll()
         {
             try
             {
