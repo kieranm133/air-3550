@@ -27,20 +27,23 @@ namespace air_3550
         // On load, get the possible locations for a Load Engineer to send flights to and from.
         private void LoadEngineerForm_Load(object sender, EventArgs e)
         {
+            // Get the origin combo box source
             comboBoxOrigin.DataSource = new List<Airport>(airports);
             comboBoxOrigin.DisplayMember = "Name";
             comboBoxOrigin.ValueMember = "AirportID";
             comboBoxOrigin.SelectedIndex = -1;
 
+            // Get the destination combo box source
             comboBoxDestination.DataSource = new List<Airport>(airports);
             comboBoxDestination.DisplayMember = "Name";
             comboBoxDestination.ValueMember = "AirportID";
             comboBoxDestination.SelectedIndex = -1;
 
+            // Get the dataGridView source--all of the scheduled flights
+            // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
             dataGridViewSchedule.DataSource = scheduledFlights;
             dataGridViewSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-
         }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
