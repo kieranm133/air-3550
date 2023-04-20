@@ -61,6 +61,7 @@
             dataGridViewSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewSchedule.Size = new Size(650, 271);
             dataGridViewSchedule.TabIndex = 2;
+            dataGridViewSchedule.SelectionChanged += dataGridViewSchedule_SelectionChanged;
             // 
             // comboBoxOrigin
             // 

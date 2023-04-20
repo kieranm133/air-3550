@@ -115,5 +115,15 @@ namespace air_3550
             LoadScheduleData();
             MessageBox.Show($"A Flight from {originAirport.AirportID} to {destinationAirport.AirportID} has been successfully added to the schedule.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)
+        {
+            bool cannotBeDeleted = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Any(r => r.Cells["AircraftID"].Value != null);
+            if (cannotBeDeleted)
+            {
+                btnRemoveFromSchedule.Enabled = false;
+            }
+            else { btnRemoveFromSchedule.Enabled = true;}
+        }
     }
 }
