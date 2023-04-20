@@ -95,7 +95,7 @@ namespace air_3550
             GeoCoordinate destinationLoc = new GeoCoordinate(destinationAirport.Latitude, destinationAirport.Longitude);
 
             // Get the total distance in miles
-            double totalDistance = originLoc.GetDistanceTo(destinationLoc) * 0.000621371192;
+            double totalDistance = Math.Round(originLoc.GetDistanceTo(destinationLoc) * 0.000621371192, 2, MidpointRounding.AwayFromZero);
 
             // Assume 500 miles per hour in flight + 30 flat 
             TimeSpan addedTime = TimeSpan.FromMinutes((int)((totalDistance / 500) * 60) + 30);
