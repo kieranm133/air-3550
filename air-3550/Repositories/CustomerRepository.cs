@@ -35,7 +35,6 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
         public Customer GetByID(int userID)
         {
             try

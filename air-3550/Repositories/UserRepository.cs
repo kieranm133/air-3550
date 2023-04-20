@@ -19,7 +19,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
-        public void AddUser(User user)
+        public void Add(User user)
         {
             try
             {

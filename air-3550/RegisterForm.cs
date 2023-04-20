@@ -53,7 +53,7 @@ namespace air_3550
             customer.CreditCard = CreditCard;
 
 
-            db.Users.AddUser(user);
+            db.Users.Add(user);
             db.Customers.Add(customer);
             MessageBox.Show($"Registration successful! Please save your User ID and use it for all future login attempts: {user.UserID}", "Registration successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LoginForm loginForm = new LoginForm();
