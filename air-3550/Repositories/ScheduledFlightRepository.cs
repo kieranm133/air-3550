@@ -35,5 +35,22 @@ namespace air_3550.Repositories
             }
         }
 
+        public void Add(ScheduledFlight scheduledFlight)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql =
+                       "INSERT INTO ScheduledFlights (OriginAirportID, DestinationAirportID, AircraftID, DepartureTime, ArrivalTime, Distance) " +
+                       "VALUES (@OriginAirportID, @DestinationAirportID, @AircraftID, @DepartureTime, @ArrivalTime, @Distance)";
+                    connection.Execute(sql, scheduledFlight);
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+        }
     }
 }

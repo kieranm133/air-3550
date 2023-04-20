@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GeoCoordinatePortable;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace air_3550
 {
@@ -39,6 +41,12 @@ namespace air_3550
             comboBoxDestination.ValueMember = "AirportID";
             comboBoxDestination.SelectedIndex = -1;
 
+            LoadScheduleData();
+
+        }
+
+        private void LoadScheduleData()
+        {
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
@@ -57,6 +65,11 @@ namespace air_3550
                 {
                     // Set the other ComboBox to have no selection
                     other.SelectedIndex = -1;
+                    btnAddToSchedule.Enabled = false;
+                }
+                else
+                {
+                    btnAddToSchedule.Enabled = true;
                 }
             }
         }
@@ -66,6 +79,41 @@ namespace air_3550
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Hide();
+        }
+
+
+        // Add the currently selected trips to the schedule. 
+        private void btnAddToSchedule_Click(object sender, EventArgs e)
+        {
+            // Get the Airport models
+            ScheduledFlight scheduledFlightToAdd = new ScheduledFlight();
+            Airport originAirport = airports.Where(a => a.AirportID == (string)comboBoxOrigin.SelectedValue).First();
+            Airport destinationAirport = airports.Where(a => a.AirportID == (string)comboBoxDestination.SelectedValue).First();
+
+            // Now we calculate the total point-to-point distance of the flight.
+            GeoCoordinate originLoc = new GeoCoordinate(originAirport.Latitude, originAirport.Longitude);
+            GeoCoordinate destinationLoc = new GeoCoordinate(destinationAirport.Latitude, destinationAirport.Longitude);
+
+            // Get the total distance in miles
+            double totalDistance = originLoc.GetDistanceTo(destinationLoc) * 0.000621371192;
+
+            // Assume 500 miles per hour in flight + 30 flat 
+            TimeSpan addedTime = TimeSpan.FromMinutes((int)((totalDistance / 500) * 60) + 30);
+
+            // Set the departure and arrival times.
+            TimeSpan departureTime = dateTimePickerDepartureTime.Value - dateTimePickerDepartureTime.Value.Date;
+            TimeSpan arrivalTime = departureTime.Add(addedTime);
+
+            // Add all the values to the model and send to the DB!
+            scheduledFlightToAdd.OriginAirportID = originAirport.AirportID;
+            scheduledFlightToAdd.DestinationAirportID = destinationAirport.AirportID;
+            scheduledFlightToAdd.AircraftID = null;
+            scheduledFlightToAdd.DepartureTime = departureTime.ToString("hh\\:mm");
+            scheduledFlightToAdd.ArrivalTime = arrivalTime.ToString("hh\\:mm");
+            scheduledFlightToAdd.Distance = totalDistance;
+            db.ScheduledFlights.Add(scheduledFlightToAdd);
+            LoadScheduleData();
+            MessageBox.Show($"A Flight from {originAirport.AirportID} to {destinationAirport.AirportID} has been successfully added to the schedule.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

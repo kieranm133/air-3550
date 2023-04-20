@@ -102,6 +102,7 @@
             // 
             // btnRemoveFromSchedule
             // 
+            btnRemoveFromSchedule.Enabled = false;
             btnRemoveFromSchedule.Location = new Point(513, 406);
             btnRemoveFromSchedule.Name = "btnRemoveFromSchedule";
             btnRemoveFromSchedule.Size = new Size(149, 23);
@@ -111,12 +112,14 @@
             // 
             // btnAddToSchedule
             // 
+            btnAddToSchedule.Enabled = false;
             btnAddToSchedule.Location = new Point(171, 100);
             btnAddToSchedule.Name = "btnAddToSchedule";
             btnAddToSchedule.Size = new Size(139, 23);
             btnAddToSchedule.TabIndex = 8;
             btnAddToSchedule.Text = "Add to schedule";
             btnAddToSchedule.UseVisualStyleBackColor = true;
+            btnAddToSchedule.Click += btnAddToSchedule_Click;
             // 
             // dateTimePickerDepartureTime
             // 
