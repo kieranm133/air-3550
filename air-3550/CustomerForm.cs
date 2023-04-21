@@ -89,7 +89,7 @@ namespace air_3550
 
         private void radioButtonRoundTrip_CheckedChanged(object sender, EventArgs e)
         {
-            SearchFlights();
+
         }
 
         private void radioButtonOneWay_CheckedChanged(object sender, EventArgs e)
@@ -135,15 +135,46 @@ namespace air_3550
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
+
             string departureDate = dateTimePickerDeparture.Value.ToShortDateString();
             string originAirportID = (string)comboBoxFrom.SelectedValue;
             string destinationAirportID = (string)comboBoxTo.SelectedValue;
+
+            List<ScheduledFlight> allScheduledFlights = db.ScheduledFlights.GetAll();
+            Dictionary<int, ScheduledFlight> scheduledFlightLookup = allScheduledFlights.ToDictionary(sf => sf.ScheduledFlightID);
+
             List<List<ScheduledFlight>> results = FlightPathCalculator.GetAllRoutes(originAirportID, destinationAirportID);
-            List<List<Flight>> flights = results
-                    .Select(sl => 
-                        db.Flights.GetByScheduledFlightIDAndDate(
-                            sl.Select(s => s.ScheduledFlightID).ToList(), departureDate)).ToList();
-            dataGridViewSearchResults.DataSource = flights;
+
+            List<List<Flight>> routes = results
+                    .Select(sl => db.Flights.GetByScheduledFlightIDAndDate(sl.Select(s => s.ScheduledFlightID).ToList(), departureDate)).ToList();
+
+            List<List<(Flight flight, ScheduledFlight scheduledFlight)>> combined = routes
+                .Where(route => route.All(f => f.EmptySeats != 0))
+                .Select(route => route
+                    .Select(flight => (flight, scheduledFlight: allScheduledFlights[flight.ScheduledFlightID]))
+                    .ToList())
+                .ToList();
+
+            List<BookingFlightViewModel> flightDisplays = combined
+                .Select(route =>
+                {
+                    (Flight firstFlight, ScheduledFlight firstScheduledFlight) = route.First();
+                    (Flight lastFlight, ScheduledFlight lastScheduledFlight) = route.Last();
+                    List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
+
+                    return new BookingFlightViewModel
+                    {
+                        DepartureAirport = firstScheduledFlight.OriginAirportID,
+                        ArrivalAirport = lastScheduledFlight.DestinationAirportID,
+                        DepartureDate = firstFlight.DepartureDate,
+                        ArrivalDate = lastFlight.ArrivalDate,
+                        DepartureTime = firstScheduledFlight.DepartureTime,
+                        ArrivalTime = lastScheduledFlight.ArrivalTime,
+                        NumberOfConnections = route.Count - 1,
+                        FlightIDs = flightIDs
+                    };
+                }).ToList();
+            dataGridViewSearchResults.DataSource = flightDisplays;
         }
     }
 }

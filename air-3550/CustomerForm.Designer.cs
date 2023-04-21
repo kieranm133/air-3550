@@ -262,6 +262,7 @@
             // 
             // dateTimePickerArrival
             // 
+            dateTimePickerArrival.Enabled = false;
             dateTimePickerArrival.Format = DateTimePickerFormat.Short;
             dateTimePickerArrival.Location = new Point(45, 192);
             dateTimePickerArrival.MinDate = new DateTime(2023, 4, 21, 0, 0, 0, 0);

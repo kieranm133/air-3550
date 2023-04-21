@@ -24,7 +24,6 @@ namespace air_3550
             db = DatabaseManager.Instance;
             this.aircraft = db.Aircraft.GetAll();
             this.flights = db.ScheduledFlights.GetAll();
-
         }
         private void MarketingManagerForm_Load(object sender, EventArgs e)
         {

@@ -33,7 +33,7 @@
             comboBoxPlanesAvailable = new ComboBox();
             btn_ViewFlights = new Button();
             btn_ViewPlanes = new Button();
-            button1 = new Button();
+            buttonSetPlanes = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).BeginInit();
             SuspendLayout();
             // 
@@ -56,6 +56,7 @@
             dataGridView_Scheduled_Flights.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_Scheduled_Flights.Location = new Point(12, 12);
             dataGridView_Scheduled_Flights.Name = "dataGridView_Scheduled_Flights";
+            dataGridView_Scheduled_Flights.ReadOnly = true;
             dataGridView_Scheduled_Flights.RowTemplate.Height = 25;
             dataGridView_Scheduled_Flights.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_Scheduled_Flights.Size = new Size(600, 218);
@@ -92,22 +93,22 @@
             btn_ViewPlanes.UseVisualStyleBackColor = true;
             btn_ViewPlanes.Click += btn_ViewPlanes_Click;
             // 
-            // button1
+            // buttonSetPlanes
             // 
-            button1.Location = new Point(395, 265);
-            button1.Name = "button1";
-            button1.Size = new Size(210, 23);
-            button1.TabIndex = 6;
-            button1.Text = "Set planes";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonSetPlanes.Location = new Point(395, 265);
+            buttonSetPlanes.Name = "buttonSetPlanes";
+            buttonSetPlanes.Size = new Size(210, 23);
+            buttonSetPlanes.TabIndex = 6;
+            buttonSetPlanes.Text = "Set planes";
+            buttonSetPlanes.UseVisualStyleBackColor = true;
+            buttonSetPlanes.Click += button1_Click;
             // 
             // MarketingManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 549);
-            Controls.Add(button1);
+            Controls.Add(buttonSetPlanes);
             Controls.Add(btn_ViewPlanes);
             Controls.Add(comboBoxPlanesAvailable);
             Controls.Add(btn_ViewFlights);
@@ -127,6 +128,6 @@
         private ComboBox comboBoxPlanesAvailable;
         private Button btn_ViewFlights;
         private Button btn_ViewPlanes;
-        private Button button1;
+        private Button buttonSetPlanes;
     }
 }
