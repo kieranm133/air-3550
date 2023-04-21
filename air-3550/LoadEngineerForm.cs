@@ -85,6 +85,7 @@ namespace air_3550
         // Add the currently selected trips to the schedule. 
         private void btnAddToSchedule_Click(object sender, EventArgs e)
         {
+            btnAddToSchedule.Enabled = false;
             // Get the Airport models
             ScheduledFlight scheduledFlightToAdd = new ScheduledFlight();
             Airport originAirport = airports.Where(a => a.AirportID == (string)comboBoxOrigin.SelectedValue).First();
@@ -95,7 +96,7 @@ namespace air_3550
             GeoCoordinate destinationLoc = new GeoCoordinate(destinationAirport.Latitude, destinationAirport.Longitude);
 
             // Get the total distance in miles
-            double totalDistance = originLoc.GetDistanceTo(destinationLoc) * 0.000621371192;
+            double totalDistance = Math.Round(originLoc.GetDistanceTo(destinationLoc) * 0.000621371192, 2, MidpointRounding.AwayFromZero);
 
             // Assume 500 miles per hour in flight + 30 flat 
             TimeSpan addedTime = TimeSpan.FromMinutes((int)((totalDistance / 500) * 60) + 30);
@@ -113,7 +114,25 @@ namespace air_3550
             scheduledFlightToAdd.Distance = totalDistance;
             db.ScheduledFlights.Add(scheduledFlightToAdd);
             LoadScheduleData();
-            MessageBox.Show($"A Flight from {originAirport.AirportID} to {destinationAirport.AirportID} has been successfully added to the schedule.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            btnAddToSchedule.Enabled = true;
+        }
+
+        private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)
+        {
+            bool cannotBeDeleted = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Any(r => r.Cells["AircraftID"].Value != null);
+            if (cannotBeDeleted)
+            {
+                btnRemoveFromSchedule.Enabled = false;
+            }
+            else { btnRemoveFromSchedule.Enabled = true; }
+        }
+
+        private void btnRemoveFromSchedule_Click(object sender, EventArgs e)
+        {
+            List<int> scheduledFlightIDs = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["ScheduledFlightID"].Value).ToList();
+            db.ScheduledFlights.DeleteByID(scheduledFlightIDs);
+            LoadScheduleData();
         }
 
         private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)

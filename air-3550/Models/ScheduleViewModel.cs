@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace air_3550.Models
 {
-    public class ScheduledFlightAndAirportAndAircraft
+    public class ScheduleViewModel
     {
         public ScheduledFlight ScheduledFlight { get; set; }
         public Airport OriginAirport { get; set; }

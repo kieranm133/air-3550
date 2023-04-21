@@ -41,7 +41,7 @@ namespace air_3550.Repositories
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
-                    return connection.QuerySingleOrDefault<Customer>("SELECT * FROM Customer WHERE UserID = @userID", new { userID = userID });
+                    return connection.QuerySingleOrDefault<Customer>("SELECT * FROM Customers WHERE UserID = @userID", new { userID = userID });
                 }
             }
             catch(SqliteException sqlEx)
