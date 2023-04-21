@@ -134,15 +134,5 @@ namespace air_3550
             db.ScheduledFlights.DeleteByID(scheduledFlightIDs);
             LoadScheduleData();
         }
-
-        private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)
-        {
-            bool cannotBeDeleted = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Any(r => r.Cells["AircraftID"].Value != null);
-            if (cannotBeDeleted)
-            {
-                btnRemoveFromSchedule.Enabled = false;
-            }
-            else { btnRemoveFromSchedule.Enabled = true;}
-        }
     }
 }
