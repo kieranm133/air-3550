@@ -69,7 +69,7 @@
             comboBoxOrigin.FormattingEnabled = true;
             comboBoxOrigin.Location = new Point(89, 13);
             comboBoxOrigin.Name = "comboBoxOrigin";
-            comboBoxOrigin.Size = new Size(221, 23);
+            comboBoxOrigin.Size = new Size(321, 23);
             comboBoxOrigin.TabIndex = 3;
             comboBoxOrigin.SelectedIndexChanged += comboBox_SelectedIndexChanged;
             // 
@@ -79,7 +79,7 @@
             comboBoxDestination.FormattingEnabled = true;
             comboBoxDestination.Location = new Point(89, 42);
             comboBoxDestination.Name = "comboBoxDestination";
-            comboBoxDestination.Size = new Size(221, 23);
+            comboBoxDestination.Size = new Size(321, 23);
             comboBoxDestination.TabIndex = 4;
             comboBoxDestination.SelectedIndexChanged += comboBox_SelectedIndexChanged;
             // 
@@ -115,7 +115,7 @@
             // btnAddToSchedule
             // 
             btnAddToSchedule.Enabled = false;
-            btnAddToSchedule.Location = new Point(171, 100);
+            btnAddToSchedule.Location = new Point(271, 100);
             btnAddToSchedule.Name = "btnAddToSchedule";
             btnAddToSchedule.Size = new Size(139, 23);
             btnAddToSchedule.TabIndex = 8;
@@ -127,7 +127,7 @@
             // 
             dateTimePickerDepartureTime.CustomFormat = "hh:mm tt";
             dateTimePickerDepartureTime.Format = DateTimePickerFormat.Custom;
-            dateTimePickerDepartureTime.Location = new Point(235, 71);
+            dateTimePickerDepartureTime.Location = new Point(335, 71);
             dateTimePickerDepartureTime.Name = "dateTimePickerDepartureTime";
             dateTimePickerDepartureTime.ShowUpDown = true;
             dateTimePickerDepartureTime.Size = new Size(75, 23);
@@ -136,7 +136,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(143, 75);
+            label3.Location = new Point(243, 75);
             label3.Name = "label3";
             label3.Size = new Size(86, 15);
             label3.TabIndex = 10;

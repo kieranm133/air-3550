@@ -14,5 +14,7 @@ namespace air_3550.Models
         public string State { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public string CityState => $"{City}, {State}";
+        public string IDAndName => $"{AirportID} - {Name}";
     }
 }

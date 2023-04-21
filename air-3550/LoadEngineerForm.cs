@@ -31,13 +31,13 @@ namespace air_3550
         {
             // Get the origin combo box source
             comboBoxOrigin.DataSource = new List<Airport>(airports);
-            comboBoxOrigin.DisplayMember = "Name";
+            comboBoxOrigin.DisplayMember = "IDAndName";
             comboBoxOrigin.ValueMember = "AirportID";
             comboBoxOrigin.SelectedIndex = -1;
 
             // Get the destination combo box source
             comboBoxDestination.DataSource = new List<Airport>(airports);
-            comboBoxDestination.DisplayMember = "Name";
+            comboBoxDestination.DisplayMember = "IDAndName";
             comboBoxDestination.ValueMember = "AirportID";
             comboBoxDestination.SelectedIndex = -1;
 

@@ -49,7 +49,7 @@ namespace air_3550.Repositories
 
                     scheduledFlight.ScheduledFlightID = connection.QuerySingle<int>(sql, scheduledFlight);
                     List<Flight> flightsToAdd = generateFlightsForSixMonths(scheduledFlight);
-                    DatabaseManager.Instance.Flights.InsertFlights(flightsToAdd);
+                    DatabaseManager.Instance.Flights.Insert(flightsToAdd);
                 }
 
             }
@@ -77,6 +77,25 @@ namespace air_3550.Repositories
                     connection.Execute(sql, new { scheduledFlightIDs = scheduledFlightIDs });
                 }
 
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+
+        }
+
+        public void SetAircraftByID(Aircraft aircraft, int scheduledFlightID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+
+                    string sql =
+                    "UPDATE ScheduledFlights SET AircraftID = @aircraftID WHERE ScheduledFlightID = @scheduledFlightID";
+                    connection.Execute(sql, new { aircraftID = aircraft.AircraftID, scheduledFlightID = scheduledFlightID });
+                }
             }
             catch (SqliteException sqlEx)
             {

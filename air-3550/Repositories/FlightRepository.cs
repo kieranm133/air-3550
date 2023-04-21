@@ -34,7 +34,48 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+        public List<Flight>? GetByScheduledFlightID(int scheduledFlightID)
+        {
+            return GetByScheduledFlightID(new List<int> { scheduledFlightID });
+        }
+        public List<Flight>? GetByScheduledFlightID(List<int> scheduledFlightIDs)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = "SELECT * FROM Flights WHERE ScheduledFlightID IN @scheduledFlightIDs";
+                    return connection.Query<Flight>(sql, new { scheduledFlightIDs = scheduledFlightIDs }).AsList();
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
 
+        public List<Flight>? GetByScheduledFlightIDAndDate(int scheduledFlightID, string departureDate)
+        {
+            return GetByScheduledFlightIDAndDate(new List<int> { scheduledFlightID }, departureDate);
+        }
+
+        public List<Flight>? GetByScheduledFlightIDAndDate(List<int> scheduledFlightIDs, string departureDate)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = "SELECT * FROM Flights WHERE ScheduledFlightID IN @scheduledFlightIDs AND DepartureDate = @departureDate";
+                    return connection.Query<Flight>(sql, new { scheduledFlightIDs = scheduledFlightIDs, departureDate =  departureDate }).AsList();
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
 
         public void DeleteByID(int flightID)
         {
@@ -60,7 +101,7 @@ namespace air_3550.Repositories
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
-                    connection.Execute("DELETE FROM Flights WHERE ScheduledFlightID = @scheduledFlightIDs", new { scheduledFlightIDs = scheduledFlightIDs });
+                    connection.Execute("DELETE FROM Flights WHERE ScheduledFlightID IN @scheduledFlightIDs", new { scheduledFlightIDs = scheduledFlightIDs });
                 }
             }
             catch (SqliteException sqlEx)
@@ -69,7 +110,7 @@ namespace air_3550.Repositories
             }
         }
 
-        public void InsertFlights(List<Flight> flights)
+        public void Insert(List<Flight> flights)
         {
             try
             {

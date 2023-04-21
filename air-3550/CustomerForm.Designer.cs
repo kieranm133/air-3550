@@ -49,17 +49,18 @@
             isCancelledDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             bookingBindingSource = new BindingSource(components);
             customerTabSearchFlights = new TabPage();
+            buttonSearch = new Button();
+            dateTimePickerArrival = new DateTimePicker();
+            dateTimePickerDeparture = new DateTimePicker();
             button2 = new Button();
             label7 = new Label();
-            dataGridView3 = new DataGridView();
+            dataGridViewSearchResults = new DataGridView();
             radioButtonOneWay = new RadioButton();
             radioButtonRoundTrip = new RadioButton();
             comboBoxTo = new ComboBox();
             comboBoxFrom = new ComboBox();
             label5 = new Label();
-            textBox3 = new TextBox();
             label6 = new Label();
-            textBox4 = new TextBox();
             label4 = new Label();
             label3 = new Label();
             customerTabProfile = new TabPage();
@@ -74,7 +75,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bookingBindingSource).BeginInit();
             customerTabSearchFlights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).BeginInit();
             customerTabProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProfile).BeginInit();
             SuspendLayout();
@@ -226,17 +227,18 @@
             // 
             // customerTabSearchFlights
             // 
+            customerTabSearchFlights.Controls.Add(buttonSearch);
+            customerTabSearchFlights.Controls.Add(dateTimePickerArrival);
+            customerTabSearchFlights.Controls.Add(dateTimePickerDeparture);
             customerTabSearchFlights.Controls.Add(button2);
             customerTabSearchFlights.Controls.Add(label7);
-            customerTabSearchFlights.Controls.Add(dataGridView3);
+            customerTabSearchFlights.Controls.Add(dataGridViewSearchResults);
             customerTabSearchFlights.Controls.Add(radioButtonOneWay);
             customerTabSearchFlights.Controls.Add(radioButtonRoundTrip);
             customerTabSearchFlights.Controls.Add(comboBoxTo);
             customerTabSearchFlights.Controls.Add(comboBoxFrom);
             customerTabSearchFlights.Controls.Add(label5);
-            customerTabSearchFlights.Controls.Add(textBox3);
             customerTabSearchFlights.Controls.Add(label6);
-            customerTabSearchFlights.Controls.Add(textBox4);
             customerTabSearchFlights.Controls.Add(label4);
             customerTabSearchFlights.Controls.Add(label3);
             customerTabSearchFlights.Location = new Point(4, 24);
@@ -246,6 +248,35 @@
             customerTabSearchFlights.TabIndex = 1;
             customerTabSearchFlights.Text = "Search for flights";
             customerTabSearchFlights.UseVisualStyleBackColor = true;
+            // 
+            // buttonSearch
+            // 
+            buttonSearch.Enabled = false;
+            buttonSearch.Location = new Point(45, 241);
+            buttonSearch.Name = "buttonSearch";
+            buttonSearch.Size = new Size(254, 23);
+            buttonSearch.TabIndex = 17;
+            buttonSearch.Text = "Search";
+            buttonSearch.UseVisualStyleBackColor = true;
+            buttonSearch.Click += buttonSearch_Click;
+            // 
+            // dateTimePickerArrival
+            // 
+            dateTimePickerArrival.Format = DateTimePickerFormat.Short;
+            dateTimePickerArrival.Location = new Point(45, 192);
+            dateTimePickerArrival.MinDate = new DateTime(2023, 4, 21, 0, 0, 0, 0);
+            dateTimePickerArrival.Name = "dateTimePickerArrival";
+            dateTimePickerArrival.Size = new Size(99, 23);
+            dateTimePickerArrival.TabIndex = 16;
+            // 
+            // dateTimePickerDeparture
+            // 
+            dateTimePickerDeparture.Format = DateTimePickerFormat.Short;
+            dateTimePickerDeparture.Location = new Point(45, 139);
+            dateTimePickerDeparture.MinDate = new DateTime(2023, 4, 21, 0, 0, 0, 0);
+            dateTimePickerDeparture.Name = "dateTimePickerDeparture";
+            dateTimePickerDeparture.Size = new Size(99, 23);
+            dateTimePickerDeparture.TabIndex = 15;
             // 
             // button2
             // 
@@ -265,14 +296,14 @@
             label7.TabIndex = 13;
             label7.Text = "Results";
             // 
-            // dataGridView3
+            // dataGridViewSearchResults
             // 
-            dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView3.Location = new Point(319, 49);
-            dataGridView3.Name = "dataGridView3";
-            dataGridView3.RowTemplate.Height = 25;
-            dataGridView3.Size = new Size(240, 328);
-            dataGridView3.TabIndex = 12;
+            dataGridViewSearchResults.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSearchResults.Location = new Point(319, 49);
+            dataGridViewSearchResults.Name = "dataGridViewSearchResults";
+            dataGridViewSearchResults.RowTemplate.Height = 25;
+            dataGridViewSearchResults.Size = new Size(240, 328);
+            dataGridViewSearchResults.TabIndex = 12;
             // 
             // radioButtonOneWay
             // 
@@ -285,6 +316,7 @@
             radioButtonOneWay.TabStop = true;
             radioButtonOneWay.Text = "One-way";
             radioButtonOneWay.UseVisualStyleBackColor = true;
+            radioButtonOneWay.CheckedChanged += radioButtonOneWay_CheckedChanged;
             // 
             // radioButtonRoundTrip
             // 
@@ -305,6 +337,7 @@
             comboBoxTo.Name = "comboBoxTo";
             comboBoxTo.Size = new Size(121, 23);
             comboBoxTo.TabIndex = 9;
+            comboBoxTo.SelectedIndexChanged += comboBox_SelectedIndexChanged;
             // 
             // comboBoxFrom
             // 
@@ -313,7 +346,7 @@
             comboBoxFrom.Name = "comboBoxFrom";
             comboBoxFrom.Size = new Size(121, 23);
             comboBoxFrom.TabIndex = 8;
-            comboBoxFrom.SelectedIndexChanged += comboBoxFrom_SelectedIndexChanged;
+            comboBoxFrom.SelectedIndexChanged += comboBox_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -324,13 +357,6 @@
             label5.TabIndex = 7;
             label5.Text = "Arrival date";
             // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(45, 192);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(100, 23);
-            textBox3.TabIndex = 6;
-            // 
             // label6
             // 
             label6.AutoSize = true;
@@ -339,13 +365,6 @@
             label6.Size = new Size(85, 15);
             label6.TabIndex = 5;
             label6.Text = "Departure date";
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(45, 139);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(100, 23);
-            textBox4.TabIndex = 4;
             // 
             // label4
             // 
@@ -446,7 +465,7 @@
             ((System.ComponentModel.ISupportInitialize)bookingBindingSource).EndInit();
             customerTabSearchFlights.ResumeLayout(false);
             customerTabSearchFlights.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).EndInit();
             customerTabProfile.ResumeLayout(false);
             customerTabProfile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProfile).EndInit();
@@ -466,16 +485,14 @@
         private Label label1;
         private DataGridView dataGridView1;
         private Label label5;
-        private TextBox textBox3;
         private Label label6;
-        private TextBox textBox4;
         private Label label4;
         private Label label3;
         private RadioButton radioButtonOneWay;
         private RadioButton radioButtonRoundTrip;
         private ComboBox comboBoxTo;
         private ComboBox comboBoxFrom;
-        private DataGridView dataGridView3;
+        private DataGridView dataGridViewSearchResults;
         private Label label7;
         private Label label8;
         private Button button2;
@@ -494,5 +511,8 @@
         private DataGridView dataGridViewProfile;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
+        private DateTimePicker dateTimePickerArrival;
+        private DateTimePicker dateTimePickerDeparture;
+        private Button buttonSearch;
     }
 }
