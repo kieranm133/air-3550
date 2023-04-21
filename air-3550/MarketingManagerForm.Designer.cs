@@ -31,12 +31,14 @@
             btnLogout = new Button();
             dataGridView_Scheduled_Flights = new DataGridView();
             btn_ViewFlights = new Button();
+            comboBoxPlanesAvailable = new ComboBox();
+            btn_ViewPlanes = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(640, 27);
+            btnLogout.Location = new Point(896, 12);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(75, 23);
             btnLogout.TabIndex = 1;
@@ -65,11 +67,32 @@
             btn_ViewFlights.UseVisualStyleBackColor = true;
             btn_ViewFlights.Click += btn_ViewFlights_Click;
             // 
+            // comboBoxPlanesAvailable
+            // 
+            comboBoxPlanesAvailable.FormattingEnabled = true;
+            comboBoxPlanesAvailable.Location = new Point(641, 12);
+            comboBoxPlanesAvailable.Name = "comboBoxPlanesAvailable";
+            comboBoxPlanesAvailable.Size = new Size(121, 23);
+            comboBoxPlanesAvailable.TabIndex = 4;
+            comboBoxPlanesAvailable.SelectedIndexChanged += comboBoxPlanesAvailable_SelectedIndexChanged;
+            // 
+            // btn_ViewPlanes
+            // 
+            btn_ViewPlanes.Location = new Point(768, 12);
+            btn_ViewPlanes.Name = "btn_ViewPlanes";
+            btn_ViewPlanes.Size = new Size(83, 23);
+            btn_ViewPlanes.TabIndex = 5;
+            btn_ViewPlanes.Text = "View Planes";
+            btn_ViewPlanes.UseVisualStyleBackColor = true;
+            btn_ViewPlanes.Click += btn_ViewPlanes_Click;
+            // 
             // MarketingManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(766, 450);
+            ClientSize = new Size(983, 549);
+            Controls.Add(btn_ViewPlanes);
+            Controls.Add(comboBoxPlanesAvailable);
             Controls.Add(btn_ViewFlights);
             Controls.Add(dataGridView_Scheduled_Flights);
             Controls.Add(btnLogout);
@@ -84,5 +107,7 @@
         private Button btnLogout;
         private DataGridView dataGridView_Scheduled_Flights;
         private Button btn_ViewFlights;
+        private ComboBox comboBoxPlanesAvailable;
+        private Button btn_ViewPlanes;
     }
 }

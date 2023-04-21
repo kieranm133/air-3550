@@ -27,12 +27,26 @@ namespace air_3550
 
         }
 
-        //Get the dataGridView source -- all of the scheduled flights
+        // Get the dataGridView source -- all of the scheduled flights
+        // TODO: Fix sizing
         private void LoadScheduleData()
         {
             List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
             dataGridView_Scheduled_Flights.DataSource = scheduledFlights;
             dataGridView_Scheduled_Flights.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+        }
+
+        // Populate comboBoxPlanesAvailable with available aircraft
+        private void LoadPlanesAvailable()
+        {
+            if (comboBoxPlanesAvailable.Items.Count == 0)
+            {
+                List<Aircraft>? availableAircraft = db.Aircraft.GetAll();
+                for (int i = 0; i < availableAircraft.Count; i++)
+                {
+                    comboBoxPlanesAvailable.Items.Add(availableAircraft[i].Model);
+                }
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -42,9 +56,22 @@ namespace air_3550
             this.Hide();
         }
 
+        // Populate dataGridView_Scheduled_Flights with current flight schedule
         private void btn_ViewFlights_Click(object sender, EventArgs e)
         {
             LoadScheduleData();
+        }
+
+        // TODO: Set a plane for a specific flight and update the view of th4e flights with the new plane
+        private void comboBoxPlanesAvailable_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        
+        // Populate comboBoxPlanesAvailable with available aircraft
+        private void btn_ViewPlanes_Click(object sender, EventArgs e)
+        {
+            LoadPlanesAvailable();
         }
     }
 }
