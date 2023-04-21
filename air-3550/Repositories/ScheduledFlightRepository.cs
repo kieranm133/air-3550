@@ -93,8 +93,10 @@ namespace air_3550.Repositories
             {
                 foreach (var scheduledFlight in scheduledFlights)
                 {
-                    DateTime departureDateTime = date.Add(TimeSpan.Parse(scheduledFlight.DepartureTime));
-                    DateTime arrivalDateTime = date.Add(TimeSpan.Parse(scheduledFlight.ArrivalTime));
+                    TimeSpan arrivalTime = TimeSpan.Parse(scheduledFlight.ArrivalTime);
+                    TimeSpan departureTime = TimeSpan.Parse(scheduledFlight.DepartureTime);
+                    DateTime departureDateTime = date;
+                    DateTime arrivalDateTime = (departureTime < arrivalTime ? date : date.AddDays(1));
 
                     Flight flight = new Flight
                     {
