@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             btnLogout = new Button();
+            dataGridView_Scheduled_Flights = new DataGridView();
+            btn_ViewFlights = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(713, 12);
+            btnLogout.Location = new Point(640, 27);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(75, 23);
             btnLogout.TabIndex = 1;
@@ -41,19 +44,45 @@
             btnLogout.UseVisualStyleBackColor = true;
             btnLogout.Click += btnLogout_Click;
             // 
+            // dataGridView_Scheduled_Flights
+            // 
+            dataGridView_Scheduled_Flights.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView_Scheduled_Flights.Location = new Point(12, 12);
+            dataGridView_Scheduled_Flights.Name = "dataGridView_Scheduled_Flights";
+            dataGridView_Scheduled_Flights.RowTemplate.Height = 25;
+            dataGridView_Scheduled_Flights.Size = new Size(598, 218);
+            dataGridView_Scheduled_Flights.TabIndex = 2;
+            // 
+            // btn_ViewFlights
+            // 
+            btn_ViewFlights.AccessibleDescription = "View Flights";
+            btn_ViewFlights.AccessibleName = "View Flights";
+            btn_ViewFlights.Location = new Point(12, 245);
+            btn_ViewFlights.Name = "btn_ViewFlights";
+            btn_ViewFlights.Size = new Size(105, 23);
+            btn_ViewFlights.TabIndex = 3;
+            btn_ViewFlights.Text = "View Flights";
+            btn_ViewFlights.UseVisualStyleBackColor = true;
+            btn_ViewFlights.Click += btn_ViewFlights_Click;
+            // 
             // MarketingManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(766, 450);
+            Controls.Add(btn_ViewFlights);
+            Controls.Add(dataGridView_Scheduled_Flights);
             Controls.Add(btnLogout);
             Name = "MarketingManagerForm";
             Text = "Marketing Manager Form";
+            ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button btnLogout;
+        private DataGridView dataGridView_Scheduled_Flights;
+        private Button btn_ViewFlights;
     }
 }
