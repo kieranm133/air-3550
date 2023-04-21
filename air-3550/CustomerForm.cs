@@ -1,5 +1,6 @@
 ﻿using air_3550.Database;
 using air_3550.Models;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,18 +18,22 @@ namespace air_3550
         private DatabaseManager db;
         private List<Booking> bookings;
         private List<Airport> airports;
-        public CustomerForm()
+        private User userRecord;
+        private Customer customerRecord;
+        public CustomerForm(User user)
         {
             InitializeComponent();
             db = DatabaseManager.Instance;
             this.bookings = db.Bookings.GetAll();
             this.airports = db.Airports.GetAll();
+            this.userRecord = user;
+            this.customerRecord = db.Customers.GetByID(user.UserID);
         }
 
 
         private void btnLogoutCus_Click_1(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm(); // Replace 'MainForm' with the name of your main application form
+            LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Hide();
         }
@@ -72,7 +77,11 @@ namespace air_3550
             List<Booking>? book = db.Bookings.GetAll();
             dataGridView1.DataSource = book;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            // Add the profile info
+            buildTableLayout();
         }
+
         private void SearchFlights()
         {
             if (comboBoxFrom.SelectedIndex != -1 && comboBoxTo.SelectedIndex != -1)
@@ -88,6 +97,18 @@ namespace air_3550
         private void radioButtonRoundTrip_CheckedChanged(object sender, EventArgs e)
         {
             SearchFlights();
+        }
+
+        private void buildTableLayout()
+        {
+            dataGridViewProfile.Rows.Add("First name", this.customerRecord.FirstName);
+            dataGridViewProfile.Rows.Add("Last name", this.customerRecord.LastName);
+            dataGridViewProfile.Rows.Add("Address", this.customerRecord.Address);
+            dataGridViewProfile.Rows.Add("Phone", this.customerRecord.Phone);
+            dataGridViewProfile.Rows.Add("Age", this.customerRecord.Age);
+            dataGridViewProfile.Rows.Add("Points used", this.customerRecord.PointsUsed);
+            dataGridViewProfile.Rows.Add("Points available", this.customerRecord.PointsAvailable);
+            dataGridViewProfile.Rows.Add("Credit card", $"**** **** **** {this.customerRecord.CreditCard.Substring(this.customerRecord.CreditCard.Length - 4)}");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace air_3550
                 switch (userResult.UserType)
                 {
                     case "customer":
-                        CustomerForm customerForm = new CustomerForm();
+                        CustomerForm customerForm = new CustomerForm(userResult);
                         customerForm.Show();
                         break;
                     case "marketing_manager":
