@@ -109,6 +109,25 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        public void UpdateSeatsByAircraftAndScheduledFlightID(Aircraft aircraft, int scheduledFlightID)
+        {
+            UpdateSeatsByAircraftAndScheduledFlightID(aircraft, new List<int> { scheduledFlightID });
+        }
+        public void UpdateSeatsByAircraftAndScheduledFlightID(Aircraft aircraft, List<int> scheduledFlightIDs)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = "UPDATE Flights SET EmptySeats = @emptySeats WHERE ScheduledFlightID IN @scheduledFlightIDs";
+                    connection.Execute(sql, new { emptySeats = aircraft.Capacity, scheduledFlightIDs = scheduledFlightIDs });
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+        }
 
         public void Insert(List<Flight> flights)
         {

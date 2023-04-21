@@ -35,6 +35,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+
         // When we add a scheduled flight, trigger a cascade to the Flights table that adds the same scheduled flight at the same time each day for the next 6 months.
         public void Add(ScheduledFlight scheduledFlight)
         {
@@ -82,26 +83,29 @@ namespace air_3550.Repositories
             {
                 Logger.LogException(sqlEx);
             }
-
         }
 
         public void SetAircraftByID(Aircraft aircraft, int scheduledFlightID)
+        {
+            SetAircraftByID(aircraft, new List<int> { scheduledFlightID });
+        }
+
+        public void SetAircraftByID(Aircraft aircraft, List<int> scheduledFlightIDs)
         {
             try
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
-
                     string sql =
-                    "UPDATE ScheduledFlights SET AircraftID = @aircraftID WHERE ScheduledFlightID = @scheduledFlightID";
-                    connection.Execute(sql, new { aircraftID = aircraft.AircraftID, scheduledFlightID = scheduledFlightID });
+                    "UPDATE ScheduledFlights SET AircraftID = @aircraftID WHERE ScheduledFlightID IN @scheduledFlightIDs";
+                    connection.Execute(sql, new { aircraftID = aircraft.AircraftID, scheduledFlightIDs = scheduledFlightIDs });
                 }
+                DatabaseManager.Instance.Flights.UpdateSeatsByAircraftAndScheduledFlightID(aircraft, scheduledFlightIDs);
             }
             catch (SqliteException sqlEx)
             {
                 Logger.LogException(sqlEx);
             }
-
         }
 
         private List<Flight> generateFlightsForSixMonths(ScheduledFlight scheduledFlight)

@@ -26,7 +26,11 @@ namespace air_3550
             this.flights = db.ScheduledFlights.GetAll();
 
         }
-
+        private void MarketingManagerForm_Load(object sender, EventArgs e)
+        {
+            LoadScheduleData();
+            LoadPlanesAvailable();
+        }
         // Get the dataGridView source -- all of the scheduled flights
         // TODO: Fix sizing
         private void LoadScheduleData()
@@ -42,10 +46,8 @@ namespace air_3550
             if (comboBoxPlanesAvailable.Items.Count == 0)
             {
                 List<Aircraft>? availableAircraft = db.Aircraft.GetAll();
-                for (int i = 0; i < availableAircraft.Count; i++)
-                {
-                    comboBoxPlanesAvailable.Items.Add(availableAircraft[i].Model);
-                }
+                comboBoxPlanesAvailable.DataSource = availableAircraft;
+                comboBoxPlanesAvailable.DisplayMember = "ModelAndCapacity";
             }
         }
 
@@ -67,11 +69,20 @@ namespace air_3550
         {
 
         }
-        
+
         // Populate comboBoxPlanesAvailable with available aircraft
         private void btn_ViewPlanes_Click(object sender, EventArgs e)
         {
             LoadPlanesAvailable();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Aircraft selectedAircraft = comboBoxPlanesAvailable.SelectedItem as Aircraft;
+            List<int> scheduledFlightIDs = dataGridView_Scheduled_Flights.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["ScheduledFlightID"].Value).ToList();
+
+            db.ScheduledFlights.SetAircraftByID(selectedAircraft, scheduledFlightIDs);
+            LoadScheduleData();
         }
     }
 }

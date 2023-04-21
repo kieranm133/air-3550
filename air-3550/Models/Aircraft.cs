@@ -11,5 +11,6 @@ namespace air_3550.Models
         public int AircraftID { get; set; }
         public string Model { get; set; }
         public int Capacity { get; set; }
+        public string ModelAndCapacity => $"{Model} - {Capacity} seats";
     }
 }
