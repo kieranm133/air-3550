@@ -85,6 +85,7 @@ namespace air_3550
         // Add the currently selected trips to the schedule. 
         private void btnAddToSchedule_Click(object sender, EventArgs e)
         {
+            btnAddToSchedule.Enabled = false;
             // Get the Airport models
             ScheduledFlight scheduledFlightToAdd = new ScheduledFlight();
             Airport originAirport = airports.Where(a => a.AirportID == (string)comboBoxOrigin.SelectedValue).First();
@@ -113,7 +114,8 @@ namespace air_3550
             scheduledFlightToAdd.Distance = totalDistance;
             db.ScheduledFlights.Add(scheduledFlightToAdd);
             LoadScheduleData();
-            MessageBox.Show($"A Flight from {originAirport.AirportID} to {destinationAirport.AirportID} has been successfully added to the schedule.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            btnAddToSchedule.Enabled = true;
         }
 
         private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)
@@ -123,7 +125,14 @@ namespace air_3550
             {
                 btnRemoveFromSchedule.Enabled = false;
             }
-            else { btnRemoveFromSchedule.Enabled = true;}
+            else { btnRemoveFromSchedule.Enabled = true; }
+        }
+
+        private void btnRemoveFromSchedule_Click(object sender, EventArgs e)
+        {
+            List<int> scheduledFlightIDs = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["ScheduledFlightID"].Value).ToList();
+            db.ScheduledFlights.DeleteByID(scheduledFlightIDs);
+            LoadScheduleData();
         }
     }
 }

@@ -50,14 +50,17 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
         public void DeleteByScheduledFlightID(int scheduledFlightID)
+        {
+            DeleteByScheduledFlightID(new List<int>{ scheduledFlightID });
+        }
+        public void DeleteByScheduledFlightID(List<int> scheduledFlightIDs)
         {
             try
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
-                    connection.Execute("DELETE FROM Flights WHERE ScheduledFlightID = @scheduledFlightID", new { scheduledFlightID = scheduledFlightID });
+                    connection.Execute("DELETE FROM Flights WHERE ScheduledFlightID = @scheduledFlightIDs", new { scheduledFlightIDs = scheduledFlightIDs });
                 }
             }
             catch (SqliteException sqlEx)
@@ -72,9 +75,14 @@ namespace air_3550.Repositories
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
-                    string sql = "INSERT INTO Flights (ScheduledFlightID, DepartureDate, ArrivalDate, EmptySeats) " +
-                                 "VALUES (@ScheduledFlightID, @DepartureDate, @ArrivalDate, @EmptySeats)";
-                    connection.Execute(sql, flights); 
+                    connection.Open();
+                    using (SqliteTransaction transaction = connection.BeginTransaction())
+                    {
+                        string sql = "INSERT INTO Flights (ScheduledFlightID, DepartureDate, ArrivalDate, EmptySeats) " +
+                                     "VALUES (@ScheduledFlightID, @DepartureDate, @ArrivalDate, @EmptySeats)";
+                        connection.Execute(sql, flights, transaction);
+                        transaction.Commit();
+                    }
                 }
             }
             catch (SqliteException sqlEx)

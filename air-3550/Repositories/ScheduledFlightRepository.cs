@@ -58,18 +58,25 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-        // When we delete a scheduled flight, cascade the changes to the Flights table 
+
         public void DeleteByID(int scheduledFlightID)
+        {
+            DeleteByID(new List<int> { scheduledFlightID });
+        }
+        // When we delete a scheduled flight, cascade the changes to the Flights table 
+        public void DeleteByID(List<int> scheduledFlightIDs)
         {
             try
             {
+                DatabaseManager.Instance.Flights.DeleteByScheduledFlightID(scheduledFlightIDs);
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
+
                     string sql =
-                       "DELETE FROM ScheduledFlights WHERE ScheduledFlightID = @scheduledFlightID";
-                    connection.Execute(sql, new { scheduledFlightID = scheduledFlightID });
+                       "DELETE FROM ScheduledFlights WHERE ScheduledFlightID IN @scheduledFlightIDs";
+                    connection.Execute(sql, new { scheduledFlightIDs = scheduledFlightIDs });
                 }
-                DatabaseManager.Instance.Flights.DeleteByScheduledFlightID(scheduledFlightID);
+
             }
             catch (SqliteException sqlEx)
             {

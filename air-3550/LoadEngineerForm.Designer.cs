@@ -110,6 +110,7 @@
             btnRemoveFromSchedule.TabIndex = 7;
             btnRemoveFromSchedule.Text = "Remove from schedule";
             btnRemoveFromSchedule.UseVisualStyleBackColor = true;
+            btnRemoveFromSchedule.Click += btnRemoveFromSchedule_Click;
             // 
             // btnAddToSchedule
             // 
