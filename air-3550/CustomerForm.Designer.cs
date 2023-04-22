@@ -37,14 +37,16 @@
             label1 = new Label();
             bookingView = new DataGridView();
             customerTabSearchFlights = new TabPage();
+            label10 = new Label();
+            dataGridViewSearchResultsReturn = new DataGridView();
             label9 = new Label();
             paymentMethod = new ComboBox();
             buttonSearch = new Button();
-            dateTimePickerArrival = new DateTimePicker();
+            dateTimePickerReturn = new DateTimePicker();
             dateTimePickerDeparture = new DateTimePicker();
             bookFlightBtn = new Button();
             label7 = new Label();
-            dataGridViewSearchResults = new DataGridView();
+            dataGridViewSearchResultsOutbound = new DataGridView();
             radioButtonOneWay = new RadioButton();
             radioButtonRoundTrip = new RadioButton();
             comboBoxTo = new ComboBox();
@@ -65,7 +67,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bookingView).BeginInit();
             customerTabSearchFlights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsReturn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsOutbound).BeginInit();
             customerTabProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProfile).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bookingBindingSource).BeginInit();
@@ -138,21 +141,26 @@
             // 
             bookingView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             bookingView.Location = new Point(6, 36);
+            bookingView.MultiSelect = false;
             bookingView.Name = "bookingView";
             bookingView.RowTemplate.Height = 25;
+            bookingView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             bookingView.Size = new Size(529, 342);
             bookingView.TabIndex = 0;
             // 
             // customerTabSearchFlights
             // 
+            customerTabSearchFlights.BackColor = SystemColors.Control;
+            customerTabSearchFlights.Controls.Add(label10);
+            customerTabSearchFlights.Controls.Add(dataGridViewSearchResultsReturn);
             customerTabSearchFlights.Controls.Add(label9);
             customerTabSearchFlights.Controls.Add(paymentMethod);
             customerTabSearchFlights.Controls.Add(buttonSearch);
-            customerTabSearchFlights.Controls.Add(dateTimePickerArrival);
+            customerTabSearchFlights.Controls.Add(dateTimePickerReturn);
             customerTabSearchFlights.Controls.Add(dateTimePickerDeparture);
             customerTabSearchFlights.Controls.Add(bookFlightBtn);
             customerTabSearchFlights.Controls.Add(label7);
-            customerTabSearchFlights.Controls.Add(dataGridViewSearchResults);
+            customerTabSearchFlights.Controls.Add(dataGridViewSearchResultsOutbound);
             customerTabSearchFlights.Controls.Add(radioButtonOneWay);
             customerTabSearchFlights.Controls.Add(radioButtonRoundTrip);
             customerTabSearchFlights.Controls.Add(comboBoxTo);
@@ -167,12 +175,33 @@
             customerTabSearchFlights.Size = new Size(788, 416);
             customerTabSearchFlights.TabIndex = 1;
             customerTabSearchFlights.Text = "Search for flights";
-            customerTabSearchFlights.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(319, 199);
+            label10.Name = "label10";
+            label10.Size = new Size(79, 15);
+            label10.TabIndex = 21;
+            label10.Text = "Return results";
+            // 
+            // dataGridViewSearchResultsReturn
+            // 
+            dataGridViewSearchResultsReturn.BackgroundColor = SystemColors.Control;
+            dataGridViewSearchResultsReturn.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSearchResultsReturn.Location = new Point(319, 217);
+            dataGridViewSearchResultsReturn.MultiSelect = false;
+            dataGridViewSearchResultsReturn.Name = "dataGridViewSearchResultsReturn";
+            dataGridViewSearchResultsReturn.RowTemplate.Height = 25;
+            dataGridViewSearchResultsReturn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSearchResultsReturn.Size = new Size(463, 161);
+            dataGridViewSearchResultsReturn.TabIndex = 20;
+            dataGridViewSearchResultsReturn.SelectionChanged += UpdateBookFlightBtnState;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(175, 336);
+            label9.Location = new Point(339, 388);
             label9.Name = "label9";
             label9.Size = new Size(99, 15);
             label9.TabIndex = 19;
@@ -181,7 +210,7 @@
             // paymentMethod
             // 
             paymentMethod.FormattingEnabled = true;
-            paymentMethod.Location = new Point(175, 354);
+            paymentMethod.Location = new Point(444, 384);
             paymentMethod.Name = "paymentMethod";
             paymentMethod.Size = new Size(121, 23);
             paymentMethod.TabIndex = 18;
@@ -189,7 +218,7 @@
             // buttonSearch
             // 
             buttonSearch.Enabled = false;
-            buttonSearch.Location = new Point(45, 241);
+            buttonSearch.Location = new Point(45, 221);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new Size(254, 23);
             buttonSearch.TabIndex = 17;
@@ -197,15 +226,15 @@
             buttonSearch.UseVisualStyleBackColor = true;
             buttonSearch.Click += buttonSearch_Click;
             // 
-            // dateTimePickerArrival
+            // dateTimePickerReturn
             // 
-            dateTimePickerArrival.Enabled = false;
-            dateTimePickerArrival.Format = DateTimePickerFormat.Short;
-            dateTimePickerArrival.Location = new Point(45, 192);
-            dateTimePickerArrival.MinDate = new DateTime(2023, 4, 21, 0, 0, 0, 0);
-            dateTimePickerArrival.Name = "dateTimePickerArrival";
-            dateTimePickerArrival.Size = new Size(99, 23);
-            dateTimePickerArrival.TabIndex = 16;
+            dateTimePickerReturn.Enabled = false;
+            dateTimePickerReturn.Format = DateTimePickerFormat.Short;
+            dateTimePickerReturn.Location = new Point(45, 192);
+            dateTimePickerReturn.MinDate = new DateTime(2023, 4, 21, 0, 0, 0, 0);
+            dateTimePickerReturn.Name = "dateTimePickerReturn";
+            dateTimePickerReturn.Size = new Size(99, 23);
+            dateTimePickerReturn.TabIndex = 16;
             // 
             // dateTimePickerDeparture
             // 
@@ -215,12 +244,13 @@
             dateTimePickerDeparture.Name = "dateTimePickerDeparture";
             dateTimePickerDeparture.Size = new Size(99, 23);
             dateTimePickerDeparture.TabIndex = 15;
+            dateTimePickerDeparture.ValueChanged += dateTimePickerDeparture_ValueChanged;
             // 
             // bookFlightBtn
             // 
-            bookFlightBtn.Location = new Point(432, 383);
+            bookFlightBtn.Location = new Point(584, 384);
             bookFlightBtn.Name = "bookFlightBtn";
-            bookFlightBtn.Size = new Size(127, 23);
+            bookFlightBtn.Size = new Size(197, 23);
             bookFlightBtn.TabIndex = 14;
             bookFlightBtn.Text = "Book flight";
             bookFlightBtn.UseVisualStyleBackColor = true;
@@ -229,21 +259,24 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(319, 31);
+            label7.Location = new Point(319, 13);
             label7.Name = "label7";
-            label7.Size = new Size(44, 15);
+            label7.Size = new Size(99, 15);
             label7.TabIndex = 13;
-            label7.Text = "Results";
+            label7.Text = "Outbound results";
             // 
-            // dataGridViewSearchResults
+            // dataGridViewSearchResultsOutbound
             // 
-            dataGridViewSearchResults.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewSearchResults.Location = new Point(319, 49);
-            dataGridViewSearchResults.Name = "dataGridViewSearchResults";
-            dataGridViewSearchResults.RowTemplate.Height = 25;
-            dataGridViewSearchResults.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewSearchResults.Size = new Size(463, 328);
-            dataGridViewSearchResults.TabIndex = 12;
+            dataGridViewSearchResultsOutbound.BackgroundColor = SystemColors.Control;
+            dataGridViewSearchResultsOutbound.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSearchResultsOutbound.Location = new Point(319, 31);
+            dataGridViewSearchResultsOutbound.MultiSelect = false;
+            dataGridViewSearchResultsOutbound.Name = "dataGridViewSearchResultsOutbound";
+            dataGridViewSearchResultsOutbound.RowTemplate.Height = 25;
+            dataGridViewSearchResultsOutbound.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSearchResultsOutbound.Size = new Size(463, 161);
+            dataGridViewSearchResultsOutbound.TabIndex = 12;
+            dataGridViewSearchResultsOutbound.SelectionChanged += UpdateBookFlightBtnState;
             // 
             // radioButtonOneWay
             // 
@@ -257,6 +290,7 @@
             radioButtonOneWay.Text = "One-way";
             radioButtonOneWay.UseVisualStyleBackColor = true;
             radioButtonOneWay.CheckedChanged += radioButtonOneWay_CheckedChanged;
+            radioButtonOneWay.CheckedChanged += UpdateBookFlightBtnState;
             // 
             // radioButtonRoundTrip
             // 
@@ -268,6 +302,7 @@
             radioButtonRoundTrip.Text = "Roundtrip";
             radioButtonRoundTrip.UseVisualStyleBackColor = true;
             radioButtonRoundTrip.CheckedChanged += radioButtonRoundTrip_CheckedChanged;
+            radioButtonRoundTrip.CheckedChanged += UpdateBookFlightBtnState;
             // 
             // comboBoxTo
             // 
@@ -292,9 +327,9 @@
             label5.AutoSize = true;
             label5.Location = new Point(45, 174);
             label5.Name = "label5";
-            label5.Size = new Size(67, 15);
+            label5.Size = new Size(68, 15);
             label5.TabIndex = 7;
-            label5.Text = "Arrival date";
+            label5.Text = "Return date";
             // 
             // label6
             // 
@@ -407,7 +442,8 @@
             ((System.ComponentModel.ISupportInitialize)bookingView).EndInit();
             customerTabSearchFlights.ResumeLayout(false);
             customerTabSearchFlights.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsReturn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsOutbound).EndInit();
             customerTabProfile.ResumeLayout(false);
             customerTabProfile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProfile).EndInit();
@@ -435,7 +471,7 @@
         private RadioButton radioButtonRoundTrip;
         private ComboBox comboBoxTo;
         private ComboBox comboBoxFrom;
-        private DataGridView dataGridViewSearchResults;
+        private DataGridView dataGridViewSearchResultsOutbound;
         private Label label7;
         private Label label8;
         private Button bookFlightBtn;
@@ -443,10 +479,12 @@
         private DataGridView dataGridViewProfile;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
-        private DateTimePicker dateTimePickerArrival;
+        private DateTimePicker dateTimePickerReturn;
         private DateTimePicker dateTimePickerDeparture;
         private Button buttonSearch;
         private ComboBox paymentMethod;
         private Label label9;
+        private Label label10;
+        private DataGridView dataGridViewSearchResultsReturn;
     }
 }

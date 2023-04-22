@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -60,6 +61,11 @@ namespace air_3550
             bookingView.DataSource = book;
             bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
+            dateTimePickerDeparture.MinDate = DateTime.Today;
+            dateTimePickerReturn.MinDate = DateTime.Today.AddDays(1);
+
+            dateTimePickerDeparture.MaxDate = DateTime.Today.AddMonths(6);
+            dateTimePickerReturn.MaxDate = DateTime.Today.AddMonths(6);
             // Add the profile info
             buildTableLayout();
             LoadBookingData();
@@ -106,14 +112,135 @@ namespace air_3550
         {
             if (radioButtonOneWay.Checked)
             {
-                dateTimePickerArrival.Enabled = false;
+                dateTimePickerReturn.Enabled = false;
+                dataGridViewSearchResultsReturn.Enabled = false;
+                dataGridViewSearchResultsReturn.DataSource = null;
             }
             else
             {
-                dateTimePickerArrival.Enabled = true;
+                dateTimePickerReturn.Enabled = true;
+                dataGridViewSearchResultsReturn.Enabled = true;
             }
         }
 
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            string dateStringDeparture = dateTimePickerDeparture.Value.ToShortDateString();
+            string dateStringReturn = dateTimePickerReturn.Value.ToShortDateString();
+            string originAirportID = (string)comboBoxFrom.SelectedValue;
+            string destinationAirportID = (string)comboBoxTo.SelectedValue;
+            if (radioButtonOneWay.Checked)
+            {
+                dataGridViewSearchResultsOutbound.DataSource = searchFlights(dateStringDeparture, originAirportID, destinationAirportID);
+                dataGridViewSearchResultsReturn.DataSource = null;
+            }
+            else
+            {
+                dataGridViewSearchResultsOutbound.DataSource = searchFlights(dateStringDeparture, originAirportID, destinationAirportID);
+                dataGridViewSearchResultsReturn.DataSource = searchFlights(dateStringReturn, destinationAirportID, originAirportID);
+            }
+
+        }
+        private void UpdateBookFlightBtnState(object sender, EventArgs e)
+        {
+            bool isOneWaySelected = radioButtonOneWay.Checked;
+            bool isRoundTripSelected = radioButtonRoundTrip.Checked;
+            bool hasOutboundSelection = dataGridViewSearchResultsOutbound.SelectedRows.Count > 0;
+            bool hasReturnSelection = dataGridViewSearchResultsReturn.SelectedRows.Count > 0;
+
+            if (isOneWaySelected && hasOutboundSelection)
+            {
+                bookFlightBtn.Enabled = true;
+            }
+            else if (isRoundTripSelected && hasOutboundSelection && hasReturnSelection)
+            {
+                bookFlightBtn.Enabled = true;
+            }
+            else
+            {
+                bookFlightBtn.Enabled = false;
+            }
+        }
+
+        private void LoadBookingData()
+        {
+            // Get the dataGridView source--all of the scheduled flights
+            // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
+            List<Booking>? bookings = db.Bookings.Search(this.customerRecord.UserID);
+            bookingView.DataSource = bookings;
+            bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+        }
+
+        private void bookFlightBtn_Click(object sender, EventArgs e)
+        {
+
+            
+            bookFlightBtn.Enabled = false;
+
+            bool isRoundtrip = radioButtonRoundTrip.Checked;
+            bool outboundIsSelected = dataGridViewSearchResultsOutbound.SelectedRows.Count > 0;
+            bool returnIsSelected = dataGridViewSearchResultsReturn.SelectedRows.Count > 0;
+            // Get the Airport models
+
+            DataGridViewRow selectedRow = dataGridViewSearchResultsOutbound.SelectedRows[0];
+            BookingFlightViewModel outboundFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
+            if (isRoundtrip)
+            {
+
+                selectedRow = dataGridViewSearchResultsOutbound.SelectedRows[0];
+                BookingFlightViewModel returnFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
+                bookDialog(outboundFlight, returnFlight);
+            }
+            else
+            {
+                bookDialog(outboundFlight);
+            }
+
+            bookFlightBtn.Enabled = true;
+        }
+        private void bookDialog(BookingFlightViewModel outboundFlight, BookingFlightViewModel? returnFlight = null)
+        {
+            double totalPrice = outboundFlight.Price + (returnFlight != null ? returnFlight.Price : 0);
+            int totalPoints = (int)(totalPrice * 100);
+            if (totalPoints > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
+            {
+                MessageBox.Show("Not enough points for flight. Please select credit.", "Booking Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                string creditMessage = $"Are you sure you want to book the flight(s) for ${totalPrice}?";
+                string pointsMessage = $"Are you sure you want to book the flight(s) for {totalPoints} points?";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                string title = "Confirmation";
+                DialogResult result = MessageBox.Show(paymentMethod.SelectedItem == "Points" ? pointsMessage : creditMessage, title, buttons);
+
+                if (result == DialogResult.Yes)
+                {
+                    bookFlight(outboundFlight);
+                    if (returnFlight != null) { bookFlight(returnFlight); };
+                    if (paymentMethod.SelectedItem == "Points")
+                    {
+                        string transactionMessage = $@"Transaction successful!
+                                           Name:{customerRecord.FirstName} {customerRecord.LastName}
+                                           Total: ${totalPoints} points";
+                        MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        string transactionMessage = $@"Transaction successful!
+                                           Name:{customerRecord.FirstName} {customerRecord.LastName}
+                                           Credit card: **** **** **** {this.customerRecord.CreditCard.Substring(this.customerRecord.CreditCard.Length - 4)}
+                                           Total: ${totalPrice}";
+                        MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                }
+                else
+                {
+
+                }
+            }
+        }
         private void buildTableLayout()
         {
             dataGridViewProfile.Rows.Add("First name", this.customerRecord.FirstName);
@@ -126,21 +253,16 @@ namespace air_3550
             dataGridViewProfile.Rows.Add("Credit card", $"**** **** **** {this.customerRecord.CreditCard.Substring(this.customerRecord.CreditCard.Length - 4)}");
         }
 
-        private void buttonSearch_Click(object sender, EventArgs e)
+        private List<BookingFlightViewModel> searchFlights(string departureDate, string originAirportID, string destinationAirportID)
         {
-
-            string departureDate = dateTimePickerDeparture.Value.ToShortDateString();
-            string originAirportID = (string)comboBoxFrom.SelectedValue;
-            string destinationAirportID = (string)comboBoxTo.SelectedValue;
             double price = 50;
-
             List<ScheduledFlight> allScheduledFlights = db.ScheduledFlights.GetAll();
 
             Dictionary<int, ScheduledFlight> scheduledFlightLookup = allScheduledFlights.ToDictionary(sf => sf.ScheduledFlightID);
 
             List<List<ScheduledFlight>> results = FlightPathCalculator.GetAllRoutes(originAirportID, destinationAirportID);
 
-            List<List<Flight>> routes = results
+            List<List<Flight>?> routes = results
                     .Select(sl => db.Flights.GetByScheduledFlightIDAndDate(sl.Select(s => s.ScheduledFlightID).ToList(), departureDate)).ToList();
 
             List<List<(Flight flight, ScheduledFlight scheduledFlight)>> combined = routes
@@ -169,7 +291,6 @@ namespace air_3550
                     {
                         price *= 0.9;
                     }
-
                     price = Math.Round(price, 2, MidpointRounding.AwayFromZero);
 
                     return new BookingFlightViewModel
@@ -180,66 +301,25 @@ namespace air_3550
                         ArrivalDate = lastFlight.ArrivalDate,
                         DepartureTime = firstScheduledFlight.DepartureTime,
                         ArrivalTime = lastScheduledFlight.ArrivalTime,
-                        NumberOfConnections = route.Count - 1,
+                        Connections = route.Count - 1,
                         FlightIDs = flightIDs,
                         Price = price
                     };
                 }).ToList();
-            dataGridViewSearchResults.DataSource = flightDisplays;
+            return flightDisplays;
         }
-        private void LoadBookingData()
-        {
-            // Get the dataGridView source--all of the scheduled flights
-            // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
-            List<Booking>? bookings = db.Bookings.Search(this.customerRecord.UserID);
-            bookingView.DataSource = bookings;
-            bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-        }
-
-        private void bookFlightBtn_Click(object sender, EventArgs e)
-        {
-            bookFlightBtn.Enabled = false;
-            // Get the Airport models
-
-            DataGridViewRow selectedRow = dataGridViewSearchResults.SelectedRows[0];
-            BookingFlightViewModel selectedFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
-
-            if (selectedFlight.Price * 100 > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
-            {
-                MessageBox.Show("Not enough points for flight. Please select credit.", "Booking Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                string creditMessage = $"Are you sure you want to book this flight for ${selectedFlight.Price}?";
-                string pointsMessage = $"Are you sure you want to book this flight for ${(int)(selectedFlight.Price * 100)} points?";
-                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                string title = "Confirmation";
-                DialogResult result = MessageBox.Show(paymentMethod.SelectedItem == "Points" ? pointsMessage : creditMessage, title, buttons);
-
-                if (result == DialogResult.Yes)
-                {
-                    bookFlight(selectedFlight);
-                }
-                else
-                {
-
-                }
-            }
-            bookFlightBtn.Enabled = true;
-        }
-
-        private void bookFlight(BookingFlightViewModel selectedFlight)
+        private Booking bookFlight(BookingFlightViewModel selectedFlight)
         {
             List<int> flightIDs = selectedFlight.FlightIDs;
             Booking bookingToAdd = new Booking();
             bookingToAdd.CustomerID = this.customerRecord.UserID;
-            if (selectedFlight.NumberOfConnections == 2)
+            if (selectedFlight.Connections == 2)
             {
                 bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
                 bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
                 bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
             }
-            else if (selectedFlight.NumberOfConnections == 1)
+            else if (selectedFlight.Connections == 1)
             {
                 bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
                 bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
@@ -275,25 +355,14 @@ namespace air_3550
             }
 
             bookingToAdd.IsCancelled = false;
-            db.Bookings.Add(bookingToAdd);
-            if (paymentMethod.SelectedItem == "Points")
-            {
-                string transactionMessage = $@"Transaction successful!
-                                           Name:{customerRecord.FirstName} {customerRecord.LastName}
-                                           Total: ${bookingToAdd.PointsUsed} points";
-                MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                string transactionMessage = $@"Transaction successful!
-                                           Name:{customerRecord.FirstName} {customerRecord.LastName}
-                                           Credit card: **** **** **** {this.customerRecord.CreditCard.Substring(this.customerRecord.CreditCard.Length - 4)}
-                                           Total: ${bookingToAdd.PricePaid}";
-                MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
+            db.Bookings.Insert(bookingToAdd);
             LoadBookingData();
+            return bookingToAdd;
         }
 
+        private void dateTimePickerDeparture_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePickerReturn.MinDate = dateTimePickerDeparture.Value.AddDays(1);
+        }
     }
 }
