@@ -11,8 +11,8 @@ namespace air_3550.Models
         public int BookingID { get; set; }
         public int CustomerID { get; set; }
         public int FlightID1 { get; set; }
-        public int FlightID2 { get; set; }
-        public int FlightID3 { get; set; }
+        public int? FlightID2 { get; set; }
+        public int? FlightID3 { get; set; }
         public string TripType { get; set; }
         public string BookingDate { get; set; }
         public string PaymentMethod { get; set; }
