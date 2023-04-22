@@ -303,7 +303,7 @@
             dataGridViewSearchResults.Location = new Point(319, 49);
             dataGridViewSearchResults.Name = "dataGridViewSearchResults";
             dataGridViewSearchResults.RowTemplate.Height = 25;
-            dataGridViewSearchResults.Size = new Size(240, 328);
+            dataGridViewSearchResults.Size = new Size(463, 328);
             dataGridViewSearchResults.TabIndex = 12;
             // 
             // radioButtonOneWay
