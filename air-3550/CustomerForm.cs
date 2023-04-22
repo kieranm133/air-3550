@@ -214,12 +214,12 @@ namespace air_3550
             {
                 bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
                 bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
-                bookingToAdd.FlightID3 = 0;
+                bookingToAdd.FlightID3 = null;
             } else
             {
                 bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                bookingToAdd.FlightID2 = 0;
-                bookingToAdd.FlightID3 = 0;
+                bookingToAdd.FlightID2 = null;
+                bookingToAdd.FlightID3 = null;
             }
             if (radioButtonRoundTrip.Checked)
             {
