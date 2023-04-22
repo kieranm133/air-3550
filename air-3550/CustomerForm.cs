@@ -179,7 +179,7 @@ namespace air_3550
             List<int> bookingIDs = dataGridViewSearchResults.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["DepartureAirport"].Value).ToList();
             bookingToAdd.CustomerID = this.customerRecord.UserID;
             //flight id 1-3
-
+            db.Bookings.Add(bookingToAdd);
             
 
 
