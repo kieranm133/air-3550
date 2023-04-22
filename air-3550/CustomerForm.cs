@@ -141,6 +141,7 @@ namespace air_3550
             string destinationAirportID = (string)comboBoxTo.SelectedValue;
 
             List<ScheduledFlight> allScheduledFlights = db.ScheduledFlights.GetAll();
+
             Dictionary<int, ScheduledFlight> scheduledFlightLookup = allScheduledFlights.ToDictionary(sf => sf.ScheduledFlightID);
 
             List<List<ScheduledFlight>> results = FlightPathCalculator.GetAllRoutes(originAirportID, destinationAirportID);
@@ -151,7 +152,7 @@ namespace air_3550
             List<List<(Flight flight, ScheduledFlight scheduledFlight)>> combined = routes
                 .Where(route => route.All(f => f.EmptySeats != 0))
                 .Select(route => route
-                    .Select(flight => (flight, scheduledFlight: allScheduledFlights[flight.ScheduledFlightID]))
+                    .Select(flight => (flight, scheduledFlight: scheduledFlightLookup[flight.ScheduledFlightID]))
                     .ToList())
                 .ToList();
 
