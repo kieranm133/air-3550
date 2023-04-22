@@ -13,6 +13,5 @@ namespace air_3550.Models
         public string DepartureDate { get; set; }
         public string ArrivalDate { get; set; }
         public int? EmptySeats { get; set; }
-
     }
 }

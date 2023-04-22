@@ -4,6 +4,7 @@ using Dapper;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -148,6 +149,46 @@ namespace air_3550.Repositories
             catch (SqliteException sqlEx)
             {
                 Logger.LogException(sqlEx);
+            }
+        }
+
+        public  List<FlightWithInfo> GetFlightsWithInfo(List<int> flightIDs)
+        {
+            // Replace with your SQLite connection string
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = @"
+                            SELECT f.*, sf.*, oa.*, da.*
+                            FROM Flight f
+                            JOIN ScheduledFlight sf ON f.ScheduledFlightID = sf.ScheduledFlightID
+                            JOIN Airport oa ON sf.OriginAirportID = oa.AirportID
+                            JOIN Airport da ON sf.DestinationAirportID = da.AirportID
+                            WHERE f.FlightID IN @FlightIDs";
+
+                    var result = connection.Query<Flight, ScheduledFlight, Airport, Airport, FlightWithInfo>(
+                        sql,
+                        (flight, scheduledFlight, originAirport, destinationAirport) =>
+                        {
+                            return new FlightWithInfo
+                            {
+                                Flight = flight,
+                                ScheduledFlight = scheduledFlight,
+                                OriginAirport = originAirport,
+                                DestinationAirport = destinationAirport
+                            };
+                        },
+                        new { FlightIDs = flightIDs },
+                        splitOn: "ScheduledFlightID, AirportID, AirportID");
+
+                    return result.ToList();
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
             }
         }
 
