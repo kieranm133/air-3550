@@ -48,7 +48,7 @@ namespace air_3550
             comboBoxTo.SelectedIndex = -1;
             comboBoxTo.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            string[] payment = {"Credit", "Points" };
+            string[] payment = { "Credit", "Points" };
             paymentMethod.DataSource = payment;
             paymentMethod.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -162,7 +162,8 @@ namespace air_3550
                     if (depart.Hours < 5 || arrival.Hours < 5)
                     {
                         price *= 0.8;
-                    } else if (depart.Hours < 8 || arrival.Hours >= 7)
+                    }
+                    else if (depart.Hours < 8 || arrival.Hours >= 7)
                     {
                         price *= 0.9;
                     }
@@ -201,12 +202,13 @@ namespace air_3550
             DataGridViewRow selectedRow = dataGridViewSearchResults.SelectedRows[0];
             BookingFlightViewModel selectedFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
             List<int> flightIDs = selectedFlight.FlightIDs;
-            
 
-            if (selectedFlight.Price*100 > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
+
+            if (selectedFlight.Price * 100 > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
             {
                 MessageBox.Show("Not enough points for flight. Please select credit.", "Booking Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else
+            }
+            else
             {
                 bookingToAdd.CustomerID = this.customerRecord.UserID;
                 if (selectedFlight.NumberOfConnections == 2)
