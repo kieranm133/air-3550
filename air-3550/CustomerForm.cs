@@ -164,17 +164,21 @@ namespace air_3550
 
         private void LoadBookingData()
         {
+            string points = "Points Available: ";
+            points += customerRecord.PointsAvailable;
+
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             List<Booking>? bookings = db.Bookings.Search(this.customerRecord.UserID);
             bookingView.DataSource = bookings;
             bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            label11.Text = points;
         }
 
         private void bookFlightBtn_Click(object sender, EventArgs e)
         {
 
-            
+
             bookFlightBtn.Enabled = false;
 
             bool isRoundtrip = radioButtonRoundTrip.Checked;
