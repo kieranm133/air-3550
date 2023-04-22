@@ -19,50 +19,87 @@ namespace air_3550
         private void btnSignUp_Click(object sender, EventArgs e)
         {
 
-            if (!IsValidFormat())
-            {
-                MessageBox.Show("Invalid registration data: One or more fields was not in the proper format. Please try again.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtPassword.Clear();
-            }
+           
             // Now build the User object to send to the DB.
             int UserID = db.UserIdSequences.GetNextUserID();
             string Password = txtPassword.Text;
             string FirstName = txtFirstName.Text;
             string LastName = txtLastName.Text;
-            int Age = Int32.Parse(txtAge.Text);
+            int Age = 0;
+            Age = Int32.Parse(txtAge.Text);
             string Phone = txtPhone.Text;
             string Address = txtAddress.Text;
             string CreditCard = txtCreditCard.Text;
 
+            if (!IsValidFormat(FirstName, LastName, Age, Phone, Address, CreditCard))
+            {
+                txtPassword.Clear();
+            } else
+            {
+                User user = new User();
+                user.UserID = UserID;
+                user.UserType = "customer";
+                user.PasswordHash = HashPassword(Password);
+
+                Customer customer = new Customer();
+                customer.UserID = UserID;
+                customer.Address = Address;
+                customer.CreditCard = CreditCard;
+                customer.FirstName = FirstName;
+                customer.LastName = LastName;
+                customer.Age = Age;
+                customer.Phone = Phone;
+                customer.Address = Address;
+                customer.CreditCard = CreditCard;
 
 
-            User user = new User();
-            user.UserID = UserID;
-            user.UserType = "customer";
-            user.PasswordHash = HashPassword(Password);
+                db.Users.Add(user);
+                db.Customers.Add(customer);
+                MessageBox.Show($"Registration successful! Please save your User ID and use it for all future login attempts: {user.UserID}", "Registration successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
+                this.Hide();
+            }
 
-            Customer customer = new Customer();
-            customer.UserID = UserID;
-            customer.Address = Address;
-            customer.CreditCard = CreditCard;
-            customer.FirstName = FirstName;
-            customer.LastName = LastName;
-            customer.Age = Age;
-            customer.Phone = Phone;
-            customer.Address = Address;
-            customer.CreditCard = CreditCard;
-
-
-            db.Users.Add(user);
-            db.Customers.Add(customer);
-            MessageBox.Show($"Registration successful! Please save your User ID and use it for all future login attempts: {user.UserID}", "Registration successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LoginForm loginForm = new LoginForm();
-            loginForm.Show();
-            this.Hide();
+           
         }
         //TODO: validate user input.
-        private bool IsValidFormat()
+        private bool IsValidFormat(string fName, string lName, int age, string phone, string add, string card)
         {
+            if (fName == null)
+            {
+                MessageBox.Show("Please enter a first name.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (lName == null)
+            {
+                MessageBox.Show("Please enter a last name.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (age == 0)
+            {
+                MessageBox.Show("Please enter an age", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (age < 18)
+            {
+                MessageBox.Show("Must be 18 or older to register.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (phone.Length != 10)
+            {
+                MessageBox.Show("Phone number should be 10 digits long. Please re-enter", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (add == null)
+            {
+                MessageBox.Show("Please ewnter an address.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (card.Length != 16) {
+                MessageBox.Show("Card number should be 16 digits. Please re-enter", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             
             return true;
         }
