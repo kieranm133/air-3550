@@ -36,8 +36,9 @@
             getTicketInfo = new Button();
             label1 = new Label();
             bookingView = new DataGridView();
-            bookingBindingSource = new BindingSource(components);
             customerTabSearchFlights = new TabPage();
+            label9 = new Label();
+            paymentMethod = new ComboBox();
             buttonSearch = new Button();
             dateTimePickerArrival = new DateTimePicker();
             dateTimePickerDeparture = new DateTimePicker();
@@ -57,16 +58,17 @@
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             label8 = new Label();
+            bookingBindingSource = new BindingSource(components);
             btnLogoutCus = new Button();
             tabControl1.SuspendLayout();
             customerTabMyFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bookingView).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)bookingBindingSource).BeginInit();
             customerTabSearchFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).BeginInit();
             customerTabProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProfile).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bookingBindingSource).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -141,12 +143,10 @@
             bookingView.Size = new Size(529, 342);
             bookingView.TabIndex = 0;
             // 
-            // bookingBindingSource
-            // 
-            bookingBindingSource.DataSource = typeof(Models.Booking);
-            // 
             // customerTabSearchFlights
             // 
+            customerTabSearchFlights.Controls.Add(label9);
+            customerTabSearchFlights.Controls.Add(paymentMethod);
             customerTabSearchFlights.Controls.Add(buttonSearch);
             customerTabSearchFlights.Controls.Add(dateTimePickerArrival);
             customerTabSearchFlights.Controls.Add(dateTimePickerDeparture);
@@ -168,6 +168,23 @@
             customerTabSearchFlights.TabIndex = 1;
             customerTabSearchFlights.Text = "Search for flights";
             customerTabSearchFlights.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(175, 336);
+            label9.Name = "label9";
+            label9.Size = new Size(99, 15);
+            label9.TabIndex = 19;
+            label9.Text = "Payment Method";
+            // 
+            // paymentMethod
+            // 
+            paymentMethod.FormattingEnabled = true;
+            paymentMethod.Location = new Point(175, 354);
+            paymentMethod.Name = "paymentMethod";
+            paymentMethod.Size = new Size(121, 23);
+            paymentMethod.TabIndex = 18;
             // 
             // buttonSearch
             // 
@@ -247,7 +264,6 @@
             radioButtonRoundTrip.Name = "radioButtonRoundTrip";
             radioButtonRoundTrip.Size = new Size(78, 19);
             radioButtonRoundTrip.TabIndex = 10;
-            radioButtonRoundTrip.TabStop = true;
             radioButtonRoundTrip.Text = "Roundtrip";
             radioButtonRoundTrip.UseVisualStyleBackColor = true;
             radioButtonRoundTrip.CheckedChanged += radioButtonRoundTrip_CheckedChanged;
@@ -358,6 +374,10 @@
             label8.TabIndex = 1;
             label8.Text = "Profile Info";
             // 
+            // bookingBindingSource
+            // 
+            bookingBindingSource.DataSource = typeof(Models.Booking);
+            // 
             // btnLogoutCus
             // 
             btnLogoutCus.Location = new Point(713, 2);
@@ -384,13 +404,13 @@
             customerTabMyFlights.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ((System.ComponentModel.ISupportInitialize)bookingView).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bookingBindingSource).EndInit();
             customerTabSearchFlights.ResumeLayout(false);
             customerTabSearchFlights.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).EndInit();
             customerTabProfile.ResumeLayout(false);
             customerTabProfile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProfile).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bookingBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -425,5 +445,7 @@
         private DateTimePicker dateTimePickerArrival;
         private DateTimePicker dateTimePickerDeparture;
         private Button buttonSearch;
+        private ComboBox paymentMethod;
+        private Label label9;
     }
 }

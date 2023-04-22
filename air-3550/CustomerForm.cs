@@ -46,6 +46,8 @@ namespace air_3550
             comboBoxTo.ValueMember = "AirportID";
             comboBoxTo.SelectedIndex = -1;
 
+            paymentMethod.DisplayMember = "one";
+
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             List<Booking>? book = db.Bookings.GetAll();
@@ -176,11 +178,25 @@ namespace air_3550
             bookFlightBtn.Enabled = false;
             // Get the Airport models
             Booking bookingToAdd = new Booking();
-            List<int> bookingIDs = dataGridViewSearchResults.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["DepartureAirport"].Value).ToList();
+            DataGridViewRow selectedRow = dataGridViewSearchResults.SelectedRows[0];
+            BookingFlightViewModel selectedFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
+            List<int> flightIDs = selectedFlight.FlightIDs;
+
+
             bookingToAdd.CustomerID = this.customerRecord.UserID;
-            //flight id 1-3
+            bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+            bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+            bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
+            if (selectedFlight.NumberOfConnections > 0)
+            {
+                bookingToAdd.TripType = "Round Trip";
+            }
+            else
+            {
+                bookingToAdd.TripType = "One Way";
+            }
             db.Bookings.Add(bookingToAdd);
-            
+
 
 
             // Add all the values to the model and send to the DB!
