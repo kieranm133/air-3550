@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             btnLogout = new Button();
+            dataGridView_Scheduled_Flights = new DataGridView();
+            btnViewManifest = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
@@ -41,19 +44,45 @@
             btnLogout.UseVisualStyleBackColor = true;
             btnLogout.Click += btnLogout_Click;
             // 
+            // dataGridView_Scheduled_Flights
+            // 
+            dataGridView_Scheduled_Flights.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView_Scheduled_Flights.Location = new Point(0, 12);
+            dataGridView_Scheduled_Flights.Name = "dataGridView_Scheduled_Flights";
+            dataGridView_Scheduled_Flights.RowTemplate.Height = 25;
+            dataGridView_Scheduled_Flights.Size = new Size(654, 330);
+            dataGridView_Scheduled_Flights.TabIndex = 1;
+            // 
+            // btnViewManifest
+            // 
+            btnViewManifest.Location = new Point(534, 348);
+            btnViewManifest.Name = "btnViewManifest";
+            btnViewManifest.Size = new Size(120, 23);
+            btnViewManifest.TabIndex = 2;
+            btnViewManifest.Text = "View Manifest";
+            btnViewManifest.UseVisualStyleBackColor = true;
+            btnViewManifest.Click += btnViewManifest_Click;
+            // 
             // FlightManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnViewManifest);
+            Controls.Add(dataGridView_Scheduled_Flights);
             Controls.Add(btnLogout);
             Name = "FlightManagerForm";
             Text = "Flight Manager Form";
+            Load += FlightManagerForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button btnLogout;
+        private DataGridView dataGridView_AllFlights;
+        private DataGridView dataGridView_Scheduled_Flights;
+        private Button btnViewManifest;
     }
 }
