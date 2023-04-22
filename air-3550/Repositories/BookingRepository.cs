@@ -71,7 +71,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-        public void Add(Booking bookings)
+        public void Insert(Booking bookings)
         {
             try
             {
