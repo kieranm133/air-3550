@@ -25,13 +25,12 @@ namespace air_3550
             string Password = txtPassword.Text;
             string FirstName = txtFirstName.Text;
             string LastName = txtLastName.Text;
-            int Age = 0;
-            Age = Int32.Parse(txtAge.Text);
+            string Age = txtAge.Text;
             string Phone = txtPhone.Text;
             string Address = txtAddress.Text;
             string CreditCard = txtCreditCard.Text;
 
-            if (!IsValidFormat(FirstName, LastName, Age, Phone, Address, CreditCard))
+            if (!IsValidFormat(FirstName, LastName, Password, Age, Phone, Address, CreditCard))
             {
                 txtPassword.Clear();
             } else
@@ -47,7 +46,7 @@ namespace air_3550
                 customer.CreditCard = CreditCard;
                 customer.FirstName = FirstName;
                 customer.LastName = LastName;
-                customer.Age = Age;
+                customer.Age = Int32.Parse(Age);
                 customer.Phone = Phone;
                 customer.Address = Address;
                 customer.CreditCard = CreditCard;
@@ -64,34 +63,42 @@ namespace air_3550
            
         }
         //TODO: validate user input.
-        private bool IsValidFormat(string fName, string lName, int age, string phone, string add, string card)
+        private bool IsValidFormat(string fName, string lName, string pass, string age, string phone, string add, string card)
         {
-            if (fName == null)
+            if (fName == "")
             {
                 MessageBox.Show("Please enter a first name.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (lName == null)
+            if (lName == "")
             {
                 MessageBox.Show("Please enter a last name.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (age == 0)
+            if (pass.Length < 4)
             {
-                MessageBox.Show("Please enter an age", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Password must be four characters or more. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (age < 18)
+            if (age != "")
             {
-                MessageBox.Show("Must be 18 or older to register.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Int32.Parse(age) < 18)
+                {
+                    MessageBox.Show("Must be 18 or older to register.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            } else
+            {
+                MessageBox.Show("Please enter an age.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            
             if (phone.Length != 10)
             {
-                MessageBox.Show("Phone number should be 10 digits long. Please re-enter", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Phone number should be 10 digits long. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (add == null)
+            if (add == "")
             {
                 MessageBox.Show("Please ewnter an address.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
