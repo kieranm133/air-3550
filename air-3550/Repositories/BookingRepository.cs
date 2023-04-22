@@ -78,8 +78,8 @@ namespace air_3550.Repositories
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
                     string sql =
-                       "INSERT INTO Bookings (CustomerID, FlightID1, FlightID2, FlightID3, TripType, BookingDate, PaymentMethood, PointsUsed, PricePaid, IsCancelled) " +
-                       "VALUES (@CustomerID, @FlightID1, @FlightID2, @FlightID3, @TripType, @BoookingDate, @PaymentMethod, @PointsUsed, @PricePaid, @IsCancelled); " +
+                       "INSERT INTO Bookings (CustomerID, FlightID1, FlightID2, FlightID3, TripType, BookingDate, PaymentMethod, PointsUsed, PricePaid, IsCancelled) " +
+                       "VALUES (@CustomerID, @FlightID1, @FlightID2, @FlightID3, @TripType, @BookingDate, @PaymentMethod, @PointsUsed, @PricePaid, @IsCancelled); " +
                        "SELECT last_insert_rowid()";
 
                     bookings.BookingID = connection.QuerySingle<int>(sql, bookings);

@@ -39,14 +39,18 @@ namespace air_3550
             comboBoxFrom.DisplayMember = "CityState";
             comboBoxFrom.ValueMember = "AirportID";
             comboBoxFrom.SelectedIndex = -1;
+            comboBoxFrom.DropDownStyle = ComboBoxStyle.DropDownList;
 
             // Get the destination combo box source
             comboBoxTo.DataSource = new List<Airport>(airports);
             comboBoxTo.DisplayMember = "CityState";
             comboBoxTo.ValueMember = "AirportID";
             comboBoxTo.SelectedIndex = -1;
+            comboBoxTo.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            paymentMethod.DisplayMember = "one";
+            string[] payment = {"Credit", "Points" };
+            paymentMethod.DataSource = payment;
+            paymentMethod.DropDownStyle = ComboBoxStyle.DropDownList;
 
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
@@ -152,6 +156,16 @@ namespace air_3550
                     List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
 
                     price = price + (firstScheduledFlight.Distance + lastScheduledFlight.Distance) * 0.12 + (8 * (route.Count - 1));
+                    TimeSpan depart = TimeSpan.Parse(firstScheduledFlight.DepartureTime);
+                    TimeSpan arrival = TimeSpan.Parse(lastScheduledFlight.DepartureTime);
+
+                    if (depart.Hours < 5 || arrival.Hours < 5)
+                    {
+                        price *= 0.8;
+                    } else if (depart.Hours < 8 || arrival.Hours >= 7)
+                    {
+                        price *= 0.9;
+                    }
 
                     price = Math.Round(price, 2, MidpointRounding.AwayFromZero);
 
@@ -164,7 +178,8 @@ namespace air_3550
                         DepartureTime = firstScheduledFlight.DepartureTime,
                         ArrivalTime = lastScheduledFlight.ArrivalTime,
                         NumberOfConnections = route.Count - 1,
-                        FlightIDs = flightIDs
+                        FlightIDs = flightIDs,
+                        Price = price
                     };
                 }).ToList();
             dataGridViewSearchResults.DataSource = flightDisplays;
@@ -186,12 +201,26 @@ namespace air_3550
             DataGridViewRow selectedRow = dataGridViewSearchResults.SelectedRows[0];
             BookingFlightViewModel selectedFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
             List<int> flightIDs = selectedFlight.FlightIDs;
+            
 
 
             bookingToAdd.CustomerID = this.customerRecord.UserID;
-            bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-            bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
-            bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
+            if (selectedFlight.NumberOfConnections == 2)
+            {
+                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+                bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
+            } else if (selectedFlight.NumberOfConnections == 1)
+            {
+                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+                bookingToAdd.FlightID3 = 0;
+            } else
+            {
+                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                bookingToAdd.FlightID2 = 0;
+                bookingToAdd.FlightID3 = 0;
+            }
             if (radioButtonRoundTrip.Checked)
             {
                 bookingToAdd.TripType = "Round Trip";
@@ -200,12 +229,22 @@ namespace air_3550
             {
                 bookingToAdd.TripType = "One Way";
             }
+            bookingToAdd.BookingDate = DateTime.Now.Date.ToString("d");
+
+            if (paymentMethod.SelectedItem == "Points")
+            {
+                bookingToAdd.PaymentMethod = "Points";
+                bookingToAdd.PricePaid = 0;
+                bookingToAdd.PointsUsed = (int)selectedFlight.Price * 100;
+            } else
+            {
+                bookingToAdd.PaymentMethod = "Credit";
+                bookingToAdd.PointsUsed = 0;
+                bookingToAdd.PricePaid = selectedFlight.Price;
+            }
+
+            bookingToAdd.IsCancelled = false;
             db.Bookings.Add(bookingToAdd);
-
-
-
-            // Add all the values to the model and send to the DB!
-
             LoadBookingData();
 
             bookFlightBtn.Enabled = true;
