@@ -203,49 +203,57 @@ namespace air_3550
             List<int> flightIDs = selectedFlight.FlightIDs;
             
 
-
-            bookingToAdd.CustomerID = this.customerRecord.UserID;
-            if (selectedFlight.NumberOfConnections == 2)
+            if (selectedFlight.Price*100 > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
             {
-                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
-                bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
-            } else if (selectedFlight.NumberOfConnections == 1)
-            {
-                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
-                bookingToAdd.FlightID3 = null;
+                MessageBox.Show("Not enough points for flight. Please select credit.", "Booking Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } else
             {
-                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                bookingToAdd.FlightID2 = null;
-                bookingToAdd.FlightID3 = null;
-            }
-            if (radioButtonRoundTrip.Checked)
-            {
-                bookingToAdd.TripType = "Round Trip";
-            }
-            else
-            {
-                bookingToAdd.TripType = "One Way";
-            }
-            bookingToAdd.BookingDate = DateTime.Now.Date.ToString("d");
+                bookingToAdd.CustomerID = this.customerRecord.UserID;
+                if (selectedFlight.NumberOfConnections == 2)
+                {
+                    bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                    bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+                    bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
+                }
+                else if (selectedFlight.NumberOfConnections == 1)
+                {
+                    bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                    bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+                    bookingToAdd.FlightID3 = null;
+                }
+                else
+                {
+                    bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                    bookingToAdd.FlightID2 = null;
+                    bookingToAdd.FlightID3 = null;
+                }
+                if (radioButtonRoundTrip.Checked)
+                {
+                    bookingToAdd.TripType = "Round Trip";
+                }
+                else
+                {
+                    bookingToAdd.TripType = "One Way";
+                }
+                bookingToAdd.BookingDate = DateTime.Now.Date.ToString("d");
 
-            if (paymentMethod.SelectedItem == "Points")
-            {
-                bookingToAdd.PaymentMethod = "Points";
-                bookingToAdd.PricePaid = 0;
-                bookingToAdd.PointsUsed = (int)selectedFlight.Price * 100;
-            } else
-            {
-                bookingToAdd.PaymentMethod = "Credit";
-                bookingToAdd.PointsUsed = 0;
-                bookingToAdd.PricePaid = selectedFlight.Price;
-            }
+                if (paymentMethod.SelectedItem == "Points")
+                {
+                    bookingToAdd.PaymentMethod = "Points";
+                    bookingToAdd.PricePaid = 0;
+                    bookingToAdd.PointsUsed = (int)selectedFlight.Price * 100;
+                }
+                else
+                {
+                    bookingToAdd.PaymentMethod = "Credit";
+                    bookingToAdd.PointsUsed = 0;
+                    bookingToAdd.PricePaid = selectedFlight.Price;
+                }
 
-            bookingToAdd.IsCancelled = false;
-            db.Bookings.Add(bookingToAdd);
-            LoadBookingData();
+                bookingToAdd.IsCancelled = false;
+                db.Bookings.Add(bookingToAdd);
+                LoadBookingData();
+            }
 
             bookFlightBtn.Enabled = true;
         }
