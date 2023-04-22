@@ -3,6 +3,7 @@ using air_3550.Models;
 using air_3550.Services;
 using Dapper;
 using GeoCoordinatePortable;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using User = air_3550.Models.User;
 
 namespace air_3550
 {
@@ -198,11 +200,9 @@ namespace air_3550
         {
             bookFlightBtn.Enabled = false;
             // Get the Airport models
-            Booking bookingToAdd = new Booking();
+
             DataGridViewRow selectedRow = dataGridViewSearchResults.SelectedRows[0];
             BookingFlightViewModel selectedFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
-            List<int> flightIDs = selectedFlight.FlightIDs;
-
 
             if (selectedFlight.Price * 100 > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
             {
@@ -210,54 +210,90 @@ namespace air_3550
             }
             else
             {
-                bookingToAdd.CustomerID = this.customerRecord.UserID;
-                if (selectedFlight.NumberOfConnections == 2)
-                {
-                    bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                    bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
-                    bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
-                }
-                else if (selectedFlight.NumberOfConnections == 1)
-                {
-                    bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                    bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
-                    bookingToAdd.FlightID3 = null;
-                }
-                else
-                {
-                    bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
-                    bookingToAdd.FlightID2 = null;
-                    bookingToAdd.FlightID3 = null;
-                }
-                if (radioButtonRoundTrip.Checked)
-                {
-                    bookingToAdd.TripType = "Round Trip";
-                }
-                else
-                {
-                    bookingToAdd.TripType = "One Way";
-                }
-                bookingToAdd.BookingDate = DateTime.Now.Date.ToString("d");
+                string creditMessage = $"Are you sure you want to book this flight for ${selectedFlight.Price}?";
+                string pointsMessage = $"Are you sure you want to book this flight for ${(int)(selectedFlight.Price * 100)} points?";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                string title = "Confirmation";
+                DialogResult result = MessageBox.Show(paymentMethod.SelectedItem == "Points" ? pointsMessage : creditMessage, title, buttons);
 
-                if (paymentMethod.SelectedItem == "Points")
+                if (result == DialogResult.Yes)
                 {
-                    bookingToAdd.PaymentMethod = "Points";
-                    bookingToAdd.PricePaid = 0;
-                    bookingToAdd.PointsUsed = (int)selectedFlight.Price * 100;
+                    bookFlight(selectedFlight);
                 }
                 else
                 {
-                    bookingToAdd.PaymentMethod = "Credit";
-                    bookingToAdd.PointsUsed = 0;
-                    bookingToAdd.PricePaid = selectedFlight.Price;
-                }
 
-                bookingToAdd.IsCancelled = false;
-                db.Bookings.Add(bookingToAdd);
-                LoadBookingData();
+                }
             }
-
             bookFlightBtn.Enabled = true;
         }
+
+        private void bookFlight(BookingFlightViewModel selectedFlight)
+        {
+            List<int> flightIDs = selectedFlight.FlightIDs;
+            Booking bookingToAdd = new Booking();
+            bookingToAdd.CustomerID = this.customerRecord.UserID;
+            if (selectedFlight.NumberOfConnections == 2)
+            {
+                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+                bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
+            }
+            else if (selectedFlight.NumberOfConnections == 1)
+            {
+                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
+                bookingToAdd.FlightID3 = null;
+            }
+            else
+            {
+                bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
+                bookingToAdd.FlightID2 = null;
+                bookingToAdd.FlightID3 = null;
+            }
+            if (radioButtonRoundTrip.Checked)
+            {
+                bookingToAdd.TripType = "Round Trip";
+            }
+            else
+            {
+                bookingToAdd.TripType = "One Way";
+            }
+            bookingToAdd.BookingDate = DateTime.Now.Date.ToString("d");
+
+            if (paymentMethod.SelectedItem == "Points")
+            {
+                bookingToAdd.PaymentMethod = "Points";
+                bookingToAdd.PricePaid = 0;
+                bookingToAdd.PointsUsed = (int)selectedFlight.Price * 100;
+            }
+            else
+            {
+                bookingToAdd.PaymentMethod = "Credit";
+                bookingToAdd.PointsUsed = 0;
+                bookingToAdd.PricePaid = selectedFlight.Price;
+            }
+
+            bookingToAdd.IsCancelled = false;
+            db.Bookings.Add(bookingToAdd);
+            if (paymentMethod.SelectedItem == "Points")
+            {
+                string transactionMessage = $@"Transaction successful!
+                                           Name:{customerRecord.FirstName} {customerRecord.LastName}
+                                           Total: ${bookingToAdd.PointsUsed} points";
+                MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                string transactionMessage = $@"Transaction successful!
+                                           Name:{customerRecord.FirstName} {customerRecord.LastName}
+                                           Credit card: **** **** **** {this.customerRecord.CreditCard.Substring(this.customerRecord.CreditCard.Length - 4)}
+                                           Total: ${bookingToAdd.PricePaid}";
+                MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            LoadBookingData();
+        }
+
     }
 }
