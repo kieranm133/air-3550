@@ -35,24 +35,13 @@
             dataGridView2 = new DataGridView();
             getTicketInfo = new Button();
             label1 = new Label();
-            dataGridView1 = new DataGridView();
-            bookingIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            customerIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            flightID1DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            flightID2DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            flightID3DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            tripTypeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            bookingDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            paymentMethodDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            pointsUsedDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            pricePaidDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            isCancelledDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            bookingView = new DataGridView();
             bookingBindingSource = new BindingSource(components);
             customerTabSearchFlights = new TabPage();
             buttonSearch = new Button();
             dateTimePickerArrival = new DateTimePicker();
             dateTimePickerDeparture = new DateTimePicker();
-            button2 = new Button();
+            bookFlightBtn = new Button();
             label7 = new Label();
             dataGridViewSearchResults = new DataGridView();
             radioButtonOneWay = new RadioButton();
@@ -72,7 +61,7 @@
             tabControl1.SuspendLayout();
             customerTabMyFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bookingView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bookingBindingSource).BeginInit();
             customerTabSearchFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResults).BeginInit();
@@ -97,7 +86,7 @@
             customerTabMyFlights.Controls.Add(dataGridView2);
             customerTabMyFlights.Controls.Add(getTicketInfo);
             customerTabMyFlights.Controls.Add(label1);
-            customerTabMyFlights.Controls.Add(dataGridView1);
+            customerTabMyFlights.Controls.Add(bookingView);
             customerTabMyFlights.Location = new Point(4, 24);
             customerTabMyFlights.Name = "customerTabMyFlights";
             customerTabMyFlights.Padding = new Padding(3);
@@ -143,83 +132,14 @@
             label1.TabIndex = 1;
             label1.Text = "Currently booked flights";
             // 
-            // dataGridView1
+            // bookingView
             // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { bookingIDDataGridViewTextBoxColumn, customerIDDataGridViewTextBoxColumn, flightID1DataGridViewTextBoxColumn, flightID2DataGridViewTextBoxColumn, flightID3DataGridViewTextBoxColumn, tripTypeDataGridViewTextBoxColumn, bookingDateDataGridViewTextBoxColumn, paymentMethodDataGridViewTextBoxColumn, pointsUsedDataGridViewTextBoxColumn, pricePaidDataGridViewTextBoxColumn, isCancelledDataGridViewCheckBoxColumn });
-            dataGridView1.DataSource = bookingBindingSource;
-            dataGridView1.Location = new Point(6, 36);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(529, 342);
-            dataGridView1.TabIndex = 0;
-            // 
-            // bookingIDDataGridViewTextBoxColumn
-            // 
-            bookingIDDataGridViewTextBoxColumn.DataPropertyName = "BookingID";
-            bookingIDDataGridViewTextBoxColumn.HeaderText = "BookingID";
-            bookingIDDataGridViewTextBoxColumn.Name = "bookingIDDataGridViewTextBoxColumn";
-            // 
-            // customerIDDataGridViewTextBoxColumn
-            // 
-            customerIDDataGridViewTextBoxColumn.DataPropertyName = "CustomerID";
-            customerIDDataGridViewTextBoxColumn.HeaderText = "CustomerID";
-            customerIDDataGridViewTextBoxColumn.Name = "customerIDDataGridViewTextBoxColumn";
-            // 
-            // flightID1DataGridViewTextBoxColumn
-            // 
-            flightID1DataGridViewTextBoxColumn.DataPropertyName = "FlightID1";
-            flightID1DataGridViewTextBoxColumn.HeaderText = "FlightID1";
-            flightID1DataGridViewTextBoxColumn.Name = "flightID1DataGridViewTextBoxColumn";
-            // 
-            // flightID2DataGridViewTextBoxColumn
-            // 
-            flightID2DataGridViewTextBoxColumn.DataPropertyName = "FlightID2";
-            flightID2DataGridViewTextBoxColumn.HeaderText = "FlightID2";
-            flightID2DataGridViewTextBoxColumn.Name = "flightID2DataGridViewTextBoxColumn";
-            // 
-            // flightID3DataGridViewTextBoxColumn
-            // 
-            flightID3DataGridViewTextBoxColumn.DataPropertyName = "FlightID3";
-            flightID3DataGridViewTextBoxColumn.HeaderText = "FlightID3";
-            flightID3DataGridViewTextBoxColumn.Name = "flightID3DataGridViewTextBoxColumn";
-            // 
-            // tripTypeDataGridViewTextBoxColumn
-            // 
-            tripTypeDataGridViewTextBoxColumn.DataPropertyName = "TripType";
-            tripTypeDataGridViewTextBoxColumn.HeaderText = "TripType";
-            tripTypeDataGridViewTextBoxColumn.Name = "tripTypeDataGridViewTextBoxColumn";
-            // 
-            // bookingDateDataGridViewTextBoxColumn
-            // 
-            bookingDateDataGridViewTextBoxColumn.DataPropertyName = "BookingDate";
-            bookingDateDataGridViewTextBoxColumn.HeaderText = "BookingDate";
-            bookingDateDataGridViewTextBoxColumn.Name = "bookingDateDataGridViewTextBoxColumn";
-            // 
-            // paymentMethodDataGridViewTextBoxColumn
-            // 
-            paymentMethodDataGridViewTextBoxColumn.DataPropertyName = "PaymentMethod";
-            paymentMethodDataGridViewTextBoxColumn.HeaderText = "PaymentMethod";
-            paymentMethodDataGridViewTextBoxColumn.Name = "paymentMethodDataGridViewTextBoxColumn";
-            // 
-            // pointsUsedDataGridViewTextBoxColumn
-            // 
-            pointsUsedDataGridViewTextBoxColumn.DataPropertyName = "PointsUsed";
-            pointsUsedDataGridViewTextBoxColumn.HeaderText = "PointsUsed";
-            pointsUsedDataGridViewTextBoxColumn.Name = "pointsUsedDataGridViewTextBoxColumn";
-            // 
-            // pricePaidDataGridViewTextBoxColumn
-            // 
-            pricePaidDataGridViewTextBoxColumn.DataPropertyName = "PricePaid";
-            pricePaidDataGridViewTextBoxColumn.HeaderText = "PricePaid";
-            pricePaidDataGridViewTextBoxColumn.Name = "pricePaidDataGridViewTextBoxColumn";
-            // 
-            // isCancelledDataGridViewCheckBoxColumn
-            // 
-            isCancelledDataGridViewCheckBoxColumn.DataPropertyName = "IsCancelled";
-            isCancelledDataGridViewCheckBoxColumn.HeaderText = "IsCancelled";
-            isCancelledDataGridViewCheckBoxColumn.Name = "isCancelledDataGridViewCheckBoxColumn";
+            bookingView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            bookingView.Location = new Point(6, 36);
+            bookingView.Name = "bookingView";
+            bookingView.RowTemplate.Height = 25;
+            bookingView.Size = new Size(529, 342);
+            bookingView.TabIndex = 0;
             // 
             // bookingBindingSource
             // 
@@ -230,7 +150,7 @@
             customerTabSearchFlights.Controls.Add(buttonSearch);
             customerTabSearchFlights.Controls.Add(dateTimePickerArrival);
             customerTabSearchFlights.Controls.Add(dateTimePickerDeparture);
-            customerTabSearchFlights.Controls.Add(button2);
+            customerTabSearchFlights.Controls.Add(bookFlightBtn);
             customerTabSearchFlights.Controls.Add(label7);
             customerTabSearchFlights.Controls.Add(dataGridViewSearchResults);
             customerTabSearchFlights.Controls.Add(radioButtonOneWay);
@@ -279,14 +199,15 @@
             dateTimePickerDeparture.Size = new Size(99, 23);
             dateTimePickerDeparture.TabIndex = 15;
             // 
-            // button2
+            // bookFlightBtn
             // 
-            button2.Location = new Point(432, 383);
-            button2.Name = "button2";
-            button2.Size = new Size(127, 23);
-            button2.TabIndex = 14;
-            button2.Text = "Book flight";
-            button2.UseVisualStyleBackColor = true;
+            bookFlightBtn.Location = new Point(432, 383);
+            bookFlightBtn.Name = "bookFlightBtn";
+            bookFlightBtn.Size = new Size(127, 23);
+            bookFlightBtn.TabIndex = 14;
+            bookFlightBtn.Text = "Book flight";
+            bookFlightBtn.UseVisualStyleBackColor = true;
+            bookFlightBtn.Click += bookFlightBtn_Click;
             // 
             // label7
             // 
@@ -462,7 +383,7 @@
             customerTabMyFlights.ResumeLayout(false);
             customerTabMyFlights.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bookingView).EndInit();
             ((System.ComponentModel.ISupportInitialize)bookingBindingSource).EndInit();
             customerTabSearchFlights.ResumeLayout(false);
             customerTabSearchFlights.PerformLayout();
@@ -484,7 +405,7 @@
         private DataGridView dataGridView2;
         private Button getTicketInfo;
         private Label label1;
-        private DataGridView dataGridView1;
+        private DataGridView bookingView;
         private Label label5;
         private Label label6;
         private Label label4;
@@ -496,18 +417,7 @@
         private DataGridView dataGridViewSearchResults;
         private Label label7;
         private Label label8;
-        private Button button2;
-        private DataGridViewTextBoxColumn bookingIDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn customerIDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn flightID1DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn flightID2DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn flightID3DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn tripTypeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn bookingDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn paymentMethodDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn pointsUsedDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn pricePaidDataGridViewTextBoxColumn;
-        private DataGridViewCheckBoxColumn isCancelledDataGridViewCheckBoxColumn;
+        private Button bookFlightBtn;
         private BindingSource bookingBindingSource;
         private DataGridView dataGridViewProfile;
         private DataGridViewTextBoxColumn Column1;

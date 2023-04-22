@@ -1,4 +1,5 @@
-﻿using air_3550.Logging;
+﻿using air_3550.Database;
+using air_3550.Logging;
 using air_3550.Models;
 using Dapper;
 using Microsoft.Data.Sqlite;
@@ -35,20 +36,32 @@ namespace air_3550.Repositories
             }
         }
 
-        public List<Booking> Search(string originAirportId, string destinationAirportId, bool roundTrip)
+        public List<Booking>? GetAll(Customer customerRecord)
         {
             try
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
-                    string query = @"SELECT * FROM Bookings WHERE BookingID = @BookingID AND CustomerID = @CustomerID";
+                    return connection.Query<Booking>("SELECT * FROM Bookings WHERE CustomerID = @CustomerID").AsList();
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
 
-                    if (roundTrip)
-                    {
-                        query += " AND BookingDate IS NOT NULL";
-                    }
 
-                    var parameters = new { OriginAirportID = originAirportId, DestinationAirportID = destinationAirportId };
+        public List<Booking> Search(int customerID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string query = @"SELECT * FROM Bookings WHERE CustomerID = @CustomerID";
+
+                    var parameters = new { CustomerID = customerID};
                     return connection.Query<Booking>(query, parameters).AsList();
                 }
             }
@@ -58,5 +71,8 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+
+     
+
     }
 }

@@ -2,6 +2,7 @@
 using air_3550.Models;
 using air_3550.Services;
 using Dapper;
+using GeoCoordinatePortable;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,11 +49,12 @@ namespace air_3550
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             List<Booking>? book = db.Bookings.GetAll();
-            dataGridView1.DataSource = book;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            bookingView.DataSource = book;
+            bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
             // Add the profile info
             buildTableLayout();
+            LoadBookingData();
         }
 
         private void btnLogoutCus_Click_1(object sender, EventArgs e)
@@ -103,23 +105,6 @@ namespace air_3550
                 dateTimePickerArrival.Enabled = true;
             }
         }
-
-        private void SearchFlights()
-        {
-
-
-
-            if (comboBoxFrom.SelectedIndex != -1 && comboBoxTo.SelectedIndex != -1)
-            {
-                bool roundTrip = radioButtonRoundTrip.Checked;
-                string originAirportId = (string)comboBoxFrom.SelectedValue;
-                string destinationAirportId = (string)comboBoxTo.SelectedValue;
-                List<Booking> searchResults = db.Bookings.Search(originAirportId, destinationAirportId, roundTrip);
-                dataGridViewSearchResults.DataSource = searchResults;
-            }
-        }
-
-
 
         private void buildTableLayout()
         {
@@ -176,6 +161,33 @@ namespace air_3550
                     };
                 }).ToList();
             dataGridViewSearchResults.DataSource = flightDisplays;
+        }
+        private void LoadBookingData()
+        {
+            // Get the dataGridView source--all of the scheduled flights
+            // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
+            List<Booking>? bookings = db.Bookings.Search(this.customerRecord.UserID);
+            bookingView.DataSource = bookings;
+            bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+        }
+
+        private void bookFlightBtn_Click(object sender, EventArgs e)
+        {
+            bookFlightBtn.Enabled = false;
+            // Get the Airport models
+            Booking bookingToAdd = new Booking();
+            List<int> bookingIDs = dataGridViewSearchResults.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["DepartureAirport"].Value).ToList();
+            bookingToAdd.CustomerID = this.customerRecord.UserID;
+            //flight id 1-3
+
+            
+
+
+            // Add all the values to the model and send to the DB!
+
+            LoadBookingData();
+
+            bookFlightBtn.Enabled = true;
         }
     }
 }
