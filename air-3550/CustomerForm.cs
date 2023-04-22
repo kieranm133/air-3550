@@ -126,6 +126,7 @@ namespace air_3550
             string departureDate = dateTimePickerDeparture.Value.ToShortDateString();
             string originAirportID = (string)comboBoxFrom.SelectedValue;
             string destinationAirportID = (string)comboBoxTo.SelectedValue;
+            double price = 50;
 
             List<ScheduledFlight> allScheduledFlights = db.ScheduledFlights.GetAll();
 
@@ -149,6 +150,10 @@ namespace air_3550
                     (Flight firstFlight, ScheduledFlight firstScheduledFlight) = route.First();
                     (Flight lastFlight, ScheduledFlight lastScheduledFlight) = route.Last();
                     List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
+
+                    price = price + (firstScheduledFlight.Distance + lastScheduledFlight.Distance) * 0.12 + (8 * (route.Count - 1));
+
+                    price = Math.Round(price, 2, MidpointRounding.AwayFromZero);
 
                     return new BookingFlightViewModel
                     {
@@ -187,7 +192,7 @@ namespace air_3550
             bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
             bookingToAdd.FlightID2 = flightIDs.ElementAt(1);
             bookingToAdd.FlightID3 = flightIDs.ElementAt(2);
-            if (selectedFlight.NumberOfConnections > 0)
+            if (radioButtonRoundTrip.Checked)
             {
                 bookingToAdd.TripType = "Round Trip";
             }

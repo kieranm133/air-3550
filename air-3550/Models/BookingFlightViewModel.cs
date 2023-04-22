@@ -16,5 +16,6 @@ namespace air_3550.Models
         public string ArrivalTime { get; set; }
         public int NumberOfConnections { get; set; }
         public List<int> FlightIDs { get; set; }
+        public double Price { get; set; }   
     }
 }
