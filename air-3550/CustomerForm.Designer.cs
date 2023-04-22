@@ -37,6 +37,7 @@
             label1 = new Label();
             bookingView = new DataGridView();
             customerTabSearchFlights = new TabPage();
+            label11 = new Label();
             label10 = new Label();
             dataGridViewSearchResultsReturn = new DataGridView();
             label9 = new Label();
@@ -151,6 +152,7 @@
             // customerTabSearchFlights
             // 
             customerTabSearchFlights.BackColor = SystemColors.Control;
+            customerTabSearchFlights.Controls.Add(label11);
             customerTabSearchFlights.Controls.Add(label10);
             customerTabSearchFlights.Controls.Add(dataGridViewSearchResultsReturn);
             customerTabSearchFlights.Controls.Add(label9);
@@ -175,6 +177,15 @@
             customerTabSearchFlights.Size = new Size(788, 416);
             customerTabSearchFlights.TabIndex = 1;
             customerTabSearchFlights.Text = "Search for flights";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(208, 388);
+            label11.Name = "label11";
+            label11.Size = new Size(91, 15);
+            label11.TabIndex = 22;
+            label11.Text = "Points Available";
             // 
             // label10
             // 
@@ -289,7 +300,6 @@
             radioButtonOneWay.TabStop = true;
             radioButtonOneWay.Text = "One-way";
             radioButtonOneWay.UseVisualStyleBackColor = true;
-            radioButtonOneWay.CheckedChanged += radioButtonOneWay_CheckedChanged;
             radioButtonOneWay.CheckedChanged += UpdateBookFlightBtnState;
             // 
             // radioButtonRoundTrip
@@ -301,7 +311,6 @@
             radioButtonRoundTrip.TabIndex = 10;
             radioButtonRoundTrip.Text = "Roundtrip";
             radioButtonRoundTrip.UseVisualStyleBackColor = true;
-            radioButtonRoundTrip.CheckedChanged += radioButtonRoundTrip_CheckedChanged;
             radioButtonRoundTrip.CheckedChanged += UpdateBookFlightBtnState;
             // 
             // comboBoxTo
@@ -410,10 +419,6 @@
             label8.TabIndex = 1;
             label8.Text = "Profile Info";
             // 
-            // bookingBindingSource
-            // 
-            bookingBindingSource.DataSource = typeof(Models.Booking);
-            // 
             // btnLogoutCus
             // 
             btnLogoutCus.Location = new Point(713, 2);
@@ -486,5 +491,6 @@
         private Label label9;
         private Label label10;
         private DataGridView dataGridViewSearchResultsReturn;
+        private Label label11;
     }
 }
