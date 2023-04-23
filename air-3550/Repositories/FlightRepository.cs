@@ -192,5 +192,26 @@ namespace air_3550.Repositories
             }
         }
 
+        public double GetFlightTotalIncome(int flightID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    // Join FlightID = Bookings.FlightID1 and look at price paid, group by total price 
+                    string sql = @"
+                            SELECT Sum(PricePaid)
+                            FROM Bookings
+                            JOIN Flight on Bookings.FlightID1 = Flight.FlightID
+                            WHERE Flight.FlightID = @flightID";
+                    return connection.ExecuteScalar<double>(sql, new { flightID = flightID });
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return 0;
+            }
+        }
     }
 }
