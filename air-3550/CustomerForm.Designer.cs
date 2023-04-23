@@ -125,7 +125,7 @@
             getTicketInfo.Name = "getTicketInfo";
             getTicketInfo.Size = new Size(135, 23);
             getTicketInfo.TabIndex = 2;
-            getTicketInfo.Text = "Get ticket info";
+            getTicketInfo.Text = "Print Boarding Pass";
             getTicketInfo.UseVisualStyleBackColor = true;
             getTicketInfo.Click += getTicketInfo_Click;
             // 
