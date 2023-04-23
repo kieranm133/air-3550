@@ -202,8 +202,8 @@ namespace air_3550.Repositories
                     string sql = @"
                             SELECT Sum(PricePaid)
                             FROM Bookings
-                            JOIN Flight on Bookings.FlightID1 = Flight.FlightID
-                            WHERE Flight.FlightID = @flightID";
+                            JOIN Flights on Bookings.FlightID1 = Flights.FlightID
+                            WHERE Flights.FlightID = @flightID";
                     return connection.ExecuteScalar<double>(sql, new { flightID = flightID });
                 }
             }

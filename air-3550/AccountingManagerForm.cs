@@ -16,11 +16,13 @@ namespace air_3550
     {
         private DatabaseManager db;
         private List<Flight> flights;
+        private List<Booking> bookings;
         public AccountingManagerForm()
         {
             InitializeComponent();
             db = DatabaseManager.Instance;
             this.flights = db.Flights.GetAll();
+            this.bookings = db.Bookings.GetAll();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -44,7 +46,8 @@ namespace air_3550
             get_FlightCount();
             get_IncomePerFlight(); 
         }
-
+         
+        // Display flight count
         private void get_FlightCount()
         {
             Label totalNumberOfFlights = new Label();
@@ -52,13 +55,21 @@ namespace air_3550
             statusStripFlights.Items.Add(totalNumberOfFlights.Text);
         }
 
+        // Calculate and display individual flight revenue
         private void get_IncomePerFlight()
         {
             DataGridViewTextBoxColumn perFlightIncome = new DataGridViewTextBoxColumn();
             perFlightIncome.HeaderText = "Flight Income";
-            perFlightIncome.Name = "Total";
+            perFlightIncome.Name = "FlightIncome";
+            perFlightIncome.DefaultCellStyle.Format = "C2";
             dataGridViewFlights.Columns.Add(perFlightIncome);
-        }
 
+            // for each flight, calculate total revenue
+            foreach (DataGridViewRow row in dataGridViewFlights.Rows)
+            {
+                int flightId = (int)row.Cells["FlightID"].Value;
+                row.Cells["FlightIncome"].Value = db.Flights.GetFlightTotalIncome(flightId);
+            }
+        }
     }
 }

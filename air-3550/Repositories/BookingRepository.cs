@@ -52,6 +52,27 @@ namespace air_3550.Repositories
             }
         }
 
+        public List<Booking>? GetPricePaid(int flightID1)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string query = @"SELECT PricePaid FROM Bookings WHERE FlightID1 = @FlightID1";
+                    
+                    var parameters = new { FlightID1 = flightID1 };
+
+                    return connection.Query<Booking>(query, parameters).AsList();
+              
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
+
 
         public List<Booking> Search(int customerID)
         {
