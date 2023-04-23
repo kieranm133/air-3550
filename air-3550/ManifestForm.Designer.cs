@@ -40,7 +40,6 @@
             dataGridViewManifest.RowTemplate.Height = 25;
             dataGridViewManifest.Size = new Size(776, 426);
             dataGridViewManifest.TabIndex = 0;
-            dataGridViewManifest.CellContentClick += dataGridViewManifest_CellContentClick;
             // 
             // ManifestForm
             // 

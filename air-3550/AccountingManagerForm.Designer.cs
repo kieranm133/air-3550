@@ -30,14 +30,11 @@
         {
             components = new System.ComponentModel.Container();
             btnLogout = new Button();
-            dataGridView1 = new DataGridView();
-            flightIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            scheduledFlightIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            departureDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            arrivalDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             flightBindingSource = new BindingSource(components);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dataGridViewFlights = new DataGridView();
+            statusStripFlights = new StatusStrip();
             ((System.ComponentModel.ISupportInitialize)flightBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewFlights).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
@@ -50,68 +47,49 @@
             btnLogout.UseVisualStyleBackColor = true;
             btnLogout.Click += btnLogout_Click;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { flightIDDataGridViewTextBoxColumn, scheduledFlightIDDataGridViewTextBoxColumn, departureDateDataGridViewTextBoxColumn, arrivalDateDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = flightBindingSource;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(442, 400);
-            dataGridView1.TabIndex = 2;
-            // 
-            // flightIDDataGridViewTextBoxColumn
-            // 
-            flightIDDataGridViewTextBoxColumn.DataPropertyName = "FlightID";
-            flightIDDataGridViewTextBoxColumn.HeaderText = "FlightID";
-            flightIDDataGridViewTextBoxColumn.Name = "flightIDDataGridViewTextBoxColumn";
-            // 
-            // scheduledFlightIDDataGridViewTextBoxColumn
-            // 
-            scheduledFlightIDDataGridViewTextBoxColumn.DataPropertyName = "ScheduledFlightID";
-            scheduledFlightIDDataGridViewTextBoxColumn.HeaderText = "ScheduledFlightID";
-            scheduledFlightIDDataGridViewTextBoxColumn.Name = "scheduledFlightIDDataGridViewTextBoxColumn";
-            // 
-            // departureDateDataGridViewTextBoxColumn
-            // 
-            departureDateDataGridViewTextBoxColumn.DataPropertyName = "DepartureDate";
-            departureDateDataGridViewTextBoxColumn.HeaderText = "DepartureDate";
-            departureDateDataGridViewTextBoxColumn.Name = "departureDateDataGridViewTextBoxColumn";
-            // 
-            // arrivalDateDataGridViewTextBoxColumn
-            // 
-            arrivalDateDataGridViewTextBoxColumn.DataPropertyName = "ArrivalDate";
-            arrivalDateDataGridViewTextBoxColumn.HeaderText = "ArrivalDate";
-            arrivalDateDataGridViewTextBoxColumn.Name = "arrivalDateDataGridViewTextBoxColumn";
-            // 
             // flightBindingSource
             // 
             flightBindingSource.DataSource = typeof(Models.Flight);
+            // 
+            // dataGridViewFlights
+            // 
+            dataGridViewFlights.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewFlights.Location = new Point(12, 12);
+            dataGridViewFlights.Name = "dataGridViewFlights";
+            dataGridViewFlights.RowTemplate.Height = 25;
+            dataGridViewFlights.Size = new Size(695, 343);
+            dataGridViewFlights.TabIndex = 2;
+            // 
+            // statusStripFlights
+            // 
+            statusStripFlights.Location = new Point(0, 428);
+            statusStripFlights.Name = "statusStripFlights";
+            statusStripFlights.Size = new Size(800, 22);
+            statusStripFlights.TabIndex = 3;
+            statusStripFlights.Text = "statusStrip1";
             // 
             // AccountingManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(dataGridView1);
+            Controls.Add(statusStripFlights);
+            Controls.Add(dataGridViewFlights);
             Controls.Add(btnLogout);
             Name = "AccountingManagerForm";
             Text = "Accounting Manager Form";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += AccountingManagerForm_Load;
             ((System.ComponentModel.ISupportInitialize)flightBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewFlights).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button btnLogout;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn flightIDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn scheduledFlightIDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn departureDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn arrivalDateDataGridViewTextBoxColumn;
         private BindingSource flightBindingSource;
+        private DataGridView dataGridViewFlights;
+        private StatusStrip statusStripFlights;
     }
 }

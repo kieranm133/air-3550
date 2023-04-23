@@ -25,15 +25,6 @@ namespace air_3550
             this.customerList = customerList;
         }
 
-        // Display Manifest for Flight
-
-
-
-        private void dataGridViewManifest_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void ManifestForm_Load(object sender, EventArgs e)
         {
             List<Customer>? customers = db.Customers.getCustomersByFlightID(flightId);
