@@ -21,6 +21,7 @@ namespace air_3550
         {
             InitializeComponent();
             db = DatabaseManager.Instance;
+            this.flightId = flightId;
             this.customerList = customerList;
         }
 
@@ -36,7 +37,8 @@ namespace air_3550
         private void ManifestForm_Load(object sender, EventArgs e)
         {
             List<Customer>? customers = db.Customers.getCustomersByFlightID(flightId);
-            dataGridViewManifest.DataSource = customers;
+            var customersView = customers.Select(customer => new { customer.UserID, customer.FirstName, customer.LastName }).ToList();
+            dataGridViewManifest.DataSource = customersView;
             dataGridViewManifest.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
     }
