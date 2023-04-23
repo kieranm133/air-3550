@@ -313,7 +313,7 @@ namespace air_3550
             return flightDisplays;
         }
         private Booking bookFlight(BookingFlightViewModel selectedFlight)
-        {
+        {//still need to check the ammount of seats on a plane
             List<int> flightIDs = selectedFlight.FlightIDs;
             Booking bookingToAdd = new Booking();
             bookingToAdd.CustomerID = this.customerRecord.UserID;
