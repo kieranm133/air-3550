@@ -63,6 +63,7 @@
             label8 = new Label();
             bookingBindingSource = new BindingSource(components);
             btnLogoutCus = new Button();
+            button1 = new Button();
             tabControl1.SuspendLayout();
             customerTabMyFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -88,6 +89,7 @@
             // 
             // customerTabMyFlights
             // 
+            customerTabMyFlights.Controls.Add(button1);
             customerTabMyFlights.Controls.Add(label2);
             customerTabMyFlights.Controls.Add(dataGridView2);
             customerTabMyFlights.Controls.Add(getTicketInfo);
@@ -140,10 +142,13 @@
             // 
             // bookingView
             // 
+            bookingView.AllowUserToAddRows = false;
+            bookingView.AllowUserToDeleteRows = false;
             bookingView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             bookingView.Location = new Point(6, 36);
             bookingView.MultiSelect = false;
             bookingView.Name = "bookingView";
+            bookingView.ReadOnly = true;
             bookingView.RowTemplate.Height = 25;
             bookingView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             bookingView.Size = new Size(529, 342);
@@ -198,11 +203,14 @@
             // 
             // dataGridViewSearchResultsReturn
             // 
+            dataGridViewSearchResultsReturn.AllowUserToAddRows = false;
+            dataGridViewSearchResultsReturn.AllowUserToDeleteRows = false;
             dataGridViewSearchResultsReturn.BackgroundColor = SystemColors.Control;
             dataGridViewSearchResultsReturn.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSearchResultsReturn.Location = new Point(319, 217);
             dataGridViewSearchResultsReturn.MultiSelect = false;
             dataGridViewSearchResultsReturn.Name = "dataGridViewSearchResultsReturn";
+            dataGridViewSearchResultsReturn.ReadOnly = true;
             dataGridViewSearchResultsReturn.RowTemplate.Height = 25;
             dataGridViewSearchResultsReturn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewSearchResultsReturn.Size = new Size(463, 161);
@@ -259,6 +267,7 @@
             // 
             // bookFlightBtn
             // 
+            bookFlightBtn.Enabled = false;
             bookFlightBtn.Location = new Point(584, 384);
             bookFlightBtn.Name = "bookFlightBtn";
             bookFlightBtn.Size = new Size(197, 23);
@@ -278,11 +287,14 @@
             // 
             // dataGridViewSearchResultsOutbound
             // 
+            dataGridViewSearchResultsOutbound.AllowUserToAddRows = false;
+            dataGridViewSearchResultsOutbound.AllowUserToDeleteRows = false;
             dataGridViewSearchResultsOutbound.BackgroundColor = SystemColors.Control;
             dataGridViewSearchResultsOutbound.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSearchResultsOutbound.Location = new Point(319, 31);
             dataGridViewSearchResultsOutbound.MultiSelect = false;
             dataGridViewSearchResultsOutbound.Name = "dataGridViewSearchResultsOutbound";
+            dataGridViewSearchResultsOutbound.ReadOnly = true;
             dataGridViewSearchResultsOutbound.RowTemplate.Height = 25;
             dataGridViewSearchResultsOutbound.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewSearchResultsOutbound.Size = new Size(463, 161);
@@ -300,7 +312,7 @@
             radioButtonOneWay.TabStop = true;
             radioButtonOneWay.Text = "One-way";
             radioButtonOneWay.UseVisualStyleBackColor = true;
-            radioButtonOneWay.CheckedChanged += UpdateBookFlightBtnState;
+            radioButtonOneWay.CheckedChanged += radioButtonOneWay_CheckedChanged;
             // 
             // radioButtonRoundTrip
             // 
@@ -311,7 +323,7 @@
             radioButtonRoundTrip.TabIndex = 10;
             radioButtonRoundTrip.Text = "Roundtrip";
             radioButtonRoundTrip.UseVisualStyleBackColor = true;
-            radioButtonRoundTrip.CheckedChanged += UpdateBookFlightBtnState;
+            radioButtonRoundTrip.CheckedChanged += radioButtonRoundTrip_CheckedChanged;
             // 
             // comboBoxTo
             // 
@@ -429,6 +441,16 @@
             btnLogoutCus.UseVisualStyleBackColor = true;
             btnLogoutCus.Click += btnLogoutCus_Click_1;
             // 
+            // button1
+            // 
+            button1.Enabled = false;
+            button1.Location = new Point(376, 384);
+            button1.Name = "button1";
+            button1.Size = new Size(159, 23);
+            button1.TabIndex = 5;
+            button1.Text = "Cancel flight";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // CustomerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -492,5 +514,6 @@
         private Label label10;
         private DataGridView dataGridViewSearchResultsReturn;
         private Label label11;
+        private Button button1;
     }
 }
