@@ -15,8 +15,9 @@ namespace air_3550
     public partial class FlightManagerForm : Form
     {
         private DatabaseManager db;
-        private List<ScheduledFlight> flights;
+        private List<Flight> flights;
         private List<Booking> bookings;
+        private List<Customer> customers;
         public FlightManagerForm()
         {
             InitializeComponent();
@@ -38,16 +39,23 @@ namespace air_3550
         // Get the dataGridView source -- all of the scheduled flights
         private void LoadScheduleData()
         {
-            List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
+            List<Flight>? scheduledFlights = db.Flights.GetAll();
             dataGridView_Scheduled_Flights.DataSource = scheduledFlights;
             dataGridView_Scheduled_Flights.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
 
-        // Display Manifest for given flight
+        // Display Manifest for given flight, obtain FlightID
         private void btnViewManifest_Click(object sender, EventArgs e)
         {
-            var flightManifest = new ManifestForm();
-            flightManifest.Show();
+
+            if (dataGridView_Scheduled_Flights != null && dataGridView_Scheduled_Flights.Rows.Count > 0)
+            {
+                var flightSelect = dataGridView_Scheduled_Flights.SelectedRows[0];
+                int flightId = (int)flightSelect.Cells["FlightID"].Value;
+                var flightManifest = new ManifestForm(customers, flightId);
+                flightManifest.ShowDialog();
+            }
+            // TODO: If no scheduled flights, there is no manifest -- display dialog
         }
     }
 }

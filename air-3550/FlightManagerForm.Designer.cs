@@ -50,6 +50,7 @@
             dataGridView_Scheduled_Flights.Location = new Point(0, 12);
             dataGridView_Scheduled_Flights.Name = "dataGridView_Scheduled_Flights";
             dataGridView_Scheduled_Flights.RowTemplate.Height = 25;
+            dataGridView_Scheduled_Flights.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_Scheduled_Flights.Size = new Size(654, 330);
             dataGridView_Scheduled_Flights.TabIndex = 1;
             // 

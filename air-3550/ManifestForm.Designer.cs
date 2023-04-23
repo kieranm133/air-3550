@@ -28,12 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "ManifestForm";
+            dataGridViewManifest = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewManifest).BeginInit();
+            SuspendLayout();
+            // 
+            // dataGridViewManifest
+            // 
+            dataGridViewManifest.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewManifest.Location = new Point(12, 12);
+            dataGridViewManifest.Name = "dataGridViewManifest";
+            dataGridViewManifest.RowTemplate.Height = 25;
+            dataGridViewManifest.Size = new Size(776, 426);
+            dataGridViewManifest.TabIndex = 0;
+            dataGridViewManifest.CellContentClick += dataGridViewManifest_CellContentClick;
+            // 
+            // ManifestForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(dataGridViewManifest);
+            Name = "ManifestForm";
+            Text = "ManifestForm";
+            Load += ManifestForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridViewManifest).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private DataGridView dataGridViewManifest;
     }
 }
