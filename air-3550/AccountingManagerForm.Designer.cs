@@ -32,9 +32,10 @@
             btnLogout = new Button();
             flightBindingSource = new BindingSource(components);
             dataGridViewFlights = new DataGridView();
-            statusStripFlights = new StatusStrip();
+            dataGridViewSummary = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)flightBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFlights).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSummary).BeginInit();
             SuspendLayout();
             // 
             // btnLogout
@@ -57,23 +58,24 @@
             dataGridViewFlights.Location = new Point(12, 12);
             dataGridViewFlights.Name = "dataGridViewFlights";
             dataGridViewFlights.RowTemplate.Height = 25;
-            dataGridViewFlights.Size = new Size(695, 343);
+            dataGridViewFlights.Size = new Size(658, 329);
             dataGridViewFlights.TabIndex = 2;
             // 
-            // statusStripFlights
+            // dataGridViewSummary
             // 
-            statusStripFlights.Location = new Point(0, 428);
-            statusStripFlights.Name = "statusStripFlights";
-            statusStripFlights.Size = new Size(800, 22);
-            statusStripFlights.TabIndex = 3;
-            statusStripFlights.Text = "statusStrip1";
+            dataGridViewSummary.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSummary.Location = new Point(12, 347);
+            dataGridViewSummary.Name = "dataGridViewSummary";
+            dataGridViewSummary.RowTemplate.Height = 25;
+            dataGridViewSummary.Size = new Size(226, 84);
+            dataGridViewSummary.TabIndex = 4;
             // 
             // AccountingManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(statusStripFlights);
+            ClientSize = new Size(841, 443);
+            Controls.Add(dataGridViewSummary);
             Controls.Add(dataGridViewFlights);
             Controls.Add(btnLogout);
             Name = "AccountingManagerForm";
@@ -81,8 +83,8 @@
             Load += AccountingManagerForm_Load;
             ((System.ComponentModel.ISupportInitialize)flightBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFlights).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSummary).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -90,6 +92,6 @@
         private Button btnLogout;
         private BindingSource flightBindingSource;
         private DataGridView dataGridViewFlights;
-        private StatusStrip statusStripFlights;
+        private DataGridView dataGridViewSummary;
     }
 }

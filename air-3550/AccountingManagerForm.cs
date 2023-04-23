@@ -43,16 +43,8 @@ namespace air_3550
         private void AccountingManagerForm_Load(object sender, EventArgs e)
         {
             LoadFlights();
-            get_FlightCount();
-            get_IncomePerFlight(); 
-        }
-         
-        // Display flight count
-        private void get_FlightCount()
-        {
-            Label totalNumberOfFlights = new Label();
-            totalNumberOfFlights.Text = "Total Number of Flights: " + dataGridViewFlights.RowCount.ToString();
-            statusStripFlights.Items.Add(totalNumberOfFlights.Text);
+            get_IncomePerFlight();
+            LoadSummary();
         }
 
         // Calculate and display individual flight revenue
@@ -61,15 +53,40 @@ namespace air_3550
             DataGridViewTextBoxColumn perFlightIncome = new DataGridViewTextBoxColumn();
             perFlightIncome.HeaderText = "Flight Income";
             perFlightIncome.Name = "FlightIncome";
+            perFlightIncome.ValueType = typeof(double);
             perFlightIncome.DefaultCellStyle.Format = "C2";
             dataGridViewFlights.Columns.Add(perFlightIncome);
 
-            // for each flight, calculate total revenue
-            foreach (DataGridViewRow row in dataGridViewFlights.Rows)
-            {
-                int flightId = (int)row.Cells["FlightID"].Value;
-                row.Cells["FlightIncome"].Value = db.Flights.GetFlightTotalIncome(flightId);
-            }
+            // Get income for each flight
+            dataGridViewFlights.Rows.Cast<DataGridViewRow>().ToList().ForEach(row =>
+                row.Cells["FlightIncome"].Value = db.Flights.GetFlightTotalIncome((int)row.Cells["FlightID"].Value));
+        }
+
+        // Load summary information -- total flights and revenue
+        private void LoadSummary()
+        {
+            DataGridViewTextBoxColumn numFlights = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn totRevenue = new DataGridViewTextBoxColumn();
+
+            numFlights.HeaderText = "Total Number of Flights";
+            numFlights.DataPropertyName = "TotalFlights";
+            numFlights.Name = "TotalFlights";
+            totRevenue.HeaderText = "Total Revenue";
+            totRevenue.DataPropertyName = "TotalRevenue";
+            totRevenue.Name = "TotalRevenue";
+            totRevenue.DefaultCellStyle.Format = "C2";
+
+            dataGridViewSummary.Columns.Add(numFlights);
+            dataGridViewSummary.Columns.Add(totRevenue);
+            dataGridViewSummary.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSummary.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            // sum total revenue
+            double totalRevenue = dataGridViewFlights.Rows.Cast<DataGridViewRow>().Sum(row =>
+                            (double)row.Cells["FlightIncome"].Value);
+
+            dataGridViewSummary.Rows[0].Cells["TotalFlights"].Value = dataGridViewFlights.RowCount.ToString();
+            dataGridViewSummary.Rows[0].Cells["TotalRevenue"].Value = totalRevenue;
         }
     }
 }
