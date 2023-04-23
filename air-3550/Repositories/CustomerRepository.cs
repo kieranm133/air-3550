@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using air_3550.Logging;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace air_3550.Repositories
 {
@@ -45,6 +46,28 @@ namespace air_3550.Repositories
                 }
             }
             catch(SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
+
+        public List<Customer> getCustomersByFlightID(int flightID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = @"
+                        SELECT c.*
+                        FROM Customers c
+                        JOIN Bookings b ON c.UserID = b.CustomerID
+                        JOIN Flights f ON b.FlightID1 = f.FlightID
+                        WHERE f.FlightID = @flightID";
+                    return connection.Query<Customer>(sql, new { flightID = flightID }).ToList();
+                }
+            }
+            catch (SqliteException sqlEx)
             {
                 Logger.LogException(sqlEx);
                 return null;
