@@ -52,5 +52,26 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+
+        public void Update(User user)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = @"
+                        UPDATE Users SET
+                        UserType = @UserType,
+                        PasswordHash = @PasswordHash
+                        WHERE UserID = @UserID";
+                    connection.Execute(sql, user);
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+
+        }
     }
 }

@@ -36,6 +36,32 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        public void Update(Customer customer)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = @"
+                        UPDATE Customers SET 
+                        FirstName = @FirstName,
+                        LastName = @LastName,
+                        Address = @Address, 
+                        Phone = @Phone, 
+                        Age = @Age, 
+                        PointsUsed = @PointsUsed, 
+                        PointsAvailable = @PointsAvailable, 
+                        CreditCard = @CreditCard
+                        WHERE UserID = @UserID";
+                    connection.Execute(sql, customer);
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+
+        }
         public Customer GetByID(int userID)
         {
             try
@@ -63,7 +89,8 @@ namespace air_3550.Repositories
                         FROM Customers c
                         JOIN Bookings b ON c.UserID = b.CustomerID
                         JOIN Flights f ON b.FlightID1 = f.FlightID
-                        WHERE f.FlightID = @flightID";
+                        WHERE f.FlightID = @flightID
+                        AND b.IsCancelled = 0";
                     return connection.Query<Customer>(sql, new { flightID = flightID }).ToList();
                 }
             }

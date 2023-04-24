@@ -374,5 +374,25 @@ namespace air_3550
         {
             dateTimePickerReturn.MinDate = dateTimePickerDeparture.Value.AddDays(1);
         }
+
+        private void btnSubmitPasswordChange_Click(object sender, EventArgs e)
+        {
+            string currentPassHash = AuthService.HashPassword(txtCurrentPass.Text);
+            // If the password is not equal to the current password, don't allow the change.
+            if (this.userRecord.PasswordHash != currentPassHash)
+            {
+                string msg = "The current password entered was incorrect. Please try again.";
+                MessageBox.Show(msg, "Invalid password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                this.userRecord.PasswordHash = AuthService.HashPassword(txtNewPass.Text);
+                db.Users.Update(userRecord);
+                string msg = "Your password was successfully changed!";
+                MessageBox.Show(msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            txtCurrentPass.Clear();
+            txtNewPass.Clear();
+        }
     }
 }

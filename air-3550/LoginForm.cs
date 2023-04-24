@@ -1,5 +1,6 @@
 using air_3550.Database;
 using air_3550.Models;
+using air_3550.Services;
 using System.Security.Cryptography;
 using System.Text;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
@@ -18,7 +19,7 @@ namespace air_3550
             DatabaseManager db = DatabaseManager.Instance;
 
             int userID = Int32.Parse(txtUserID.Text);
-            string passwordHash = HashPassword(txtPassword.Text);
+            string passwordHash = AuthService.HashPassword(txtPassword.Text);
             User userResult = db.Users.GetUserById(userID);
             // If the result is not null and the password hash worked, this is a valid user. Redirect based on user_type.
             if (userResult != null && userResult.PasswordHash == passwordHash) 
@@ -62,16 +63,6 @@ namespace air_3550
             RegisterForm registerForm = new RegisterForm();
             registerForm.Show();
             this.Hide();
-        }
-
-        private string HashPassword(string password)
-        {
-            using (SHA512 sha512 = SHA512.Create())
-            {
-                byte[] bytePass = Encoding.UTF8.GetBytes(password);
-                byte[] byteHash = sha512.ComputeHash(bytePass);
-                return Encoding.UTF8.GetString(byteHash);
-            }
         }
     }
 }

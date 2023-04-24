@@ -1,5 +1,6 @@
 ﻿using air_3550.Database;
 using air_3550.Models;
+using air_3550.Services;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -32,13 +33,13 @@ namespace air_3550
 
             if (!IsValidFormat(FirstName, LastName, Password, Age, Phone, Address, CreditCard))
             {
-                txtPassword.Clear();
+                // Do nothing if format is invalid--handled by IsValidFormat
             } else
             {
                 User user = new User();
                 user.UserID = UserID;
                 user.UserType = "customer";
-                user.PasswordHash = HashPassword(Password);
+                user.PasswordHash = AuthService.HashPassword(Password);
 
                 Customer customer = new Customer();
                 customer.UserID = UserID;
@@ -62,63 +63,67 @@ namespace air_3550
 
            
         }
-        //TODO: validate user input.
+        // Validate and handle user input.
         private bool IsValidFormat(string fName, string lName, string pass, string age, string phone, string add, string card)
         {
+            // If first name is blank, reject.
             if (fName == "")
             {
                 MessageBox.Show("Please enter a first name.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtFirstName.Clear();
                 return false;
             }
+            // If last name is blank, reject.
             if (lName == "")
             {
                 MessageBox.Show("Please enter a last name.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtLastName.Clear();
                 return false;
             }
-            if (pass.Length < 4)
+            // If password is less than 8 characters, reject.
+            if (pass.Length < 8)
             {
                 MessageBox.Show("Password must be four characters or more. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPassword.Clear();
                 return false;
             }
-            if (age != "")
-            {
-                if (Int32.Parse(age) < 18)
-                {
-                    MessageBox.Show("Must be 18 or older to register.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            } else
+            // If age can't be numerically parsed or it's empty, reject.
+            if (!Int32.TryParse(age, out int ageNum) || age == "")
             {
                 MessageBox.Show("Please enter an age.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAge.Clear();
                 return false;
             }
-            
-            if (phone.Length != 10)
+            // If age is less than 18, reject.
+            else if (ageNum < 18)
+            {
+                MessageBox.Show("Must be 18 or older to register.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAge.Clear();
+                return false;
+            }
+
+            // If phone can't be numerically parse or it's less than 10 characters, reject.
+            if (!Int32.TryParse(phone, out int phoneNum) || phone.Length != 10)
             {
                 MessageBox.Show("Phone number should be 10 digits long. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPhone.Clear();
                 return false;
             }
+            // If address is blank, reject.
             if (add == "")
             {
                 MessageBox.Show("Please ewnter an address.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAddress.Clear();
                 return false;
             }
-            if (card.Length != 16) {
+            // If card can't be numerically parse or it's less than 16 digits, reject.
+            if (!Int32.TryParse(card, out int cardNum) || card.Length != 16) {
                 MessageBox.Show("Card number should be 16 digits. Please re-enter", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCreditCard.Clear();
                 return false;
             }
             
             return true;
-        }
-
-        private string HashPassword(string password)
-        {
-            using (SHA512 sha512 = SHA512.Create())
-            {
-                byte[] bytePass = Encoding.UTF8.GetBytes(password);
-                byte[] byteHash = sha512.ComputeHash(bytePass);
-                return Encoding.UTF8.GetString(byteHash);
-            }
         }
     }
 }

@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             tabControl1 = new TabControl();
             customerTabMyFlights = new TabPage();
+            button1 = new Button();
             label2 = new Label();
             dataGridView2 = new DataGridView();
             getTicketInfo = new Button();
@@ -57,13 +58,18 @@
             label4 = new Label();
             label3 = new Label();
             customerTabProfile = new TabPage();
+            btnSubmitPasswordChange = new Button();
+            label14 = new Label();
+            txtNewPass = new TextBox();
+            label13 = new Label();
+            txtCurrentPass = new TextBox();
+            label12 = new Label();
             dataGridViewProfile = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             label8 = new Label();
             bookingBindingSource = new BindingSource(components);
             btnLogoutCus = new Button();
-            button1 = new Button();
             tabControl1.SuspendLayout();
             customerTabMyFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -102,6 +108,16 @@
             customerTabMyFlights.TabIndex = 0;
             customerTabMyFlights.Text = "My Flights";
             customerTabMyFlights.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Enabled = false;
+            button1.Location = new Point(376, 384);
+            button1.Name = "button1";
+            button1.Size = new Size(159, 23);
+            button1.TabIndex = 5;
+            button1.Text = "Cancel flight";
+            button1.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -382,6 +398,12 @@
             // customerTabProfile
             // 
             customerTabProfile.BackColor = SystemColors.Control;
+            customerTabProfile.Controls.Add(btnSubmitPasswordChange);
+            customerTabProfile.Controls.Add(label14);
+            customerTabProfile.Controls.Add(txtNewPass);
+            customerTabProfile.Controls.Add(label13);
+            customerTabProfile.Controls.Add(txtCurrentPass);
+            customerTabProfile.Controls.Add(label12);
             customerTabProfile.Controls.Add(dataGridViewProfile);
             customerTabProfile.Controls.Add(label8);
             customerTabProfile.Location = new Point(4, 24);
@@ -390,6 +412,60 @@
             customerTabProfile.Size = new Size(788, 416);
             customerTabProfile.TabIndex = 2;
             customerTabProfile.Text = "My Profile";
+            // 
+            // btnSubmitPasswordChange
+            // 
+            btnSubmitPasswordChange.Location = new Point(144, 372);
+            btnSubmitPasswordChange.Name = "btnSubmitPasswordChange";
+            btnSubmitPasswordChange.Size = new Size(98, 23);
+            btnSubmitPasswordChange.TabIndex = 8;
+            btnSubmitPasswordChange.Text = "Submit";
+            btnSubmitPasswordChange.UseVisualStyleBackColor = true;
+            btnSubmitPasswordChange.Click += btnSubmitPasswordChange_Click;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(24, 346);
+            label14.Name = "label14";
+            label14.Size = new Size(84, 15);
+            label14.TabIndex = 7;
+            label14.Text = "New password";
+            // 
+            // txtNewPass
+            // 
+            txtNewPass.Location = new Point(114, 343);
+            txtNewPass.Name = "txtNewPass";
+            txtNewPass.PasswordChar = '*';
+            txtNewPass.Size = new Size(128, 23);
+            txtNewPass.TabIndex = 6;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(8, 317);
+            label13.Name = "label13";
+            label13.Size = new Size(100, 15);
+            label13.TabIndex = 5;
+            label13.Text = "Current password";
+            // 
+            // txtCurrentPass
+            // 
+            txtCurrentPass.Location = new Point(114, 314);
+            txtCurrentPass.Name = "txtCurrentPass";
+            txtCurrentPass.PasswordChar = '*';
+            txtCurrentPass.Size = new Size(128, 23);
+            txtCurrentPass.TabIndex = 4;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            label12.Location = new Point(83, 282);
+            label12.Name = "label12";
+            label12.Size = new Size(159, 20);
+            label12.TabIndex = 3;
+            label12.Text = "Change your password";
             // 
             // dataGridViewProfile
             // 
@@ -403,11 +479,11 @@
             dataGridViewProfile.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewProfile.ColumnHeadersVisible = false;
             dataGridViewProfile.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2 });
-            dataGridViewProfile.Location = new Point(6, 22);
+            dataGridViewProfile.Location = new Point(6, 27);
             dataGridViewProfile.Name = "dataGridViewProfile";
             dataGridViewProfile.RowTemplate.Height = 25;
             dataGridViewProfile.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewProfile.Size = new Size(544, 258);
+            dataGridViewProfile.Size = new Size(544, 216);
             dataGridViewProfile.TabIndex = 2;
             // 
             // Column1
@@ -425,9 +501,10 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             label8.Location = new Point(6, 4);
             label8.Name = "label8";
-            label8.Size = new Size(65, 15);
+            label8.Size = new Size(82, 20);
             label8.TabIndex = 1;
             label8.Text = "Profile Info";
             // 
@@ -440,16 +517,6 @@
             btnLogoutCus.Text = "Logout";
             btnLogoutCus.UseVisualStyleBackColor = true;
             btnLogoutCus.Click += btnLogoutCus_Click_1;
-            // 
-            // button1
-            // 
-            button1.Enabled = false;
-            button1.Location = new Point(376, 384);
-            button1.Name = "button1";
-            button1.Size = new Size(159, 23);
-            button1.TabIndex = 5;
-            button1.Text = "Cancel flight";
-            button1.UseVisualStyleBackColor = true;
             // 
             // CustomerForm
             // 
@@ -515,5 +582,11 @@
         private DataGridView dataGridViewSearchResultsReturn;
         private Label label11;
         private Button button1;
+        private Label label13;
+        private TextBox txtCurrentPass;
+        private Label label12;
+        private Label label14;
+        private TextBox txtNewPass;
+        private Button btnSubmitPasswordChange;
     }
 }
