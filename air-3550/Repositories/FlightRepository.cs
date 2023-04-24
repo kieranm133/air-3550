@@ -3,6 +3,7 @@ using air_3550.Models;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -231,6 +232,53 @@ namespace air_3550.Repositories
             catch (SqliteException sqlEx)
             {
                 Logger.LogException(sqlEx);
+            }
+        }
+        public FlightWithInfo GetAllFlightInfoByID(int flightID)
+        {
+            return GetAllFlightInfoByID(new List<int> { flightID }).First();
+        }
+        public List<FlightWithInfo> GetAllFlightInfoByID(List<int> flightIDs)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = @"
+                        SELECT *
+                        FROM Flights f
+                        INNER JOIN ScheduledFlights sf ON f.ScheduledFlightID = sf.ScheduledFlightID
+                        INNER JOIN Aircraft a ON sf.AircraftID = a.AircraftID
+                        INNER JOIN Airports origin ON sf.OriginAirportID = origin.AirportID
+                        INNER JOIN Airports destination ON sf.DestinationAirportID = destination.AirportID
+                        WHERE f.FlightID IN @flightIDs";
+
+                    var query = connection.QueryMultiple(sql, new { flightIDs = flightIDs });
+                    List<FlightWithInfo> flightsWithInfo = query.Read<Flight, ScheduledFlight, Aircraft, Airport, Airport, FlightWithInfo>(
+                        // Map out the objects from the query
+                        (flight, scheduledFlight, aircraft, originAirport, destinationAirport) =>
+                        {
+                            return new FlightWithInfo
+                            {
+                                Flight = flight,
+                                ScheduledFlight = scheduledFlight,
+                                Aircraft = aircraft,
+                                OriginAirport = originAirport,
+                                DestinationAirport = destinationAirport
+                            };
+                        },
+                        // Split on the IDs to separate the objects
+                        splitOn: "ScheduledFlightID,AircraftID,AirportID,AirportID"
+                    ).ToList();
+
+                    return flightsWithInfo;
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
             }
         }
     }

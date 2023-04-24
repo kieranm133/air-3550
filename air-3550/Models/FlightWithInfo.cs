@@ -11,6 +11,7 @@ namespace air_3550.Models
     {
         public Flight Flight { get; set; }
         public ScheduledFlight ScheduledFlight { get; set; }
+        public Aircraft Aircraft { get; set; }
         public Airport OriginAirport { get; set; }
         public Airport DestinationAirport { get; set; }
     }
