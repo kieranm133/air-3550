@@ -140,6 +140,7 @@ namespace air_3550
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
+            labelFlightsNotFound.Visible = false;
             string dateStringDeparture = dateTimePickerDeparture.Value.ToString("yyyy-MM-dd");
             string dateStringReturn = dateTimePickerReturn.Value.ToString("yyyy-MM-dd");
             string originAirportID = (string)comboBoxFrom.SelectedValue;
@@ -148,11 +149,19 @@ namespace air_3550
             {
                 dataGridViewSearchResultsOutbound.DataSource = searchFlights(dateStringDeparture, originAirportID, destinationAirportID);
                 dataGridViewSearchResultsReturn.DataSource = null;
+                if (dataGridViewSearchResultsOutbound.DataSource == null)
+                {
+                    labelFlightsNotFound.Visible = true;
+                }
             }
             else
             {
                 dataGridViewSearchResultsOutbound.DataSource = searchFlights(dateStringDeparture, originAirportID, destinationAirportID);
                 dataGridViewSearchResultsReturn.DataSource = searchFlights(dateStringReturn, destinationAirportID, originAirportID);
+                if (dataGridViewSearchResultsOutbound.DataSource == null && dataGridViewSearchResultsReturn.DataSource == null)
+                {
+                    labelFlightsNotFound.Visible = true;
+                }
             }
 
         }
@@ -276,7 +285,6 @@ namespace air_3550
 
         private List<BookingFlightViewModel> searchFlights(string departureDate, string originAirportID, string destinationAirportID)
         {
-            double price = 50;
             List<ScheduledFlight> allScheduledFlights = db.ScheduledFlights.GetAll();
 
             Dictionary<int, ScheduledFlight> scheduledFlightLookup = allScheduledFlights.ToDictionary(sf => sf.ScheduledFlightID);
@@ -304,7 +312,7 @@ namespace air_3550
                     (Flight lastFlight, ScheduledFlight lastScheduledFlight) = route.Last();
                     List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
 
-                    price = price + (firstScheduledFlight.Distance + lastScheduledFlight.Distance) * 0.12 + (8 * (route.Count - 1));
+                    double price = 50 + (firstScheduledFlight.Distance + lastScheduledFlight.Distance) * 0.12 + (8 * (route.Count - 1));
                     TimeSpan depart = TimeSpan.Parse(firstScheduledFlight.DepartureTime);
                     TimeSpan arrival = TimeSpan.Parse(lastScheduledFlight.DepartureTime);
 

@@ -34,6 +34,7 @@
             // 
             // dataGridViewManifest
             // 
+            dataGridViewManifest.BackgroundColor = SystemColors.Control;
             dataGridViewManifest.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewManifest.Location = new Point(12, 12);
             dataGridViewManifest.Name = "dataGridViewManifest";

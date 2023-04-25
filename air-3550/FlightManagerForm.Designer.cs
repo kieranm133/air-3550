@@ -46,8 +46,9 @@
             // 
             // dataGridView_Scheduled_Flights
             // 
+            dataGridView_Scheduled_Flights.BackgroundColor = SystemColors.Control;
             dataGridView_Scheduled_Flights.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView_Scheduled_Flights.Location = new Point(0, 12);
+            dataGridView_Scheduled_Flights.Location = new Point(12, 12);
             dataGridView_Scheduled_Flights.Name = "dataGridView_Scheduled_Flights";
             dataGridView_Scheduled_Flights.RowTemplate.Height = 25;
             dataGridView_Scheduled_Flights.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -56,11 +57,11 @@
             // 
             // btnViewManifest
             // 
-            btnViewManifest.Location = new Point(534, 348);
+            btnViewManifest.Location = new Point(482, 348);
             btnViewManifest.Name = "btnViewManifest";
-            btnViewManifest.Size = new Size(120, 23);
+            btnViewManifest.Size = new Size(184, 23);
             btnViewManifest.TabIndex = 2;
-            btnViewManifest.Text = "View Manifest";
+            btnViewManifest.Text = "View flight manifest";
             btnViewManifest.UseVisualStyleBackColor = true;
             btnViewManifest.Click += btnViewManifest_Click;
             // 

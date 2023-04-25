@@ -53,6 +53,7 @@
             // 
             // dataGridViewSchedule
             // 
+            dataGridViewSchedule.BackgroundColor = SystemColors.Control;
             dataGridViewSchedule.CellBorderStyle = DataGridViewCellBorderStyle.RaisedVertical;
             dataGridViewSchedule.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSchedule.Location = new Point(12, 129);

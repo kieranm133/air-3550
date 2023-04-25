@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             customerTabMyFlights = new TabPage();
             button1 = new Button();
@@ -41,6 +41,7 @@
             label1 = new Label();
             bookingView = new DataGridView();
             customerTabSearchFlights = new TabPage();
+            labelFlightsNotFound = new Label();
             label11 = new Label();
             label10 = new Label();
             dataGridViewSearchResultsReturn = new DataGridView();
@@ -125,7 +126,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(636, 18);
+            label2.Location = new Point(622, 18);
             label2.Name = "label2";
             label2.Size = new Size(62, 15);
             label2.TabIndex = 4;
@@ -133,15 +134,17 @@
             // 
             // dataGridView2
             // 
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.AllowUserToDeleteRows = false;
             dataGridView2.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.ColumnHeadersVisible = false;
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column3, Column4 });
@@ -187,6 +190,7 @@
             // 
             bookingView.AllowUserToAddRows = false;
             bookingView.AllowUserToDeleteRows = false;
+            bookingView.BackgroundColor = SystemColors.ControlLightLight;
             bookingView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             bookingView.Location = new Point(6, 36);
             bookingView.MultiSelect = false;
@@ -200,6 +204,7 @@
             // customerTabSearchFlights
             // 
             customerTabSearchFlights.BackColor = SystemColors.Control;
+            customerTabSearchFlights.Controls.Add(labelFlightsNotFound);
             customerTabSearchFlights.Controls.Add(label11);
             customerTabSearchFlights.Controls.Add(label10);
             customerTabSearchFlights.Controls.Add(dataGridViewSearchResultsReturn);
@@ -225,6 +230,18 @@
             customerTabSearchFlights.Size = new Size(788, 416);
             customerTabSearchFlights.TabIndex = 1;
             customerTabSearchFlights.Text = "Search for flights";
+            // 
+            // labelFlightsNotFound
+            // 
+            labelFlightsNotFound.AutoSize = true;
+            labelFlightsNotFound.ForeColor = SystemColors.Highlight;
+            labelFlightsNotFound.Location = new Point(86, 251);
+            labelFlightsNotFound.Name = "labelFlightsNotFound";
+            labelFlightsNotFound.Size = new Size(176, 30);
+            labelFlightsNotFound.TabIndex = 23;
+            labelFlightsNotFound.Text = "No flights were found matching\r\nthe search criteria\r\n";
+            labelFlightsNotFound.TextAlign = ContentAlignment.MiddleCenter;
+            labelFlightsNotFound.Visible = false;
             // 
             // label11
             // 
@@ -443,7 +460,7 @@
             // 
             // btnSubmitPasswordChange
             // 
-            btnSubmitPasswordChange.Location = new Point(144, 372);
+            btnSubmitPasswordChange.Location = new Point(144, 336);
             btnSubmitPasswordChange.Name = "btnSubmitPasswordChange";
             btnSubmitPasswordChange.Size = new Size(98, 23);
             btnSubmitPasswordChange.TabIndex = 8;
@@ -454,7 +471,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(24, 346);
+            label14.Location = new Point(24, 310);
             label14.Name = "label14";
             label14.Size = new Size(84, 15);
             label14.TabIndex = 7;
@@ -462,7 +479,7 @@
             // 
             // txtNewPass
             // 
-            txtNewPass.Location = new Point(114, 343);
+            txtNewPass.Location = new Point(114, 307);
             txtNewPass.Name = "txtNewPass";
             txtNewPass.PasswordChar = '*';
             txtNewPass.Size = new Size(128, 23);
@@ -471,7 +488,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(8, 317);
+            label13.Location = new Point(8, 281);
             label13.Name = "label13";
             label13.Size = new Size(100, 15);
             label13.TabIndex = 5;
@@ -479,7 +496,7 @@
             // 
             // txtCurrentPass
             // 
-            txtCurrentPass.Location = new Point(114, 314);
+            txtCurrentPass.Location = new Point(114, 278);
             txtCurrentPass.Name = "txtCurrentPass";
             txtCurrentPass.PasswordChar = '*';
             txtCurrentPass.Size = new Size(128, 23);
@@ -489,7 +506,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            label12.Location = new Point(83, 282);
+            label12.Location = new Point(83, 246);
             label12.Name = "label12";
             label12.Size = new Size(159, 20);
             label12.TabIndex = 3;
@@ -622,5 +639,6 @@
         private Button btnSubmitPasswordChange;
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
+        private Label labelFlightsNotFound;
     }
 }
