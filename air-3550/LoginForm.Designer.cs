@@ -34,12 +34,13 @@
             txtPassword = new TextBox();
             btnLogin = new Button();
             btnCreateAccount = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // labelUserID
             // 
             labelUserID.AutoSize = true;
-            labelUserID.Location = new Point(236, 166);
+            labelUserID.Location = new Point(308, 150);
             labelUserID.Name = "labelUserID";
             labelUserID.Size = new Size(44, 15);
             labelUserID.TabIndex = 0;
@@ -48,7 +49,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(236, 209);
+            label2.Location = new Point(308, 193);
             label2.Name = "label2";
             label2.Size = new Size(57, 15);
             label2.TabIndex = 1;
@@ -56,14 +57,14 @@
             // 
             // txtUserID
             // 
-            txtUserID.Location = new Point(299, 163);
+            txtUserID.Location = new Point(371, 147);
             txtUserID.Name = "txtUserID";
             txtUserID.Size = new Size(100, 23);
             txtUserID.TabIndex = 2;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(299, 206);
+            txtPassword.Location = new Point(371, 190);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(100, 23);
@@ -71,7 +72,7 @@
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(236, 249);
+            btnLogin.Location = new Point(308, 233);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(181, 23);
             btnLogin.TabIndex = 4;
@@ -81,7 +82,7 @@
             // 
             // btnCreateAccount
             // 
-            btnCreateAccount.Location = new Point(262, 278);
+            btnCreateAccount.Location = new Point(334, 262);
             btnCreateAccount.Name = "btnCreateAccount";
             btnCreateAccount.Size = new Size(137, 23);
             btnCreateAccount.TabIndex = 5;
@@ -89,11 +90,22 @@
             btnCreateAccount.UseVisualStyleBackColor = true;
             btnCreateAccount.Click += btnCreateAccount_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semilight", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(234, 81);
+            label1.Name = "label1";
+            label1.Size = new Size(330, 30);
+            label1.TabIndex = 6;
+            label1.Text = "Air 3550 Flight Reservation System\r\n";
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(btnCreateAccount);
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
@@ -114,5 +126,6 @@
         private TextBox txtPassword;
         private Button btnLogin;
         private Button btnCreateAccount;
+        private Label label1;
     }
 }

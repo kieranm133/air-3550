@@ -22,8 +22,8 @@ namespace air_3550
             string passwordHash = AuthService.HashPassword(txtPassword.Text);
             User userResult = db.Users.GetUserById(userID);
             // If the result is not null and the password hash worked, this is a valid user. Redirect based on user_type.
-            if (userResult != null && userResult.PasswordHash == passwordHash) 
-            { 
+            if (userResult != null && userResult.PasswordHash == passwordHash)
+            {
                 switch (userResult.UserType)
                 {
                     case "customer":
@@ -39,7 +39,7 @@ namespace air_3550
                         flightManagerForm.Show();
                         break;
                     case "load_engineer":
-                        LoadEngineerForm loadEngineerForm = new LoadEngineerForm(); 
+                        LoadEngineerForm loadEngineerForm = new LoadEngineerForm();
                         loadEngineerForm.Show();
                         break;
                     case "accounting_manager":

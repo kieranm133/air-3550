@@ -103,7 +103,7 @@ namespace air_3550
             }
 
             // If phone can't be numerically parse or it's less than 10 characters, reject.
-            if (!Int32.TryParse(phone, out int phoneNum) || phone.Length != 10)
+            if (!Int64.TryParse(phone, out long phoneNum) || phone.Length != 10)
             {
                 MessageBox.Show("Phone number should be 10 digits long. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPhone.Clear();
@@ -117,7 +117,7 @@ namespace air_3550
                 return false;
             }
             // If card can't be numerically parse or it's less than 16 digits, reject.
-            if (!Int32.TryParse(card, out int cardNum) || card.Length != 16) {
+            if (!Int64.TryParse(card, out long cardNum) || card.Length != 16) {
                 MessageBox.Show("Card number should be 16 digits. Please re-enter", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtCreditCard.Clear();
                 return false;
