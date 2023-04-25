@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             customerTabMyFlights = new TabPage();
             button1 = new Button();
             label2 = new Label();
             dataGridView2 = new DataGridView();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
             getTicketInfo = new Button();
             label1 = new Label();
             bookingView = new DataGridView();
@@ -112,7 +115,7 @@
             // button1
             // 
             button1.Enabled = false;
-            button1.Location = new Point(376, 384);
+            button1.Location = new Point(352, 384);
             button1.Name = "button1";
             button1.Size = new Size(159, 23);
             button1.TabIndex = 5;
@@ -130,16 +133,40 @@
             // 
             // dataGridView2
             // 
+            dataGridView2.BackgroundColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(541, 36);
+            dataGridView2.ColumnHeadersVisible = false;
+            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column3, Column4 });
+            dataGridView2.Location = new Point(517, 36);
             dataGridView2.Name = "dataGridView2";
+            dataGridView2.ReadOnly = true;
             dataGridView2.RowTemplate.Height = 25;
-            dataGridView2.Size = new Size(240, 150);
-            dataGridView2.TabIndex = 3;
+            dataGridView2.Size = new Size(264, 342);
+            dataGridView2.TabIndex = 2;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "";
+            Column3.Name = "Column3";
+            Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "";
+            Column4.Name = "Column4";
+            Column4.ReadOnly = true;
             // 
             // getTicketInfo
             // 
-            getTicketInfo.Location = new Point(604, 192);
+            getTicketInfo.Location = new Point(583, 384);
             getTicketInfo.Name = "getTicketInfo";
             getTicketInfo.Size = new Size(135, 23);
             getTicketInfo.TabIndex = 2;
@@ -167,7 +194,7 @@
             bookingView.ReadOnly = true;
             bookingView.RowTemplate.Height = 25;
             bookingView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            bookingView.Size = new Size(529, 342);
+            bookingView.Size = new Size(505, 342);
             bookingView.TabIndex = 0;
             // 
             // customerTabSearchFlights
@@ -207,6 +234,7 @@
             label11.Size = new Size(91, 15);
             label11.TabIndex = 22;
             label11.Text = "Points Available";
+            label11.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label10
             // 
@@ -479,8 +507,10 @@
             dataGridViewProfile.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewProfile.ColumnHeadersVisible = false;
             dataGridViewProfile.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2 });
+            dataGridViewProfile.Cursor = Cursors.SizeNESW;
             dataGridViewProfile.Location = new Point(6, 27);
             dataGridViewProfile.Name = "dataGridViewProfile";
+            dataGridViewProfile.ReadOnly = true;
             dataGridViewProfile.RowTemplate.Height = 25;
             dataGridViewProfile.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewProfile.Size = new Size(544, 216);
@@ -490,12 +520,14 @@
             // 
             Column1.HeaderText = "";
             Column1.Name = "Column1";
+            Column1.ReadOnly = true;
             Column1.Width = 200;
             // 
             // Column2
             // 
             Column2.HeaderText = "";
             Column2.Name = "Column2";
+            Column2.ReadOnly = true;
             Column2.Width = 300;
             // 
             // label8
@@ -588,5 +620,7 @@
         private Label label14;
         private TextBox txtNewPass;
         private Button btnSubmitPasswordChange;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column4;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using air_3550.Database;
 using air_3550.Models;
+using air_3550.Repositories;
 using air_3550.Services;
 using Dapper;
 using GeoCoordinatePortable;
@@ -80,7 +81,21 @@ namespace air_3550
 
         private void getTicketInfo_Click(object sender, EventArgs e)
         {
+            dataGridView2.Rows.Clear();
+            DataGridViewRow selectedRow = bookingView.SelectedRows[0];
+            Booking booking = (Booking)selectedRow.DataBoundItem;
+            FlightWithInfo flightInfo = new FlightWithInfo();
+            flightInfo = db.Flights.GetAllFlightInfoByID(booking.FlightID1);
 
+            dataGridView2.Rows.Add("FlightID", booking.FlightID1);
+            dataGridView2.Rows.Add("First name", this.customerRecord.FirstName);
+            dataGridView2.Rows.Add("Last name", this.customerRecord.LastName);
+            dataGridView2.Rows.Add("Date", flightInfo.Flight.DepartureDate);
+            dataGridView2.Rows.Add("From", flightInfo.OriginAirport.City);
+            dataGridView2.Rows.Add("To", flightInfo.DestinationAirport.City);
+            dataGridView2.Rows.Add("Departure", flightInfo.ScheduledFlight.DepartureTime);
+            dataGridView2.Rows.Add("Arrival", flightInfo.ScheduledFlight.ArrivalTime);
+            dataGridView2.Rows.Add("Account", customerRecord.UserID);
         }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -319,7 +334,7 @@ namespace air_3550
             return flightDisplays;
         }
         private Booking bookFlight(BookingFlightViewModel selectedFlight)
-        {//still need to check the ammount of seats on a plane
+        {
             List<int> flightIDs = selectedFlight.FlightIDs;
             Booking bookingToAdd = new Booking();
             bookingToAdd.CustomerID = this.customerRecord.UserID;
