@@ -17,12 +17,12 @@ namespace air_3550
         private DatabaseManager db;
         private List<Flight> flights;
         private List<Booking> bookings;
+        private List<FlightWithInfo> flightsWithInfo;
+        private List<int> flightIDs;
         public AccountingManagerForm()
         {
             InitializeComponent();
             db = DatabaseManager.Instance;
-            this.flights = db.Flights.GetAll();
-            this.bookings = db.Bookings.GetAll();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -45,6 +45,7 @@ namespace air_3550
             LoadFlights();
             get_IncomePerFlight();
             LoadSummary();
+            get_percentCapacity();
         }
 
         // Calculate and display individual flight revenue
@@ -60,6 +61,29 @@ namespace air_3550
             // Get income for each flight
             dataGridViewFlights.Rows.Cast<DataGridViewRow>().ToList().ForEach(row =>
                 row.Cells["FlightIncome"].Value = db.Flights.GetFlightTotalIncome((int)row.Cells["FlightID"].Value));
+        }
+
+        // Calculate percentage of flight capacity
+        private void get_percentCapacity()
+        {
+            DataGridViewTextBoxColumn percentCapacity = new DataGridViewTextBoxColumn();
+            percentCapacity.HeaderText = "Percent Capacity";
+            percentCapacity.Name = "PercentCapacity";
+            percentCapacity.ValueType = typeof(double);
+            percentCapacity.DefaultCellStyle.Format = "P2";
+            dataGridViewFlights.Columns.Add(percentCapacity);
+
+            List<int> flightIDs = dataGridViewFlights.Rows.Cast<DataGridViewRow>().Select(row =>
+                Convert.ToInt32(row.Cells["FlightID"].Value)).ToList();
+            List<FlightWithInfo> flightInfo = db.Flights.GetAllFlightInfoByID(flightIDs);
+
+            flightInfo.Select((flight, index) =>
+            {
+                double percentageFilled = 1 - (Convert.ToDouble(dataGridViewFlights.Rows[index].Cells["EmptySeats"].Value) /
+                Convert.ToDouble(flight.Aircraft.Capacity));
+                dataGridViewFlights.Rows[index].Cells["PercentCapacity"].Value = percentageFilled;
+                return percentageFilled;
+            }).ToList();
         }
 
         // Load summary information -- total flights and revenue

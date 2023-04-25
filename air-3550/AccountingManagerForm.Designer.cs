@@ -40,7 +40,7 @@
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(713, 12);
+            btnLogout.Location = new Point(820, 12);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(75, 23);
             btnLogout.TabIndex = 1;
@@ -58,7 +58,7 @@
             dataGridViewFlights.Location = new Point(12, 12);
             dataGridViewFlights.Name = "dataGridViewFlights";
             dataGridViewFlights.RowTemplate.Height = 25;
-            dataGridViewFlights.Size = new Size(658, 329);
+            dataGridViewFlights.Size = new Size(769, 329);
             dataGridViewFlights.TabIndex = 2;
             // 
             // dataGridViewSummary
@@ -67,14 +67,14 @@
             dataGridViewSummary.Location = new Point(12, 347);
             dataGridViewSummary.Name = "dataGridViewSummary";
             dataGridViewSummary.RowTemplate.Height = 25;
-            dataGridViewSummary.Size = new Size(226, 84);
+            dataGridViewSummary.Size = new Size(226, 80);
             dataGridViewSummary.TabIndex = 4;
             // 
             // AccountingManagerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(841, 443);
+            ClientSize = new Size(907, 454);
             Controls.Add(dataGridViewSummary);
             Controls.Add(dataGridViewFlights);
             Controls.Add(btnLogout);
