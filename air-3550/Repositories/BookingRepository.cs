@@ -92,6 +92,44 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+
+        public List<Booking> GetAllByIDWithoutCancellations(int customerID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string query = @"SELECT * FROM Bookings 
+                                     WHERE CustomerID = @CustomerID
+                                     AND IsCancelled = 0";
+                    var parameters = new { CustomerID = customerID };
+                    return connection.Query<Booking>(query, parameters).AsList();
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
+        public void CancelByID(int bookingID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string query = @"
+                                    UPDATE Bookings
+                                    SET IsCancelled = 1
+                                    WHERE BookingID = @bookingID";
+                    connection.Execute(query, new { bookingID = bookingID });
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+        }
         public void Insert(Booking booking)
         {
             try

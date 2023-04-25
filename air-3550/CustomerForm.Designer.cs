@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             customerTabMyFlights = new TabPage();
-            button1 = new Button();
+            btnCancelFlight = new Button();
             label2 = new Label();
             dataGridView2 = new DataGridView();
             Column3 = new DataGridViewTextBoxColumn();
@@ -99,7 +99,7 @@
             // 
             // customerTabMyFlights
             // 
-            customerTabMyFlights.Controls.Add(button1);
+            customerTabMyFlights.Controls.Add(btnCancelFlight);
             customerTabMyFlights.Controls.Add(label2);
             customerTabMyFlights.Controls.Add(dataGridView2);
             customerTabMyFlights.Controls.Add(getTicketInfo);
@@ -113,15 +113,16 @@
             customerTabMyFlights.Text = "My Flights";
             customerTabMyFlights.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnCancelFlight
             // 
-            button1.Enabled = false;
-            button1.Location = new Point(352, 384);
-            button1.Name = "button1";
-            button1.Size = new Size(159, 23);
-            button1.TabIndex = 5;
-            button1.Text = "Cancel flight";
-            button1.UseVisualStyleBackColor = true;
+            btnCancelFlight.Enabled = false;
+            btnCancelFlight.Location = new Point(352, 384);
+            btnCancelFlight.Name = "btnCancelFlight";
+            btnCancelFlight.Size = new Size(159, 23);
+            btnCancelFlight.TabIndex = 5;
+            btnCancelFlight.Text = "Cancel flight";
+            btnCancelFlight.UseVisualStyleBackColor = true;
+            btnCancelFlight.Click += btnCancelFlight_Click;
             // 
             // label2
             // 
@@ -137,14 +138,14 @@
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
             dataGridView2.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.ColumnHeadersVisible = false;
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column3, Column4 });
@@ -200,6 +201,7 @@
             bookingView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             bookingView.Size = new Size(505, 342);
             bookingView.TabIndex = 0;
+            bookingView.SelectionChanged += bookingView_SelectionChanged;
             // 
             // customerTabSearchFlights
             // 
@@ -630,7 +632,7 @@
         private Label label10;
         private DataGridView dataGridViewSearchResultsReturn;
         private Label label11;
-        private Button button1;
+        private Button btnCancelFlight;
         private Label label13;
         private TextBox txtCurrentPass;
         private Label label12;
