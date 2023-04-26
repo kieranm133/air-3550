@@ -308,11 +308,13 @@ namespace air_3550
             List<BookingFlightViewModel> flightDisplays = combined
                 .Select(route =>
                 {
+                    // TODO: Fix this to deal with multiple different flights in the route.
                     (Flight firstFlight, ScheduledFlight firstScheduledFlight) = route.First();
                     (Flight lastFlight, ScheduledFlight lastScheduledFlight) = route.Last();
                     List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
-
-                    double price = 50 + (firstScheduledFlight.Distance + lastScheduledFlight.Distance) * 0.12 + (8 * (route.Count - 1));
+                    double totalDistance = 0.0;
+                    route.ForEach(flightTuple => totalDistance += flightTuple.scheduledFlight.Distance);
+                    double price = 50 + totalDistance * 0.12 + (8 * (route.Count - 1));
                     TimeSpan depart = TimeSpan.Parse(firstScheduledFlight.DepartureTime);
                     TimeSpan arrival = TimeSpan.Parse(lastScheduledFlight.DepartureTime);
 
