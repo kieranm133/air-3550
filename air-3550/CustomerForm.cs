@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,8 +59,6 @@ namespace air_3550
 
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
-            List<Booking>? book = db.Bookings.GetAll();
-            bookingView.DataSource = book;
             bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
             dateTimePickerDeparture.MinDate = DateTime.Today;
@@ -68,7 +67,6 @@ namespace air_3550
             dateTimePickerDeparture.MaxDate = DateTime.Today.AddMonths(6);
             dateTimePickerReturn.MaxDate = DateTime.Today.AddMonths(6);
             // Add the profile info
-            buildTableLayout();
             LoadBookingData();
         }
 
@@ -192,10 +190,10 @@ namespace air_3550
             this.customerRecord = db.Customers.GetByID(userRecord.UserID);
             string points = "Points Available: ";
             points += customerRecord.PointsAvailable;
-
+            buildMyProfile();
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
-            List<Booking>? bookings = db.Bookings.Search(this.customerRecord.UserID);
+            List<Booking>? bookings = db.Bookings.GetAllByIDWithoutCancellations(this.customerRecord.UserID);
             bookingView.DataSource = bookings;
             bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             label11.Text = points;
@@ -250,6 +248,8 @@ namespace air_3550
                     if (returnFlight != null) { bookFlight(returnFlight); };
                     if (paymentMethod.SelectedItem == "Points")
                     {
+                        this.customerRecord.PointsAvailable -= totalPoints;
+                        db.Customers.Update(this.customerRecord);
                         string transactionMessage = $@"Transaction successful!
                                            Name:{customerRecord.FirstName} {customerRecord.LastName}
                                            Total: ${totalPoints} points";
@@ -263,7 +263,7 @@ namespace air_3550
                                            Total: ${totalPrice}";
                         MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
+                    LoadBookingData();
                 }
                 else
                 {
@@ -271,7 +271,7 @@ namespace air_3550
                 }
             }
         }
-        private void buildTableLayout()
+        private void buildMyProfile()
         {
             dataGridViewProfile.Rows.Add("First name", this.customerRecord.FirstName);
             dataGridViewProfile.Rows.Add("Last name", this.customerRecord.LastName);
@@ -308,11 +308,13 @@ namespace air_3550
             List<BookingFlightViewModel> flightDisplays = combined
                 .Select(route =>
                 {
+                    // TODO: Fix this to deal with multiple different flights in the route.
                     (Flight firstFlight, ScheduledFlight firstScheduledFlight) = route.First();
                     (Flight lastFlight, ScheduledFlight lastScheduledFlight) = route.Last();
                     List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
-
-                    double price = 50 + (firstScheduledFlight.Distance + lastScheduledFlight.Distance) * 0.12 + (8 * (route.Count - 1));
+                    double totalDistance = 0.0;
+                    route.ForEach(flightTuple => totalDistance += flightTuple.scheduledFlight.Distance);
+                    double price = 50 + totalDistance * 0.12 + (8 * (route.Count - 1));
                     TimeSpan depart = TimeSpan.Parse(firstScheduledFlight.DepartureTime);
                     TimeSpan arrival = TimeSpan.Parse(lastScheduledFlight.DepartureTime);
 
@@ -389,7 +391,6 @@ namespace air_3550
 
             bookingToAdd.IsCancelled = false;
             db.Bookings.Insert(bookingToAdd);
-            LoadBookingData();
             return bookingToAdd;
         }
 
@@ -416,6 +417,56 @@ namespace air_3550
             }
             txtCurrentPass.Clear();
             txtNewPass.Clear();
+        }
+
+        // Check if the flight is within the constraints to be able to cancel. If it is, then allow the user to click the button.
+        private void bookingView_SelectionChanged(object sender, EventArgs e)
+        {
+            btnCancelFlight.Enabled = false;
+            Booking selectedBooking = (Booking)bookingView.CurrentRow.DataBoundItem;
+
+            if (selectedBooking != null)
+            {
+
+                FlightWithInfo info = db.Flights.GetAllFlightInfoByID(selectedBooking.FlightID1);
+                DateTime flightTime = DateTime.ParseExact(info.Flight.DepartureDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                flightTime = flightTime + (DateTime.ParseExact(info.ScheduledFlight.DepartureTime, "HH:mm", CultureInfo.InvariantCulture) - DateTime.Today);
+                // If it's at least an hour before flightTime, allow a user to cancel their flight. Otherwise, do not allow it.
+                if (flightTime >= DateTime.Now.AddHours(1))
+                {
+                    btnCancelFlight.Enabled = true;
+                }
+                else
+                {
+                    btnCancelFlight.Enabled = false;
+                }
+            }
+        }
+
+        // TODO: Cancel the user's flight by disabling the booking. 
+        private void btnCancelFlight_Click(object sender, EventArgs e)
+        {
+            btnCancelFlight.Enabled = false;
+            Booking selectedBooking = (Booking)bookingView.CurrentRow.DataBoundItem;
+            if (selectedBooking != null)
+            {
+                // First, calculate the total points value to refund to the user.
+                // If they used credit, refund price * 100. If they used points, just refund the points.
+                int totalPointsRefund = (int)(selectedBooking.PricePaid != 0 ? selectedBooking.PricePaid * 100 : selectedBooking.PointsUsed);
+                // Confirm the cancellation with the user.
+                string confirmationMessage = $"Are you sure you want to cancel the booking?\nYour account will be credited {totalPointsRefund} points.";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result = MessageBox.Show(confirmationMessage, "Confirm cancellation", buttons);
+                if (result == DialogResult.Yes)
+                {
+                    this.customerRecord.PointsAvailable += totalPointsRefund;
+                    db.Customers.Update(this.customerRecord);
+                    db.Bookings.CancelByID(selectedBooking.BookingID);
+                    LoadBookingData();
+                    string msg = $"Successfully cancelled the flight!\n{totalPointsRefund} points have been credited to your account.";
+                    MessageBox.Show(msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }
