@@ -27,7 +27,7 @@ namespace air_3550
 
         private void ManifestForm_Load(object sender, EventArgs e)
         {
-            List<Customer>? customers = db.Customers.getCustomersByFlightID(flightId);
+            List<Customer>? customers = db.Customers.GetCustomersByFlightID(flightId);
             var customersView = customers.Select(customer => new { customer.UserID, customer.FirstName, customer.LastName }).ToList();
             dataGridViewManifest.DataSource = customersView;
             dataGridViewManifest.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;

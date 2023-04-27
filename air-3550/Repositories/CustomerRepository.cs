@@ -52,7 +52,7 @@ namespace air_3550.Repositories
             }
         }
 
-        public List<Customer> getCustomersByFlightID(int flightID)
+        public List<Customer> GetCustomersByFlightID(int flightID)
         {
             try
             {
@@ -72,6 +72,63 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
                 return null;
             }
+        }
+
+        // Updates the amount of customer points based on date. If the current date has passed, 
+        public void UpdateCustomerPoints()
+        {
+            try
+            {
+                // First, update PointsUsed 
+                string getCurrentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                // Set the new value of PointsAvailable = to 
+                string updatePointsAvailable = $@"
+                        UPDATE Customers 
+                        SET PointsAvailable = PointsAvailable + (
+                            SELECT IFNULL(SUM(CAST((Bookings.PricePaid * 10) AS INTEGER)), 0)
+                            FROM Bookings
+                            INNER JOIN Flights ON Bookings.FlightID1 = Flights.FlightID
+                            WHERE julianday(Flights.DepartureDate) < julianday('{getCurrentDate}')
+                            AND Bookings.PointsAwarded = 0
+                            AND Bookings.PricePaid != 0
+                            AND Bookings.CustomerID = Customers.UserID
+                        );";
+                // Set PointsAwarded to true for all of the Bookings we just looked at.
+                string updatePointsAwarded = $@"
+                        UPDATE Bookings
+                        SET PointsAwarded = 1
+                        WHERE EXISTS (
+                            SELECT 1
+                            FROM Flights
+                            WHERE Bookings.FlightID1 = Flights.FlightID
+                            AND julianday(Flights.DepartureDate) < julianday('{getCurrentDate}')
+                        )
+                        AND Bookings.PointsAwarded = 0
+                        AND Bookings.PricePaid != 0;";
+
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqliteCommand command = new SqliteCommand(updatePointsAvailable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+
+
+
+                    using (SqliteCommand command = new SqliteCommand(updatePointsAwarded, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+
         }
     }
 }

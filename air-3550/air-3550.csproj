@@ -10,22 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Database\" />
+    <None Remove="Database\air3550.db" />
+    <None Remove="Database\air3550_test.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Database\air3550.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\air3550_test.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="GeoCoordinate.NetStandard1" Version="1.0.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Database\air3550.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\air3550_test.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

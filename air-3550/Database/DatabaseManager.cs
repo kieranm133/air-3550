@@ -25,7 +25,7 @@ namespace air_3550.Database
 
 
         private DatabaseManager() { 
-            string databaseFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "air3550_test.db");
+            string databaseFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "air3550.db");
             this.connectionString = $"Data Source={databaseFileLocation};";
             this.Aircraft = new AircraftRepository(connectionString);
             this.Airports = new AirportRepository(connectionString);

@@ -19,5 +19,6 @@ namespace air_3550.Models
         public int PointsUsed { get; set; }
         public double PricePaid { get; set; }
         public bool IsCancelled { get; set; }
+        public bool PointsAwarded { get; set; }
     }
 }

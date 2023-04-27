@@ -125,8 +125,8 @@ namespace air_3550
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            string dateStringDeparture = dateTimePickerDeparture.Value.ToShortDateString();
-            string dateStringReturn = dateTimePickerReturn.Value.ToShortDateString();
+            string dateStringDeparture = dateTimePickerDeparture.Value.ToString("yyyy-MM-dd");
+            string dateStringReturn = dateTimePickerReturn.Value.ToString("yyyy-MM-dd");
             string originAirportID = (string)comboBoxFrom.SelectedValue;
             string destinationAirportID = (string)comboBoxTo.SelectedValue;
             if (radioButtonOneWay.Checked)
@@ -164,6 +164,8 @@ namespace air_3550
 
         private void LoadBookingData()
         {
+            db.Customers.UpdateCustomerPoints();
+            this.customerRecord = db.Customers.GetByID(userRecord.UserID);
             string points = "Points Available: ";
             points += customerRecord.PointsAvailable;
 
@@ -265,10 +267,14 @@ namespace air_3550
             Dictionary<int, ScheduledFlight> scheduledFlightLookup = allScheduledFlights.ToDictionary(sf => sf.ScheduledFlightID);
 
             List<List<ScheduledFlight>> results = FlightPathCalculator.GetAllRoutes(originAirportID, destinationAirportID);
+            if (results == null) return null;
 
             List<List<Flight>?> routes = results
                     .Select(sl => db.Flights.GetByScheduledFlightIDAndDate(sl.Select(s => s.ScheduledFlightID).ToList(), departureDate)).ToList();
-
+            if (routes == null || routes.Count == 0 || routes[0].Count == 0)
+            {
+                return null;
+            }
             List<List<(Flight flight, ScheduledFlight scheduledFlight)>> combined = routes
                 .Where(route => route.All(f => f.EmptySeats != 0))
                 .Select(route => route
@@ -343,7 +349,7 @@ namespace air_3550
             {
                 bookingToAdd.TripType = "One Way";
             }
-            bookingToAdd.BookingDate = DateTime.Now.Date.ToString("d");
+            bookingToAdd.BookingDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
 
             if (paymentMethod.SelectedItem == "Points")
             {

@@ -131,8 +131,8 @@ namespace air_3550.Repositories
                     Flight flight = new Flight
                     {
                         ScheduledFlightID = scheduledFlight.ScheduledFlightID,
-                        DepartureDate = departureDateTime.ToShortDateString(),
-                        ArrivalDate = arrivalDateTime.ToShortDateString(),
+                        DepartureDate = departureDateTime.ToString("yyyy-MM-dd"),
+                        ArrivalDate = arrivalDateTime.ToString("yyyy-MM-dd"),
                         EmptySeats = null
                     };
                     flights.Add(flight);
