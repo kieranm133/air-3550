@@ -213,5 +213,25 @@ namespace air_3550.Repositories
                 return 0;
             }
         }
+
+        public void ReserveSeatByFlightID(int flightID)
+        {
+            ReserveSeatByFlightID(new List<int> { flightID });
+        }
+        public void ReserveSeatByFlightID(List<int> flightIDs) 
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = "UPDATE Flights SET EmptySeats = EmptySeats - 1 WHERE FlightID IN @flightIDs";
+                    connection.Execute(sql, new { flightIDs = flightIDs });
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+        }
     }
 }

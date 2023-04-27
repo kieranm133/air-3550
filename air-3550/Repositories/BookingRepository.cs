@@ -92,21 +92,26 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-        public void Insert(Booking bookings)
+        public void Insert(Booking booking)
         {
             try
             {
                 using (SqliteConnection connection = new SqliteConnection(connectionString))
                 {
                     string sql =
-                       "INSERT INTO Bookings (CustomerID, FlightID1, FlightID2, FlightID3, TripType, BookingDate, PaymentMethod, PointsUsed, PricePaid, IsCancelled) " +
-                       "VALUES (@CustomerID, @FlightID1, @FlightID2, @FlightID3, @TripType, @BookingDate, @PaymentMethod, @PointsUsed, @PricePaid, @IsCancelled); " +
+                       "INSERT INTO Bookings (CustomerID, FlightID1, FlightID2, FlightID3, TripType, BookingDate, PaymentMethod, PointsUsed, PricePaid, IsCancelled, PointsAwarded) " +
+                       "VALUES (@CustomerID, @FlightID1, @FlightID2, @FlightID3, @TripType, @BookingDate, @PaymentMethod, @PointsUsed, @PricePaid, @IsCancelled, @PointsAwarded); " +
                        "SELECT last_insert_rowid()";
 
-                    bookings.BookingID = connection.QuerySingle<int>(sql, bookings);
+                    booking.BookingID = connection.QuerySingle<int>(sql, booking);
                 }
-
+                // Cascade the change to the flights table to update seat counts.
+                var flightIDs = new List<int> { booking.FlightID1 };
+                if (booking.FlightID2 != null) { flightIDs.Add((int)booking.FlightID2); } 
+                if (booking.FlightID3 != null) { flightIDs.Add((int)booking.FlightID3); } 
+                DatabaseManager.Instance.Flights.ReserveSeatByFlightID(flightIDs);
             }
+
             catch (SqliteException sqlEx)
             {
                 Logger.LogException(sqlEx);
