@@ -61,8 +61,8 @@ namespace air_3550
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
-            dateTimePickerDeparture.MinDate = DateTime.Today;
-            dateTimePickerReturn.MinDate = DateTime.Today.AddDays(1);
+            dateTimePickerDeparture.MinDate = DateTime.Today.AddDays(1);
+            dateTimePickerReturn.MinDate = DateTime.Today.AddDays(2);
 
             dateTimePickerDeparture.MaxDate = DateTime.Today.AddMonths(6);
             dateTimePickerReturn.MaxDate = DateTime.Today.AddMonths(6);
