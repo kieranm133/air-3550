@@ -38,6 +38,7 @@
             dataGridViewManifest.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewManifest.Location = new Point(12, 12);
             dataGridViewManifest.Name = "dataGridViewManifest";
+            dataGridViewManifest.ReadOnly = true;
             dataGridViewManifest.RowTemplate.Height = 25;
             dataGridViewManifest.Size = new Size(776, 426);
             dataGridViewManifest.TabIndex = 0;

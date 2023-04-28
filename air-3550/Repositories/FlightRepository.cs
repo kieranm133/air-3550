@@ -234,6 +234,21 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        public void UnreserveSeatByFlightID(List<int> flightIDs)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = "UPDATE Flights SET EmptySeats = EmptySeats + 1 WHERE FlightID IN @flightIDs";
+                    connection.Execute(sql, new { flightIDs = flightIDs });
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+            }
+        }
         public FlightWithInfo GetAllFlightInfoByID(int flightID)
         {
             return GetAllFlightInfoByID(new List<int> { flightID }).First();

@@ -54,18 +54,22 @@
             // 
             // dataGridViewFlights
             // 
+            dataGridViewFlights.BackgroundColor = SystemColors.Control;
             dataGridViewFlights.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewFlights.Location = new Point(12, 12);
             dataGridViewFlights.Name = "dataGridViewFlights";
+            dataGridViewFlights.ReadOnly = true;
             dataGridViewFlights.RowTemplate.Height = 25;
             dataGridViewFlights.Size = new Size(769, 329);
             dataGridViewFlights.TabIndex = 2;
             // 
             // dataGridViewSummary
             // 
+            dataGridViewSummary.BackgroundColor = SystemColors.Control;
             dataGridViewSummary.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSummary.Location = new Point(12, 347);
             dataGridViewSummary.Name = "dataGridViewSummary";
+            dataGridViewSummary.ReadOnly = true;
             dataGridViewSummary.RowTemplate.Height = 25;
             dataGridViewSummary.Size = new Size(226, 80);
             dataGridViewSummary.TabIndex = 4;

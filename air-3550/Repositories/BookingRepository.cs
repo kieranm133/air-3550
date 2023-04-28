@@ -3,11 +3,6 @@ using air_3550.Logging;
 using air_3550.Models;
 using Dapper;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace air_3550.Repositories
 {
@@ -112,7 +107,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-        public void CancelByID(int bookingID)
+        public void Cancel(Booking booking)
         {
             try
             {
@@ -122,8 +117,14 @@ namespace air_3550.Repositories
                                     UPDATE Bookings
                                     SET IsCancelled = 1
                                     WHERE BookingID = @bookingID";
-                    connection.Execute(query, new { bookingID = bookingID });
+                    connection.Execute(query, new { bookingID = booking.BookingID });
                 }
+
+                // Cascade the change to the flights table to update seat counts.
+                var flightIDs = new List<int> { booking.FlightID1 };
+                if (booking.FlightID2 != null) { flightIDs.Add((int)booking.FlightID2); }
+                if (booking.FlightID3 != null) { flightIDs.Add((int)booking.FlightID3); }
+                DatabaseManager.Instance.Flights.UnreserveSeatByFlightID(flightIDs);
             }
             catch (SqliteException sqlEx)
             {

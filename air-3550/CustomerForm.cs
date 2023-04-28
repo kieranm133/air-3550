@@ -441,6 +441,7 @@ namespace air_3550
                     btnCancelFlight.Enabled = false;
                 }
             }
+
         }
 
         // TODO: Cancel the user's flight by disabling the booking. 
@@ -461,12 +462,13 @@ namespace air_3550
                 {
                     this.customerRecord.PointsAvailable += totalPointsRefund;
                     db.Customers.Update(this.customerRecord);
-                    db.Bookings.CancelByID(selectedBooking.BookingID);
+                    db.Bookings.Cancel(selectedBooking);
                     LoadBookingData();
                     string msg = $"Successfully cancelled the flight!\n{totalPointsRefund} points have been credited to your account.";
                     MessageBox.Show(msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            btnCancelFlight.Enabled = true;
         }
     }
 }
