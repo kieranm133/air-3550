@@ -101,13 +101,18 @@ namespace air_3550
                 btnLeftArrow.Visible = true;
                 btnRightArrow.Visible = true;
             }
+            else
+            {
+                btnLeftArrow.Visible = false;
+                btnRightArrow.Visible = false;
+            }
             if (flightInfo3 != null) flightInfoList.Add(flightInfo3);
             currentBoardingPassIndex = 0;
             DisplayBoardingPass(flightInfoList[currentBoardingPassIndex]);
 
 
         }
-        private void DisplayBoardingPass(FlightWithInfo? flightInfo)
+        private void DisplayBoardingPass(FlightWithInfo?  flightInfo)
         {
             if (flightInfo == null) return;
             string flightNumber = "First flight";
@@ -168,6 +173,8 @@ namespace air_3550
             {
                 dateTimePickerReturn.Enabled = false;
                 dataGridViewSearchResultsReturn.Enabled = false;
+                dataGridViewSearchResultsReturn.DataSource = null;
+                InitializeDataGridViews();
             }
             else
             {
@@ -295,7 +302,7 @@ namespace air_3550
 
             DataGridViewRow selectedRow = dataGridViewSearchResultsOutbound.SelectedRows[0];
             BookingFlightViewModel outboundFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
-            if (isRoundtrip)
+            if (returnIsSelected)
             {
 
                 selectedRow = dataGridViewSearchResultsReturn.SelectedRows[0];
