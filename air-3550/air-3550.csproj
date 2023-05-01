@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>plane-icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
     <Content Include="Database\air3550.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="plane-icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
