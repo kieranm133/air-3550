@@ -35,5 +35,21 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+
+        public Aircraft GetByID(int aircraftID)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    return connection.QuerySingle<Aircraft>("SELECT * FROM Aircraft WHERE @aircraftID = aircraftID", new { aircraftID = aircraftID });
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
     }
 }
