@@ -493,7 +493,6 @@ namespace air_3550
                 bookingToAdd.PointsUsed = 0;
                 bookingToAdd.PricePaid = selectedFlight.Price;
             }
-
             bookingToAdd.IsCancelled = false;
             db.Bookings.Insert(bookingToAdd);
             return bookingToAdd;

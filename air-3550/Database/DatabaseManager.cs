@@ -16,7 +16,6 @@ namespace air_3550.Database
         public AircraftRepository Aircraft { get; }
         public AirportRepository Airports { get; }
         public BookingRepository Bookings { get; }
-        public ConnectionRepository Connections { get; }
         public CustomerRepository Customers { get; }
         public FlightRepository Flights { get; }
         public ScheduledFlightRepository ScheduledFlights { get; }
@@ -30,7 +29,6 @@ namespace air_3550.Database
             this.Aircraft = new AircraftRepository(connectionString);
             this.Airports = new AirportRepository(connectionString);
             this.Bookings = new BookingRepository(connectionString);
-            this.Connections = new ConnectionRepository(connectionString);
             this.Customers = new CustomerRepository(connectionString);
             this.Flights = new FlightRepository(connectionString);
             this.ScheduledFlights = new ScheduledFlightRepository(connectionString);

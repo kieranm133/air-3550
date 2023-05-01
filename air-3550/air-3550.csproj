@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Content Include="Database\air3550.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Database\air3550_test.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
