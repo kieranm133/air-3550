@@ -21,6 +21,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
+        // GGets all of the flights from the flights table in the database
         public List<Flight>? GetAll()
         {
             try
@@ -36,6 +37,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+        // Gets flights by flight ID
         public Flight GetByID(int flightID)
         {
             return GetByID(new List<int> { flightID }).First();
@@ -56,10 +58,6 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-        public List<Flight>? GetByScheduledFlightID(int scheduledFlightID)
-        {
-            return GetByScheduledFlightID(new List<int> { scheduledFlightID });
-        }
         public List<Flight>? GetByScheduledFlightID(List<int> scheduledFlightIDs)
         {
             try
@@ -76,12 +74,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-
-        public List<Flight>? GetByScheduledFlightIDAndDate(int scheduledFlightID, string departureDate)
-        {
-            return GetByScheduledFlightIDAndDate(new List<int> { scheduledFlightID }, departureDate);
-        }
-
+        // Gets all of the flights by the scheduled flight id and the departure date for the search button in customer
         public List<Flight>? GetByScheduledFlightIDAndDate(List<int> scheduledFlightIDs, string departureDate)
         {
             try
@@ -98,25 +91,6 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-
-        public void DeleteByID(int flightID)
-        {
-            try
-            {
-                using (SqliteConnection connection = new SqliteConnection(connectionString))
-                {
-                    connection.Execute("DELETE FROM Flights WHERE FlightID = @flightID", new { flightID = flightID });
-                }
-            }
-            catch (SqliteException sqlEx)
-            {
-                Logger.LogException(sqlEx);
-            }
-        }
-        public void DeleteByScheduledFlightID(int scheduledFlightID)
-        {
-            DeleteByScheduledFlightID(new List<int>{ scheduledFlightID });
-        }
         public void DeleteByScheduledFlightID(List<int> scheduledFlightIDs)
         {
             try
@@ -130,10 +104,6 @@ namespace air_3550.Repositories
             {
                 Logger.LogException(sqlEx);
             }
-        }
-        public void UpdateSeatsByAircraftAndScheduledFlightID(Aircraft aircraft, int scheduledFlightID)
-        {
-            UpdateSeatsByAircraftAndScheduledFlightID(aircraft, new List<int> { scheduledFlightID });
         }
         public void UpdateSeatsByAircraftAndScheduledFlightID(Aircraft aircraft, List<int> scheduledFlightIDs)
         {
@@ -150,7 +120,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
+        // Inserts a flight into the flight table in database
         public void Insert(List<Flight> flights)
         {
             try
@@ -172,10 +142,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-        public FlightWithInfo GetFlightsWithInfo(int flightID)
-        {
-            return GetFlightsWithInfo(new List<int> { flightID }).First();
-        }
+        // Updates the lfight with info model to be used to get all information from flight
         public  List<FlightWithInfo> GetFlightsWithInfo(List<int> flightIDs)
         {
             // Replace with your SQLite connection string
@@ -215,7 +182,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-
+        // Gets income from flgith by its ID
         public double GetFlightTotalIncome(int flightID)
         {
             try
@@ -238,10 +205,7 @@ namespace air_3550.Repositories
             }
         }
 
-        public void ReserveSeatByFlightID(int flightID)
-        {
-            ReserveSeatByFlightID(new List<int> { flightID });
-        }
+        //C Changes ammount of seats available on flight when a user books flight
         public void ReserveSeatByFlightID(List<int> flightIDs) 
         {
             try
@@ -257,6 +221,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        // Adds another seat to flight when customer cancels flight
         public void UnreserveSeatByFlightID(List<int> flightIDs)
         {
             try
@@ -272,10 +237,12 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        // Gets a flightWithInfo based on flight ID
         public FlightWithInfo GetAllFlightInfoByID(int flightID)
         {
             return GetAllFlightInfoByID(new List<int> { flightID }).First();
         }
+        // Gets multiple FlightWithInfo based on multipel flight IDs
         public List<FlightWithInfo> GetAllFlightInfoByID(List<int> flightIDs)
         {
             try

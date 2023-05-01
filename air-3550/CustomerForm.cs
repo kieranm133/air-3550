@@ -81,6 +81,7 @@ namespace air_3550
             this.Hide();
         }
 
+        // Gets ticket info for user for selected flight
         private void getTicketInfo_Click(object sender, EventArgs e)
         {
             boardingPassView.Rows.Clear();
@@ -88,6 +89,7 @@ namespace air_3550
             Booking booking = (Booking)selectedRow.DataBoundItem;
             FlightWithInfo flightInfo1;
             FlightWithInfo? flightInfo2, flightInfo3;
+            // Checks how many flights the user has connected to main flight
             flightInfo1 = db.Flights.GetAllFlightInfoByID(booking.FlightID1);
             flightInfo2 = booking.FlightID2.HasValue ? db.Flights.GetAllFlightInfoByID((int)booking.FlightID2) : null;
             flightInfo3 = booking.FlightID3.HasValue ? db.Flights.GetAllFlightInfoByID((int)booking.FlightID3) : null;
@@ -112,6 +114,7 @@ namespace air_3550
 
 
         }
+        // Updates user boarding pass information
         private void DisplayBoardingPass(FlightWithInfo?  flightInfo)
         {
             if (flightInfo == null) return;
@@ -167,6 +170,7 @@ namespace air_3550
 
         }
 
+        // Checks which radio button is selected for the user.
         private void radioButtonOneWay_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonOneWay.Checked)
@@ -183,6 +187,7 @@ namespace air_3550
             }
         }
 
+        // When clicked any flights within search information will be shown to user
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             labelFlightsNotFound.Visible = false;
@@ -211,6 +216,7 @@ namespace air_3550
             InitializeDataGridViews();
 
         }
+        // Checks wether there is a flight to choose from and if there is no flight the button will be disabled.
         private void UpdateBookFlightBtnState(object sender, EventArgs e)
         {
             bool isOneWaySelected = radioButtonOneWay.Checked;
@@ -231,6 +237,7 @@ namespace air_3550
                 bookFlightBtn.Enabled = false;
             }
         }
+        // Update method for the data grid view.
         private void InitializeDataGridViews()
         {
             List<DataGridView> bookingDataGridViews = new List<DataGridView> { currentBookingsView, previousBookingsView, cancelledBookingsView };
@@ -267,6 +274,7 @@ namespace air_3550
                 dgv.Columns["ArrivalTime"].HeaderText = "Arrival time";
             });
         }
+        // Update method for the customer current bookings
         private void LoadBookingData()
         {
             db.Customers.UpdateCustomerPoints();
@@ -288,7 +296,7 @@ namespace air_3550
             currentBookingsView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             label11.Text = points;
         }
-
+        // Method to add to the bookings database 
         private void bookFlightBtn_Click(object sender, EventArgs e)
         {
 
@@ -316,6 +324,7 @@ namespace air_3550
 
             bookFlightBtn.Enabled = true;
         }
+        // Method to display dialog to user to confirm booking
         private void bookDialog(BookingFlightViewModel outboundFlight, BookingFlightViewModel? returnFlight = null)
         {
             double totalPrice = (outboundFlight.Price * 100 + (returnFlight != null ? returnFlight.Price * 100 : 0)) / 100;
@@ -362,6 +371,7 @@ namespace air_3550
                 }
             }
         }
+        // Update method fro user profile
         private void buildMyProfile()
         {
             dataGridViewProfile.Rows.Clear();
@@ -374,7 +384,7 @@ namespace air_3550
             dataGridViewProfile.Rows.Add("Points available", this.customerRecord.PointsAvailable);
             dataGridViewProfile.Rows.Add("Credit card", $"**** **** **** {this.customerRecord.CreditCard.Substring(this.customerRecord.CreditCard.Length - 4)}");
         }
-
+        // Method for the search flights button to display available flights
         private List<BookingFlightViewModel> searchFlights(string departureDate, string originAirportID, string destinationAirportID)
         {
             List<ScheduledFlight> allScheduledFlights = db.ScheduledFlights.GetAll();
@@ -400,7 +410,7 @@ namespace air_3550
             List<BookingFlightViewModel> flightDisplays = combined
                 .Select(route =>
                 {
-                    // TODO: Fix this to deal with multiple different flights in the route.
+                    // Gets all flight information needed for database
                     (Flight firstFlight, ScheduledFlight firstScheduledFlight) = route.First();
                     (Flight lastFlight, ScheduledFlight lastScheduledFlight) = route.Last();
                     List<int> flightIDs = route.Select(flightTuple => flightTuple.flight.FlightID).ToList();
@@ -419,7 +429,7 @@ namespace air_3550
                         price *= 0.9;
                     }
                     price = Math.Round(price, 2, MidpointRounding.AwayFromZero);
-
+                    // Returns and updated flight to the user
                     return new BookingFlightViewModel
                     {
                         DepartureAirport = firstScheduledFlight.OriginAirportID,
@@ -435,11 +445,13 @@ namespace air_3550
                 }).ToList();
             return flightDisplays;
         }
+        // Method for booking a flight for customer
         private Booking bookFlight(BookingFlightViewModel selectedFlight)
         {
             List<int> flightIDs = selectedFlight.FlightIDs;
             Booking bookingToAdd = new Booking();
             bookingToAdd.CustomerID = this.customerRecord.UserID;
+            // If statements check the ammount of connecting flights and sets their ID's. If flight is not found it is set to NULL
             if (selectedFlight.Connections == 2)
             {
                 bookingToAdd.FlightID1 = flightIDs.ElementAt(0);
@@ -458,6 +470,7 @@ namespace air_3550
                 bookingToAdd.FlightID2 = null;
                 bookingToAdd.FlightID3 = null;
             }
+            // Checks for one way or round trip
             if (radioButtonRoundTrip.Checked)
             {
                 bookingToAdd.TripType = "Round Trip";
@@ -467,7 +480,7 @@ namespace air_3550
                 bookingToAdd.TripType = "One Way";
             }
             bookingToAdd.BookingDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
-
+            // Checks for points or credit card to use
             if (paymentMethod.SelectedItem == "Points")
             {
                 bookingToAdd.PaymentMethod = "Points";
@@ -491,6 +504,7 @@ namespace air_3550
             dateTimePickerReturn.MinDate = dateTimePickerDeparture.Value.AddDays(1);
         }
 
+        // Changes users password when clicked
         private void btnSubmitPasswordChange_Click(object sender, EventArgs e)
         {
             string currentPassHash = AuthService.HashPassword(txtCurrentPass.Text);
@@ -540,7 +554,7 @@ namespace air_3550
 
         }
 
-        // TODO: Cancel the user's flight by disabling the booking. 
+        // Moves the users booking to the "canceled flights" tab
         private void btnCancelFlight_Click(object sender, EventArgs e)
         {
             btnCancelFlight.Enabled = false;

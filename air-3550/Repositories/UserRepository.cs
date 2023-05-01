@@ -19,6 +19,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
+        // Adds a user to database
         public void Add(User user)
         {
             try
@@ -36,7 +37,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
+        // Returns a user by their ID
         public User GetUserById(int userID) {
             try
             {
@@ -52,7 +53,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-
+        // Updates user in database
         public void Update(User user)
         {
             try

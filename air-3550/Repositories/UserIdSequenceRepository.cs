@@ -16,7 +16,7 @@ namespace air_3550.Repositories
         {
             this.connectionString = connectionString;
         }
-
+        // Gets the next user ID
         public int GetNextUserID()
         {
             int nextUserID;

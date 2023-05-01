@@ -25,6 +25,7 @@ namespace air_3550
             this.customerList = customerList;
         }
 
+        //Shows flight manifest
         private void ManifestForm_Load(object sender, EventArgs e)
         {
             List<Customer>? customers = db.Customers.GetCustomersByFlightID(flightId);

@@ -19,6 +19,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
+        // Method to return airport database table
         public List<Airport>? GetAll()
         {
             try

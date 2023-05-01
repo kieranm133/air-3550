@@ -15,6 +15,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
+        // Method to return booking database table
         public List<Booking>? GetAll()
         {
             try
@@ -30,7 +31,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-
+        //
         public List<Booking>? GetAll(Customer customerRecord)
         {
             try
@@ -68,7 +69,7 @@ namespace air_3550.Repositories
             }
         }
 
-
+        // Searches a booking based on customer ID
         public List<Booking> Search(int customerID)
         {
             try
@@ -107,6 +108,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+        // Takes out booking from customer view and changed ammounts of seats on flights
         public void Cancel(Booking booking)
         {
             try
@@ -131,6 +133,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        // Inserts a booking row into the booking table
         public void Insert(Booking booking)
         {
             try

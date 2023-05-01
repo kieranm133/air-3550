@@ -20,6 +20,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
+        // Adds a user to customer database
         public void Add(Customer customer)
         {
             try
@@ -36,6 +37,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
+        // Updates the database for the customer
         public void Update(Customer customer)
         {
             try
@@ -62,6 +64,7 @@ namespace air_3550.Repositories
             }
 
         }
+        // Gets customer information by user ID
         public Customer GetByID(int userID)
         {
             try
@@ -77,7 +80,7 @@ namespace air_3550.Repositories
                 return null;
             }
         }
-
+        // Gets the customer information by the flight ID
         public List<Customer> GetCustomersByFlightID(int flightID)
         {
             try

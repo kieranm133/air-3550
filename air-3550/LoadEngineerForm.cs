@@ -118,6 +118,7 @@ namespace air_3550
             btnAddToSchedule.Enabled = true;
         }
 
+        // Checks what flights may be removed form the schedule
         private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)
         {
             bool cannotBeDeleted = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Any(r => r.Cells["AircraftID"].Value != null);
@@ -127,7 +128,7 @@ namespace air_3550
             }
             else { btnRemoveFromSchedule.Enabled = true; }
         }
-
+        // Removes flight from schedule
         private void btnRemoveFromSchedule_Click(object sender, EventArgs e)
         {
             List<int> scheduledFlightIDs = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["ScheduledFlightID"].Value).ToList();

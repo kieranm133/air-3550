@@ -19,6 +19,7 @@ namespace air_3550.Repositories
             this.connectionString = connectionString;
         }
 
+        // Method to return the aircraft database table
         public List<Aircraft>? GetAll()
         {
             try

@@ -24,6 +24,7 @@ namespace air_3550
             // If the result is not null and the password hash worked, this is a valid user. Redirect based on user_type.
             if (userResult != null && userResult.PasswordHash == passwordHash)
             {
+                // Checks which user is logging in
                 switch (userResult.UserType)
                 {
                     case "customer":
@@ -57,7 +58,7 @@ namespace air_3550
                 txtPassword.Clear();
             }
         }
-
+        // Takes user to registration form
         private void btnCreateAccount_Click(object sender, EventArgs e)
         {
             RegisterForm registerForm = new RegisterForm();

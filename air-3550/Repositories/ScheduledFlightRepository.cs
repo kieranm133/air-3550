@@ -19,7 +19,7 @@ namespace air_3550.Repositories
         {
             this.connectionString = connectionString;
         }
-
+        // Returns the Scheduled flight database table
         public List<ScheduledFlight>? GetAll()
         {
             try
@@ -60,10 +60,6 @@ namespace air_3550.Repositories
             }
         }
 
-        public void DeleteByID(int scheduledFlightID)
-        {
-            DeleteByID(new List<int> { scheduledFlightID });
-        }
         // When we delete a scheduled flight, cascade the changes to the Flights table 
         public void DeleteByID(List<int> scheduledFlightIDs)
         {
@@ -84,12 +80,7 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
-        public void SetAircraftByID(Aircraft aircraft, int scheduledFlightID)
-        {
-            SetAircraftByID(aircraft, new List<int> { scheduledFlightID });
-        }
-
+        // Sets which plane to use on which flight
         public void SetAircraftByID(Aircraft aircraft, List<int> scheduledFlightIDs)
         {
             try
@@ -107,18 +98,18 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
+        // Populates the flight database with flights for the next 6 months
         private List<Flight> generateFlightsForSixMonths(ScheduledFlight scheduledFlight)
         {
             return generateFlightsForSixMonths(new List<ScheduledFlight> { scheduledFlight });
         }
-
+        // Populate the flight database with multiple flights for the next 6 months
         private List<Flight> generateFlightsForSixMonths(List<ScheduledFlight> scheduledFlights)
         {
             List<Flight> flights = new List<Flight>();
             DateTime startDate = DateTime.Today;
             DateTime endDate = startDate.AddMonths(6);
-
+            // Gets the time and date for each flight
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 foreach (var scheduledFlight in scheduledFlights)
