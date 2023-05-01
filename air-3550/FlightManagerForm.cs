@@ -24,13 +24,15 @@ namespace air_3550
             db = DatabaseManager.Instance;
         }
 
+        // logout -- return to login-form
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm(); // Replace 'MainForm' with the name of your main application form
+            LoginForm loginForm = new LoginForm(); 
             loginForm.Show();
             this.Hide();
         }
 
+        // 
         private void FlightManagerForm_Load(object sender, EventArgs e)
         {
             LoadScheduleData();
@@ -55,7 +57,6 @@ namespace air_3550
                 var flightManifest = new ManifestForm(customers, flightId);
                 flightManifest.ShowDialog();
             }
-            // TODO: If no scheduled flights, there is no manifest -- display dialog
         }
     }
 }

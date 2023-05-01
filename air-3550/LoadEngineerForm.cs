@@ -45,10 +45,9 @@ namespace air_3550
 
         }
 
+        // Get the dataGridView source--all of the scheduled flights
         private void LoadScheduleData()
         {
-            // Get the dataGridView source--all of the scheduled flights
-            // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
             List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
             dataGridViewSchedule.DataSource = scheduledFlights;
             dataGridViewSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
@@ -118,19 +117,36 @@ namespace air_3550
             btnAddToSchedule.Enabled = true;
         }
 
-        // Checks what flights may be removed form the schedule
+        // Check that flight selected a valid candidate for removal from schedule
         private void dataGridViewSchedule_SelectionChanged(object sender, EventArgs e)
         {
-            bool cannotBeDeleted = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Any(r => r.Cells["AircraftID"].Value != null);
+            bool cannotBeDeleted = false;
+            if (dataGridViewSchedule.CurrentRow != null)
+            {
+                int flightId = Convert.ToInt32(dataGridViewSchedule.CurrentRow.Cells[0].Value);
+                List<int> FlightIDs = new List<int> { flightId };
+                int aircraftID = Convert.ToInt32(dataGridViewSchedule.CurrentRow.Cells[3].Value);
+                Aircraft aircraft = db.Aircraft.GetByID(aircraftID);
+                List<Flight> flights = db.Flights.GetByScheduledFlightID(FlightIDs);
+
+                foreach (Flight flight in flights)
+                {
+                    if (flight.EmptySeats != aircraft.Capacity)
+                        cannotBeDeleted = true;
+                }
+            }
+
             if (cannotBeDeleted)
             {
                 btnRemoveFromSchedule.Enabled = false;
             }
             else { btnRemoveFromSchedule.Enabled = true; }
         }
-        // Removes flight from schedule
+
+        // Remove flight from schedule
         private void btnRemoveFromSchedule_Click(object sender, EventArgs e)
         {
+
             List<int> scheduledFlightIDs = dataGridViewSchedule.SelectedRows.Cast<DataGridViewRow>().Select(r => (int)r.Cells["ScheduledFlightID"].Value).ToList();
             db.ScheduledFlights.DeleteByID(scheduledFlightIDs);
             LoadScheduleData();

@@ -25,6 +25,7 @@ namespace air_3550
             db = DatabaseManager.Instance;
         }
 
+        // logout -- return to login-form
         private void btnLogout_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm(); 

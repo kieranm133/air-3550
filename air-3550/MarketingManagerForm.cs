@@ -31,7 +31,6 @@ namespace air_3550
             LoadPlanesAvailable();
         }
         // Get the dataGridView source -- all of the scheduled flights
-        // TODO: Fix sizing
         private void LoadScheduleData()
         {
             List<ScheduledFlight>? scheduledFlights = db.ScheduledFlights.GetAll();
@@ -50,9 +49,10 @@ namespace air_3550
             }
         }
 
+        // logout -- return to login-form
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm(); // Replace 'MainForm' with the name of your main application form
+            LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Hide();
         }
@@ -63,18 +63,13 @@ namespace air_3550
             LoadScheduleData();
         }
 
-        // TODO: Set a plane for a specific flight and update the view of th4e flights with the new plane
-        private void comboBoxPlanesAvailable_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         // Populate comboBoxPlanesAvailable with available aircraft
         private void btn_ViewPlanes_Click(object sender, EventArgs e)
         {
             LoadPlanesAvailable();
         }
 
+        // Set aircraft type
         private void button1_Click(object sender, EventArgs e)
         {
             Aircraft selectedAircraft = comboBoxPlanesAvailable.SelectedItem as Aircraft;

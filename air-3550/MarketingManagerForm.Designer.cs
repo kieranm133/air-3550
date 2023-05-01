@@ -71,7 +71,6 @@
             comboBoxPlanesAvailable.Name = "comboBoxPlanesAvailable";
             comboBoxPlanesAvailable.Size = new Size(210, 23);
             comboBoxPlanesAvailable.TabIndex = 4;
-            comboBoxPlanesAvailable.SelectedIndexChanged += comboBoxPlanesAvailable_SelectedIndexChanged;
             // 
             // buttonSetPlanes
             // 

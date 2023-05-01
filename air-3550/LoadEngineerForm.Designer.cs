@@ -57,6 +57,7 @@
             dataGridViewSchedule.CellBorderStyle = DataGridViewCellBorderStyle.RaisedVertical;
             dataGridViewSchedule.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSchedule.Location = new Point(12, 128);
+            dataGridViewSchedule.MultiSelect = false;
             dataGridViewSchedule.Name = "dataGridViewSchedule";
             dataGridViewSchedule.RowTemplate.Height = 25;
             dataGridViewSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
