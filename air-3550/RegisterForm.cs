@@ -113,7 +113,7 @@ namespace air_3550
             // If address is blank, reject.
             if (add == "")
             {
-                MessageBox.Show("Please ewnter an address.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter an address.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAddress.Clear();
                 return false;
             }

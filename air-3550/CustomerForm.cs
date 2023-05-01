@@ -418,13 +418,13 @@ namespace air_3550
                     route.ForEach(flightTuple => totalDistance += flightTuple.scheduledFlight.Distance);
                     double price = 50 + totalDistance * 0.12 + (8 * (route.Count - 1));
                     TimeSpan depart = TimeSpan.Parse(firstScheduledFlight.DepartureTime);
-                    TimeSpan arrival = TimeSpan.Parse(lastScheduledFlight.DepartureTime);
+                    TimeSpan arrival = TimeSpan.Parse(lastScheduledFlight.ArrivalTime);
 
                     if (depart.Hours < 5 || arrival.Hours < 5)
                     {
                         price *= 0.8;
                     }
-                    else if (depart.Hours < 8 || arrival.Hours >= 7)
+                    else if (depart.Hours < 8 || arrival.Hours >= 19)
                     {
                         price *= 0.9;
                     }
