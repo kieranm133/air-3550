@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace air_3550
         private DatabaseManager db;
         private List<Booking> bookings;
         private List<Airport> airports;
+        private List<FlightWithInfo?> flightInfoList = new List<FlightWithInfo?>();
+        private int currentBoardingPassIndex = 0;
         private User userRecord;
         private Customer customerRecord;
         public CustomerForm(User user)
@@ -59,7 +62,7 @@ namespace air_3550
 
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
-            bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            currentBookingsView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
             dateTimePickerDeparture.MinDate = DateTime.Today.AddDays(1);
             dateTimePickerReturn.MinDate = DateTime.Today.AddDays(2);
@@ -67,6 +70,7 @@ namespace air_3550
             dateTimePickerDeparture.MaxDate = DateTime.Today.AddMonths(6);
             dateTimePickerReturn.MaxDate = DateTime.Today.AddMonths(6);
             // Add the profile info
+            InitializeDataGridViews();
             LoadBookingData();
         }
 
@@ -79,23 +83,60 @@ namespace air_3550
 
         private void getTicketInfo_Click(object sender, EventArgs e)
         {
-            dataGridView2.Rows.Clear();
-            DataGridViewRow selectedRow = bookingView.SelectedRows[0];
+            boardingPassView.Rows.Clear();
+            DataGridViewRow selectedRow = currentBookingsView.SelectedRows[0];
             Booking booking = (Booking)selectedRow.DataBoundItem;
-            FlightWithInfo flightInfo = new FlightWithInfo();
-            flightInfo = db.Flights.GetAllFlightInfoByID(booking.FlightID1);
+            FlightWithInfo flightInfo1;
+            FlightWithInfo? flightInfo2, flightInfo3;
+            flightInfo1 = db.Flights.GetAllFlightInfoByID(booking.FlightID1);
+            flightInfo2 = booking.FlightID2.HasValue ? db.Flights.GetAllFlightInfoByID((int)booking.FlightID2) : null;
+            flightInfo3 = booking.FlightID3.HasValue ? db.Flights.GetAllFlightInfoByID((int)booking.FlightID3) : null;
 
-            dataGridView2.Rows.Add("FlightID", booking.FlightID1);
-            dataGridView2.Rows.Add("First name", this.customerRecord.FirstName);
-            dataGridView2.Rows.Add("Last name", this.customerRecord.LastName);
-            dataGridView2.Rows.Add("Date", flightInfo.Flight.DepartureDate);
-            dataGridView2.Rows.Add("From", flightInfo.OriginAirport.City);
-            dataGridView2.Rows.Add("To", flightInfo.DestinationAirport.City);
-            dataGridView2.Rows.Add("Departure", flightInfo.ScheduledFlight.DepartureTime);
-            dataGridView2.Rows.Add("Arrival", flightInfo.ScheduledFlight.ArrivalTime);
-            dataGridView2.Rows.Add("Account", customerRecord.UserID);
+            flightInfoList.Clear();
+            flightInfoList.Add(flightInfo1);
+            if (flightInfo2 != null)
+            {
+                flightInfoList.Add(flightInfo2);
+                btnRightArrow.Enabled = true;
+                btnLeftArrow.Visible = true;
+                btnRightArrow.Visible = true;
+            }
+            if (flightInfo3 != null) flightInfoList.Add(flightInfo3);
+            currentBoardingPassIndex = 0;
+            DisplayBoardingPass(flightInfoList[currentBoardingPassIndex]);
+
+
         }
+        private void DisplayBoardingPass(FlightWithInfo? flightInfo)
+        {
+            if (flightInfo == null) return;
+            string flightNumber = "First flight";
+            if (currentBoardingPassIndex == 1)
+            {
+                flightNumber = "Second flight";
+            }
+            else if (currentBoardingPassIndex == 2)
+            {
+                flightNumber = "Third flight";
+            }
+            boardingPassLabel.Text = flightNumber;
+            boardingPassLabel.Visible = true;
+            boardingPassView.Rows.Clear();
+            boardingPassView.Rows.Add("Flight ID", flightInfo.Flight.FlightID);
+            boardingPassView.Rows.Add("First name", this.customerRecord.FirstName);
+            boardingPassView.Rows.Add("Last name", this.customerRecord.LastName);
+            boardingPassView.Rows.Add("Date", flightInfo.Flight.DepartureDate);
+            boardingPassView.Rows.Add("From", flightInfo.OriginAirport.City);
+            boardingPassView.Rows.Add("To", flightInfo.DestinationAirport.City);
+            boardingPassView.Rows.Add("Departure", flightInfo.ScheduledFlight.DepartureTime);
+            boardingPassView.Rows.Add("Arrival", flightInfo.ScheduledFlight.ArrivalTime);
+            boardingPassView.Rows.Add("Account", customerRecord.UserID);
 
+            // Enable the left arrow if the index is after 1.
+            btnLeftArrow.Enabled = currentBoardingPassIndex > 0;
+            // Enable the right arrow if the index is before the end of the list.
+            btnRightArrow.Enabled = currentBoardingPassIndex < flightInfoList.Count - 1;
+        }
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox changed = sender as ComboBox;
@@ -127,7 +168,6 @@ namespace air_3550
             {
                 dateTimePickerReturn.Enabled = false;
                 dataGridViewSearchResultsReturn.Enabled = false;
-                dataGridViewSearchResultsReturn.DataSource = null;
             }
             else
             {
@@ -156,11 +196,12 @@ namespace air_3550
             {
                 dataGridViewSearchResultsOutbound.DataSource = searchFlights(dateStringDeparture, originAirportID, destinationAirportID);
                 dataGridViewSearchResultsReturn.DataSource = searchFlights(dateStringReturn, destinationAirportID, originAirportID);
-                if (dataGridViewSearchResultsOutbound.DataSource == null && dataGridViewSearchResultsReturn.DataSource == null)
+                if (dataGridViewSearchResultsOutbound.DataSource == null || dataGridViewSearchResultsReturn.DataSource == null)
                 {
                     labelFlightsNotFound.Visible = true;
                 }
             }
+            InitializeDataGridViews();
 
         }
         private void UpdateBookFlightBtnState(object sender, EventArgs e)
@@ -183,7 +224,42 @@ namespace air_3550
                 bookFlightBtn.Enabled = false;
             }
         }
+        private void InitializeDataGridViews()
+        {
+            List<DataGridView> bookingDataGridViews = new List<DataGridView> { currentBookingsView, previousBookingsView, cancelledBookingsView };
+            bookingDataGridViews.ForEach(dgv =>
+                {
+                    if (dgv.DataSource == null) dgv.DataSource = new List<Booking>();
+                    dgv.Columns["BookingID"].HeaderText = "Booking ID";
+                    dgv.Columns["CustomerID"].HeaderText = "Customer ID";
+                    dgv.Columns["FlightID1"].HeaderText = "Flight ID 1";
+                    dgv.Columns["FlightID2"].HeaderText = "Flight ID 2";
+                    dgv.Columns["FlightID3"].HeaderText = "Flight ID 3";
+                    dgv.Columns["TripType"].HeaderText = "Trip Type";
+                    dgv.Columns["BookingDate"].HeaderText = "Booking Date";
+                    dgv.Columns["PaymentMethod"].HeaderText = "Payment Method";
+                    dgv.Columns["PointsUsed"].HeaderText = "Points Used";
+                    dgv.Columns["PricePaid"].HeaderText = "Price Paid";
 
+                    // Hide the IsCancelled and PointsAwarded columns
+                    dgv.Columns["PaymentMethod"].Visible = false;
+                    dgv.Columns["IsCancelled"].Visible = false;
+                    dgv.Columns["PointsAwarded"].Visible = false;
+                }
+            );
+            List<DataGridView> resultsDataGridViews = new List<DataGridView> { dataGridViewSearchResultsOutbound, dataGridViewSearchResultsReturn };
+            resultsDataGridViews.ForEach(dgv =>
+            {
+                if (dgv.DataSource == null) dgv.DataSource = new List<BookingFlightViewModel>();
+                dgv.Columns["Connections"].HeaderText = "# of Connections";
+                dgv.Columns["DepartureAirport"].HeaderText = "Depart from";
+                dgv.Columns["ArrivalAirport"].HeaderText = "Arrive at";
+                dgv.Columns["DepartureDate"].HeaderText = "Departure date";
+                dgv.Columns["ArrivalDate"].HeaderText = "Arrival date";
+                dgv.Columns["DepartureTime"].HeaderText = "Departure time";
+                dgv.Columns["ArrivalTime"].HeaderText = "Arrival time";
+            });
+        }
         private void LoadBookingData()
         {
             db.Customers.UpdateCustomerPoints();
@@ -191,11 +267,18 @@ namespace air_3550
             string points = "Points Available: ";
             points += customerRecord.PointsAvailable;
             buildMyProfile();
+            InitializeDataGridViews();
             // Get the dataGridView source--all of the scheduled flights
             // TODO: Join create a method in ScheduledFlightsRepository to join all relevant info.
-            List<Booking>? bookings = db.Bookings.GetAllByIDWithoutCancellations(this.customerRecord.UserID);
-            bookingView.DataSource = bookings;
-            bookingView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            List<Booking>? bookings = db.Bookings.Search(this.customerRecord.UserID);
+            currentBookingsView.DataSource = bookings
+                .Where(b => !b.IsCancelled
+                            && DateTime.ParseExact(db.Flights.GetByID(b.FlightID1).DepartureDate, "yyyy-MM-dd", CultureInfo.InvariantCulture) >= DateTime.Now).AsList();
+            previousBookingsView.DataSource = bookings
+                .Where(b => !b.IsCancelled
+                            && DateTime.ParseExact(db.Flights.GetByID(b.FlightID1).DepartureDate, "yyyy-MM-dd", CultureInfo.InvariantCulture) < DateTime.Now).AsList();
+            cancelledBookingsView.DataSource = bookings.Where(b => b.IsCancelled).AsList();
+            currentBookingsView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             label11.Text = points;
         }
 
@@ -215,7 +298,7 @@ namespace air_3550
             if (isRoundtrip)
             {
 
-                selectedRow = dataGridViewSearchResultsOutbound.SelectedRows[0];
+                selectedRow = dataGridViewSearchResultsReturn.SelectedRows[0];
                 BookingFlightViewModel returnFlight = (BookingFlightViewModel)selectedRow.DataBoundItem;
                 bookDialog(outboundFlight, returnFlight);
             }
@@ -228,7 +311,7 @@ namespace air_3550
         }
         private void bookDialog(BookingFlightViewModel outboundFlight, BookingFlightViewModel? returnFlight = null)
         {
-            double totalPrice = outboundFlight.Price + (returnFlight != null ? returnFlight.Price : 0);
+            double totalPrice = (outboundFlight.Price * 100 + (returnFlight != null ? returnFlight.Price * 100 : 0)) / 100;
             int totalPoints = (int)(totalPrice * 100);
             if (totalPoints > customerRecord.PointsAvailable && paymentMethod.SelectedItem == "Points")
             {
@@ -236,8 +319,8 @@ namespace air_3550
             }
             else
             {
-                string creditMessage = $"Are you sure you want to book the flight(s) for ${totalPrice}?";
-                string pointsMessage = $"Are you sure you want to book the flight(s) for {totalPoints} points?";
+                string creditMessage = $"Are you sure you want to book this flight for ${totalPrice}?\nYou will recieve {(int)(totalPrice * 10)} points for taking this flight.";
+                string pointsMessage = $"Are you sure you want to book this flight for {totalPoints} points?";
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                 string title = "Confirmation";
                 DialogResult result = MessageBox.Show(paymentMethod.SelectedItem == "Points" ? pointsMessage : creditMessage, title, buttons);
@@ -249,10 +332,11 @@ namespace air_3550
                     if (paymentMethod.SelectedItem == "Points")
                     {
                         this.customerRecord.PointsAvailable -= totalPoints;
+                        this.customerRecord.PointsUsed += totalPoints;
                         db.Customers.Update(this.customerRecord);
                         string transactionMessage = $@"Transaction successful!
                                            Name:{customerRecord.FirstName} {customerRecord.LastName}
-                                           Total: ${totalPoints} points";
+                                           Total: {totalPoints} points";
                         MessageBox.Show(transactionMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -273,6 +357,7 @@ namespace air_3550
         }
         private void buildMyProfile()
         {
+            dataGridViewProfile.Rows.Clear();
             dataGridViewProfile.Rows.Add("First name", this.customerRecord.FirstName);
             dataGridViewProfile.Rows.Add("Last name", this.customerRecord.LastName);
             dataGridViewProfile.Rows.Add("Address", this.customerRecord.Address);
@@ -420,14 +505,18 @@ namespace air_3550
         }
 
         // Check if the flight is within the constraints to be able to cancel. If it is, then allow the user to click the button.
-        private void bookingView_SelectionChanged(object sender, EventArgs e)
+        private void bookingsView_SelectionChanged(object sender, EventArgs e)
         {
+            DataGridView view = sender as DataGridView;
+            if (view == null) return;
+
+            getTicketInfo.Enabled = false;
             btnCancelFlight.Enabled = false;
-            Booking selectedBooking = (Booking)bookingView.CurrentRow.DataBoundItem;
+            Booking selectedBooking = (Booking)view.CurrentRow.DataBoundItem;
 
             if (selectedBooking != null)
             {
-
+                getTicketInfo.Enabled = true;
                 FlightWithInfo info = db.Flights.GetAllFlightInfoByID(selectedBooking.FlightID1);
                 DateTime flightTime = DateTime.ParseExact(info.Flight.DepartureDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 flightTime = flightTime + (DateTime.ParseExact(info.ScheduledFlight.DepartureTime, "HH:mm", CultureInfo.InvariantCulture) - DateTime.Today);
@@ -448,7 +537,7 @@ namespace air_3550
         private void btnCancelFlight_Click(object sender, EventArgs e)
         {
             btnCancelFlight.Enabled = false;
-            Booking selectedBooking = (Booking)bookingView.CurrentRow.DataBoundItem;
+            Booking selectedBooking = (Booking)currentBookingsView.CurrentRow.DataBoundItem;
             if (selectedBooking != null)
             {
                 // First, calculate the total points value to refund to the user.
@@ -469,6 +558,24 @@ namespace air_3550
                 }
             }
             btnCancelFlight.Enabled = true;
+        }
+
+        private void btnRightArrow_Click(object sender, EventArgs e)
+        {
+            currentBoardingPassIndex++;
+            DisplayBoardingPass(flightInfoList[currentBoardingPassIndex]);
+        }
+
+        private void btnLeftArrow_Click(object sender, EventArgs e)
+        {
+            currentBoardingPassIndex--;
+            DisplayBoardingPass(flightInfoList[currentBoardingPassIndex]);
+        }
+
+        private void tabBookings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            getTicketInfo.Enabled = tabBookings.SelectedIndex == 0 ? true : false;
+            if (tabBookings.SelectedIndex != 0) btnCancelFlight.Enabled = false;
         }
     }
 }

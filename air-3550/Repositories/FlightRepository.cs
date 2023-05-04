@@ -36,6 +36,26 @@ namespace air_3550.Repositories
                 return null;
             }
         }
+        public Flight GetByID(int flightID)
+        {
+            return GetByID(new List<int> { flightID }).First();
+        }
+        public List<Flight>? GetByID(List<int> flightIDs)
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    string sql = "SELECT * FROM Flights WHERE FlightID IN @flightIDs";
+                    return connection.Query<Flight>(sql, new { flightIDs = flightIDs }).AsList();
+                }
+            }
+            catch (SqliteException sqlEx)
+            {
+                Logger.LogException(sqlEx);
+                return null;
+            }
+        }
         public List<Flight>? GetByScheduledFlightID(int scheduledFlightID)
         {
             return GetByScheduledFlightID(new List<int> { scheduledFlightID });
@@ -152,7 +172,10 @@ namespace air_3550.Repositories
                 Logger.LogException(sqlEx);
             }
         }
-
+        public FlightWithInfo GetFlightsWithInfo(int flightID)
+        {
+            return GetFlightsWithInfo(new List<int> { flightID }).First();
+        }
         public  List<FlightWithInfo> GetFlightsWithInfo(List<int> flightIDs)
         {
             // Replace with your SQLite connection string

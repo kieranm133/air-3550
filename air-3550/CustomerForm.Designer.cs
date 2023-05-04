@@ -30,16 +30,33 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             customerTabMyFlights = new TabPage();
+            btnRightArrow = new Button();
+            btnLeftArrow = new Button();
+            tabBookings = new TabControl();
+            tabCurrentlyBooked = new TabPage();
+            currentBookingsView = new DataGridView();
+            tabPreviousFlights = new TabPage();
+            previousBookingsView = new DataGridView();
+            tabCancelledFlights = new TabPage();
+            cancelledBookingsView = new DataGridView();
             btnCancelFlight = new Button();
-            label2 = new Label();
-            dataGridView2 = new DataGridView();
+            boardingPassLabel = new Label();
+            boardingPassView = new DataGridView();
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
             getTicketInfo = new Button();
-            label1 = new Label();
-            bookingView = new DataGridView();
             customerTabSearchFlights = new TabPage();
             labelFlightsNotFound = new Label();
             label11 = new Label();
@@ -76,8 +93,14 @@
             btnLogoutCus = new Button();
             tabControl1.SuspendLayout();
             customerTabMyFlights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)bookingView).BeginInit();
+            tabBookings.SuspendLayout();
+            tabCurrentlyBooked.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)currentBookingsView).BeginInit();
+            tabPreviousFlights.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)previousBookingsView).BeginInit();
+            tabCancelledFlights.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cancelledBookingsView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)boardingPassView).BeginInit();
             customerTabSearchFlights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsReturn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsOutbound).BeginInit();
@@ -99,12 +122,13 @@
             // 
             // customerTabMyFlights
             // 
+            customerTabMyFlights.Controls.Add(btnRightArrow);
+            customerTabMyFlights.Controls.Add(btnLeftArrow);
+            customerTabMyFlights.Controls.Add(tabBookings);
             customerTabMyFlights.Controls.Add(btnCancelFlight);
-            customerTabMyFlights.Controls.Add(label2);
-            customerTabMyFlights.Controls.Add(dataGridView2);
+            customerTabMyFlights.Controls.Add(boardingPassLabel);
+            customerTabMyFlights.Controls.Add(boardingPassView);
             customerTabMyFlights.Controls.Add(getTicketInfo);
-            customerTabMyFlights.Controls.Add(label1);
-            customerTabMyFlights.Controls.Add(bookingView);
             customerTabMyFlights.Location = new Point(4, 24);
             customerTabMyFlights.Name = "customerTabMyFlights";
             customerTabMyFlights.Padding = new Padding(3);
@@ -112,6 +136,178 @@
             customerTabMyFlights.TabIndex = 0;
             customerTabMyFlights.Text = "My Flights";
             customerTabMyFlights.UseVisualStyleBackColor = true;
+            // 
+            // btnRightArrow
+            // 
+            btnRightArrow.Location = new Point(654, 320);
+            btnRightArrow.Name = "btnRightArrow";
+            btnRightArrow.Size = new Size(127, 23);
+            btnRightArrow.TabIndex = 8;
+            btnRightArrow.Text = ">";
+            btnRightArrow.UseVisualStyleBackColor = true;
+            btnRightArrow.Visible = false;
+            btnRightArrow.Click += btnRightArrow_Click;
+            // 
+            // btnLeftArrow
+            // 
+            btnLeftArrow.Location = new Point(517, 320);
+            btnLeftArrow.Name = "btnLeftArrow";
+            btnLeftArrow.Size = new Size(127, 23);
+            btnLeftArrow.TabIndex = 7;
+            btnLeftArrow.Text = "<";
+            btnLeftArrow.UseVisualStyleBackColor = true;
+            btnLeftArrow.Visible = false;
+            btnLeftArrow.Click += btnLeftArrow_Click;
+            // 
+            // tabBookings
+            // 
+            tabBookings.Controls.Add(tabCurrentlyBooked);
+            tabBookings.Controls.Add(tabPreviousFlights);
+            tabBookings.Controls.Add(tabCancelledFlights);
+            tabBookings.Location = new Point(6, 12);
+            tabBookings.Name = "tabBookings";
+            tabBookings.SelectedIndex = 0;
+            tabBookings.Size = new Size(505, 370);
+            tabBookings.TabIndex = 6;
+            tabBookings.SelectedIndexChanged += tabBookings_SelectedIndexChanged;
+            // 
+            // tabCurrentlyBooked
+            // 
+            tabCurrentlyBooked.Controls.Add(currentBookingsView);
+            tabCurrentlyBooked.Location = new Point(4, 24);
+            tabCurrentlyBooked.Name = "tabCurrentlyBooked";
+            tabCurrentlyBooked.Padding = new Padding(3);
+            tabCurrentlyBooked.Size = new Size(497, 342);
+            tabCurrentlyBooked.TabIndex = 0;
+            tabCurrentlyBooked.Text = "Currently booked flights";
+            tabCurrentlyBooked.UseVisualStyleBackColor = true;
+            // 
+            // currentBookingsView
+            // 
+            currentBookingsView.AllowUserToAddRows = false;
+            currentBookingsView.AllowUserToDeleteRows = false;
+            currentBookingsView.AllowUserToResizeColumns = false;
+            currentBookingsView.AllowUserToResizeRows = false;
+            currentBookingsView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            currentBookingsView.BackgroundColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            currentBookingsView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            currentBookingsView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            currentBookingsView.DefaultCellStyle = dataGridViewCellStyle2;
+            currentBookingsView.Location = new Point(0, 0);
+            currentBookingsView.MultiSelect = false;
+            currentBookingsView.Name = "currentBookingsView";
+            currentBookingsView.ReadOnly = true;
+            currentBookingsView.RowHeadersVisible = false;
+            currentBookingsView.RowTemplate.Height = 25;
+            currentBookingsView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            currentBookingsView.Size = new Size(497, 342);
+            currentBookingsView.TabIndex = 0;
+            currentBookingsView.SelectionChanged += bookingsView_SelectionChanged;
+            // 
+            // tabPreviousFlights
+            // 
+            tabPreviousFlights.Controls.Add(previousBookingsView);
+            tabPreviousFlights.Location = new Point(4, 24);
+            tabPreviousFlights.Name = "tabPreviousFlights";
+            tabPreviousFlights.Padding = new Padding(3);
+            tabPreviousFlights.Size = new Size(497, 342);
+            tabPreviousFlights.TabIndex = 1;
+            tabPreviousFlights.Text = "Previous flights";
+            tabPreviousFlights.UseVisualStyleBackColor = true;
+            // 
+            // previousBookingsView
+            // 
+            previousBookingsView.AllowUserToAddRows = false;
+            previousBookingsView.AllowUserToDeleteRows = false;
+            previousBookingsView.AllowUserToResizeColumns = false;
+            previousBookingsView.AllowUserToResizeRows = false;
+            previousBookingsView.BackgroundColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            previousBookingsView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            previousBookingsView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            previousBookingsView.Location = new Point(0, 0);
+            previousBookingsView.MultiSelect = false;
+            previousBookingsView.Name = "previousBookingsView";
+            previousBookingsView.ReadOnly = true;
+            previousBookingsView.RowHeadersVisible = false;
+            previousBookingsView.RowTemplate.Height = 25;
+            previousBookingsView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            previousBookingsView.Size = new Size(497, 342);
+            previousBookingsView.TabIndex = 1;
+            // 
+            // tabCancelledFlights
+            // 
+            tabCancelledFlights.Controls.Add(cancelledBookingsView);
+            tabCancelledFlights.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            tabCancelledFlights.Location = new Point(4, 24);
+            tabCancelledFlights.Name = "tabCancelledFlights";
+            tabCancelledFlights.Padding = new Padding(3);
+            tabCancelledFlights.Size = new Size(497, 342);
+            tabCancelledFlights.TabIndex = 2;
+            tabCancelledFlights.Text = "Cancelled flights";
+            tabCancelledFlights.UseVisualStyleBackColor = true;
+            // 
+            // cancelledBookingsView
+            // 
+            cancelledBookingsView.AllowUserToAddRows = false;
+            cancelledBookingsView.AllowUserToDeleteRows = false;
+            cancelledBookingsView.AllowUserToResizeColumns = false;
+            cancelledBookingsView.AllowUserToResizeRows = false;
+            cancelledBookingsView.BackgroundColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            cancelledBookingsView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            cancelledBookingsView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Window;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
+            cancelledBookingsView.DefaultCellStyle = dataGridViewCellStyle5;
+            cancelledBookingsView.Location = new Point(0, 0);
+            cancelledBookingsView.MultiSelect = false;
+            cancelledBookingsView.Name = "cancelledBookingsView";
+            cancelledBookingsView.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            cancelledBookingsView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            cancelledBookingsView.RowHeadersVisible = false;
+            cancelledBookingsView.RowTemplate.Height = 25;
+            cancelledBookingsView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            cancelledBookingsView.Size = new Size(497, 342);
+            cancelledBookingsView.TabIndex = 1;
             // 
             // btnCancelFlight
             // 
@@ -124,37 +320,50 @@
             btnCancelFlight.UseVisualStyleBackColor = true;
             btnCancelFlight.Click += btnCancelFlight_Click;
             // 
-            // label2
+            // boardingPassLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(622, 18);
-            label2.Name = "label2";
-            label2.Size = new Size(62, 15);
-            label2.TabIndex = 4;
-            label2.Text = "Ticket info";
+            boardingPassLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            boardingPassLabel.Location = new Point(576, 12);
+            boardingPassLabel.Name = "boardingPassLabel";
+            boardingPassLabel.Size = new Size(146, 21);
+            boardingPassLabel.TabIndex = 4;
+            boardingPassLabel.Text = "Boarding pass info";
+            boardingPassLabel.TextAlign = ContentAlignment.MiddleCenter;
+            boardingPassLabel.Visible = false;
             // 
-            // dataGridView2
+            // boardingPassView
             // 
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.AllowUserToDeleteRows = false;
-            dataGridView2.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.ColumnHeadersVisible = false;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column3, Column4 });
-            dataGridView2.Location = new Point(517, 36);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.ReadOnly = true;
-            dataGridView2.RowTemplate.Height = 25;
-            dataGridView2.Size = new Size(264, 342);
-            dataGridView2.TabIndex = 2;
+            boardingPassView.AllowUserToAddRows = false;
+            boardingPassView.AllowUserToResizeColumns = false;
+            boardingPassView.AllowUserToResizeRows = false;
+            boardingPassView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            boardingPassView.BackgroundColor = SystemColors.ControlLightLight;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            boardingPassView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            boardingPassView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            boardingPassView.ColumnHeadersVisible = false;
+            boardingPassView.Columns.AddRange(new DataGridViewColumn[] { Column3, Column4 });
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Window;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Window;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            boardingPassView.DefaultCellStyle = dataGridViewCellStyle8;
+            boardingPassView.Location = new Point(517, 36);
+            boardingPassView.Name = "boardingPassView";
+            boardingPassView.ReadOnly = true;
+            boardingPassView.RowHeadersVisible = false;
+            boardingPassView.RowTemplate.Height = 25;
+            boardingPassView.Size = new Size(264, 278);
+            boardingPassView.TabIndex = 2;
             // 
             // Column3
             // 
@@ -170,38 +379,14 @@
             // 
             // getTicketInfo
             // 
-            getTicketInfo.Location = new Point(583, 384);
+            getTicketInfo.Enabled = false;
+            getTicketInfo.Location = new Point(515, 349);
             getTicketInfo.Name = "getTicketInfo";
-            getTicketInfo.Size = new Size(135, 23);
+            getTicketInfo.Size = new Size(268, 58);
             getTicketInfo.TabIndex = 2;
             getTicketInfo.Text = "Print Boarding Pass";
             getTicketInfo.UseVisualStyleBackColor = true;
             getTicketInfo.Click += getTicketInfo_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(199, 18);
-            label1.Name = "label1";
-            label1.Size = new Size(135, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Currently booked flights";
-            // 
-            // bookingView
-            // 
-            bookingView.AllowUserToAddRows = false;
-            bookingView.AllowUserToDeleteRows = false;
-            bookingView.BackgroundColor = SystemColors.ControlLightLight;
-            bookingView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            bookingView.Location = new Point(6, 36);
-            bookingView.MultiSelect = false;
-            bookingView.Name = "bookingView";
-            bookingView.ReadOnly = true;
-            bookingView.RowTemplate.Height = 25;
-            bookingView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            bookingView.Size = new Size(505, 342);
-            bookingView.TabIndex = 0;
-            bookingView.SelectionChanged += bookingView_SelectionChanged;
             // 
             // customerTabSearchFlights
             // 
@@ -268,12 +453,22 @@
             // 
             dataGridViewSearchResultsReturn.AllowUserToAddRows = false;
             dataGridViewSearchResultsReturn.AllowUserToDeleteRows = false;
+            dataGridViewSearchResultsReturn.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             dataGridViewSearchResultsReturn.BackgroundColor = SystemColors.Control;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = SystemColors.Control;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dataGridViewSearchResultsReturn.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dataGridViewSearchResultsReturn.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSearchResultsReturn.Location = new Point(319, 217);
             dataGridViewSearchResultsReturn.MultiSelect = false;
             dataGridViewSearchResultsReturn.Name = "dataGridViewSearchResultsReturn";
             dataGridViewSearchResultsReturn.ReadOnly = true;
+            dataGridViewSearchResultsReturn.RowHeadersVisible = false;
             dataGridViewSearchResultsReturn.RowTemplate.Height = 25;
             dataGridViewSearchResultsReturn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewSearchResultsReturn.Size = new Size(463, 161);
@@ -352,12 +547,22 @@
             // 
             dataGridViewSearchResultsOutbound.AllowUserToAddRows = false;
             dataGridViewSearchResultsOutbound.AllowUserToDeleteRows = false;
+            dataGridViewSearchResultsOutbound.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             dataGridViewSearchResultsOutbound.BackgroundColor = SystemColors.Control;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.Control;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle10.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
+            dataGridViewSearchResultsOutbound.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             dataGridViewSearchResultsOutbound.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSearchResultsOutbound.Location = new Point(319, 31);
             dataGridViewSearchResultsOutbound.MultiSelect = false;
             dataGridViewSearchResultsOutbound.Name = "dataGridViewSearchResultsOutbound";
             dataGridViewSearchResultsOutbound.ReadOnly = true;
+            dataGridViewSearchResultsOutbound.RowHeadersVisible = false;
             dataGridViewSearchResultsOutbound.RowTemplate.Height = 25;
             dataGridViewSearchResultsOutbound.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewSearchResultsOutbound.Size = new Size(463, 161);
@@ -527,9 +732,18 @@
             dataGridViewProfile.ColumnHeadersVisible = false;
             dataGridViewProfile.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2 });
             dataGridViewProfile.Cursor = Cursors.SizeNESW;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = SystemColors.Window;
+            dataGridViewCellStyle11.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle11.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Window;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.False;
+            dataGridViewProfile.DefaultCellStyle = dataGridViewCellStyle11;
             dataGridViewProfile.Location = new Point(6, 27);
             dataGridViewProfile.Name = "dataGridViewProfile";
             dataGridViewProfile.ReadOnly = true;
+            dataGridViewProfile.RowHeadersVisible = false;
             dataGridViewProfile.RowTemplate.Height = 25;
             dataGridViewProfile.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewProfile.Size = new Size(544, 216);
@@ -578,13 +792,19 @@
             Controls.Add(btnLogoutCus);
             Controls.Add(tabControl1);
             Name = "CustomerForm";
-            Text = "Customer Form";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Air 3550";
             Load += CustomerForm_Load;
             tabControl1.ResumeLayout(false);
             customerTabMyFlights.ResumeLayout(false);
-            customerTabMyFlights.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bookingView).EndInit();
+            tabBookings.ResumeLayout(false);
+            tabCurrentlyBooked.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)currentBookingsView).EndInit();
+            tabPreviousFlights.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)previousBookingsView).EndInit();
+            tabCancelledFlights.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)cancelledBookingsView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)boardingPassView).EndInit();
             customerTabSearchFlights.ResumeLayout(false);
             customerTabSearchFlights.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSearchResultsReturn).EndInit();
@@ -603,11 +823,9 @@
         private TabPage customerTabSearchFlights;
         private TabPage customerTabProfile;
         private Button btnLogoutCus;
-        private Label label2;
-        private DataGridView dataGridView2;
+        private Label boardingPassLabel;
+        private DataGridView boardingPassView;
         private Button getTicketInfo;
-        private Label label1;
-        private DataGridView bookingView;
         private Label label5;
         private Label label6;
         private Label label4;
@@ -642,5 +860,14 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private Label labelFlightsNotFound;
+        private Button btnRightArrow;
+        private Button btnLeftArrow;
+        private TabControl tabBookings;
+        private TabPage tabCurrentlyBooked;
+        private DataGridView currentBookingsView;
+        private TabPage tabPreviousFlights;
+        private DataGridView previousBookingsView;
+        private TabPage tabCancelledFlights;
+        private DataGridView cancelledBookingsView;
     }
 }

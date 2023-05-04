@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             labelUserID = new Label();
             label2 = new Label();
             txtUserID = new TextBox();
@@ -35,6 +36,9 @@
             btnLogin = new Button();
             btnCreateAccount = new Button();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
+            ________________________________________________________________________ = new ListBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // labelUserID
@@ -100,6 +104,26 @@
             label1.TabIndex = 6;
             label1.Text = "Air 3550 Flight Reservation System\r\n";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(-66, -75);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(920, 548);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 24;
+            pictureBox1.TabStop = false;
+            // 
+            // ________________________________________________________________________
+            // 
+            ________________________________________________________________________.BackColor = SystemColors.Control;
+            ________________________________________________________________________.FormattingEnabled = true;
+            ________________________________________________________________________.ItemHeight = 15;
+            ________________________________________________________________________.Location = new Point(226, 62);
+            ________________________________________________________________________.Name = "________________________________________________________________________";
+            ________________________________________________________________________.Size = new Size(350, 244);
+            ________________________________________________________________________.TabIndex = 25;
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -112,8 +136,12 @@
             Controls.Add(txtUserID);
             Controls.Add(label2);
             Controls.Add(labelUserID);
+            Controls.Add(________________________________________________________________________);
+            Controls.Add(pictureBox1);
             Name = "LoginForm";
-            Text = "Login Form";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Login";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,5 +155,7 @@
         private Button btnLogin;
         private Button btnCreateAccount;
         private Label label1;
+        private PictureBox pictureBox1;
+        private ListBox ________________________________________________________________________;
     }
 }

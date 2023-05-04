@@ -56,11 +56,11 @@
             dataGridViewSchedule.BackgroundColor = SystemColors.Control;
             dataGridViewSchedule.CellBorderStyle = DataGridViewCellBorderStyle.RaisedVertical;
             dataGridViewSchedule.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewSchedule.Location = new Point(12, 129);
+            dataGridViewSchedule.Location = new Point(12, 128);
             dataGridViewSchedule.Name = "dataGridViewSchedule";
             dataGridViewSchedule.RowTemplate.Height = 25;
             dataGridViewSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewSchedule.Size = new Size(650, 271);
+            dataGridViewSchedule.Size = new Size(650, 281);
             dataGridViewSchedule.TabIndex = 2;
             dataGridViewSchedule.SelectionChanged += dataGridViewSchedule_SelectionChanged;
             // 
@@ -68,7 +68,7 @@
             // 
             comboBoxOrigin.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxOrigin.FormattingEnabled = true;
-            comboBoxOrigin.Location = new Point(89, 13);
+            comboBoxOrigin.Location = new Point(341, 12);
             comboBoxOrigin.Name = "comboBoxOrigin";
             comboBoxOrigin.Size = new Size(321, 23);
             comboBoxOrigin.TabIndex = 3;
@@ -78,7 +78,7 @@
             // 
             comboBoxDestination.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDestination.FormattingEnabled = true;
-            comboBoxDestination.Location = new Point(89, 42);
+            comboBoxDestination.Location = new Point(341, 41);
             comboBoxDestination.Name = "comboBoxDestination";
             comboBoxDestination.Size = new Size(321, 23);
             comboBoxDestination.TabIndex = 4;
@@ -87,7 +87,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(43, 16);
+            label1.Location = new Point(295, 15);
             label1.Name = "label1";
             label1.Size = new Size(40, 15);
             label1.TabIndex = 5;
@@ -96,7 +96,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(16, 45);
+            label2.Location = new Point(268, 44);
             label2.Name = "label2";
             label2.Size = new Size(67, 15);
             label2.TabIndex = 6;
@@ -105,7 +105,7 @@
             // btnRemoveFromSchedule
             // 
             btnRemoveFromSchedule.Enabled = false;
-            btnRemoveFromSchedule.Location = new Point(513, 406);
+            btnRemoveFromSchedule.Location = new Point(513, 415);
             btnRemoveFromSchedule.Name = "btnRemoveFromSchedule";
             btnRemoveFromSchedule.Size = new Size(149, 23);
             btnRemoveFromSchedule.TabIndex = 7;
@@ -116,7 +116,7 @@
             // btnAddToSchedule
             // 
             btnAddToSchedule.Enabled = false;
-            btnAddToSchedule.Location = new Point(271, 100);
+            btnAddToSchedule.Location = new Point(523, 99);
             btnAddToSchedule.Name = "btnAddToSchedule";
             btnAddToSchedule.Size = new Size(139, 23);
             btnAddToSchedule.TabIndex = 8;
@@ -128,7 +128,7 @@
             // 
             dateTimePickerDepartureTime.CustomFormat = "hh:mm tt";
             dateTimePickerDepartureTime.Format = DateTimePickerFormat.Custom;
-            dateTimePickerDepartureTime.Location = new Point(335, 71);
+            dateTimePickerDepartureTime.Location = new Point(587, 70);
             dateTimePickerDepartureTime.Name = "dateTimePickerDepartureTime";
             dateTimePickerDepartureTime.ShowUpDown = true;
             dateTimePickerDepartureTime.Size = new Size(75, 23);
@@ -137,7 +137,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(243, 75);
+            label3.Location = new Point(495, 74);
             label3.Name = "label3";
             label3.Size = new Size(86, 15);
             label3.TabIndex = 10;
@@ -160,6 +160,7 @@
             Controls.Add(dataGridViewSchedule);
             Controls.Add(btnLogout);
             Name = "LoadEngineerForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Load Engineer Form";
             Load += LoadEngineerForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewSchedule).EndInit();

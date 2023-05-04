@@ -51,6 +51,7 @@
             dataGridView_Scheduled_Flights.Location = new Point(12, 12);
             dataGridView_Scheduled_Flights.Name = "dataGridView_Scheduled_Flights";
             dataGridView_Scheduled_Flights.ReadOnly = true;
+            dataGridView_Scheduled_Flights.RowHeadersVisible = false;
             dataGridView_Scheduled_Flights.RowTemplate.Height = 25;
             dataGridView_Scheduled_Flights.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_Scheduled_Flights.Size = new Size(654, 330);
@@ -75,7 +76,8 @@
             Controls.Add(dataGridView_Scheduled_Flights);
             Controls.Add(btnLogout);
             Name = "FlightManagerForm";
-            Text = "Flight Manager Form";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "View Flight Manifests";
             Load += FlightManagerForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView_Scheduled_Flights).EndInit();
             ResumeLayout(false);

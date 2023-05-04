@@ -59,6 +59,7 @@
             dataGridViewFlights.Location = new Point(12, 12);
             dataGridViewFlights.Name = "dataGridViewFlights";
             dataGridViewFlights.ReadOnly = true;
+            dataGridViewFlights.RowHeadersVisible = false;
             dataGridViewFlights.RowTemplate.Height = 25;
             dataGridViewFlights.Size = new Size(769, 329);
             dataGridViewFlights.TabIndex = 2;
@@ -70,6 +71,7 @@
             dataGridViewSummary.Location = new Point(12, 347);
             dataGridViewSummary.Name = "dataGridViewSummary";
             dataGridViewSummary.ReadOnly = true;
+            dataGridViewSummary.RowHeadersVisible = false;
             dataGridViewSummary.RowTemplate.Height = 25;
             dataGridViewSummary.Size = new Size(226, 80);
             dataGridViewSummary.TabIndex = 4;
@@ -83,7 +85,8 @@
             Controls.Add(dataGridViewFlights);
             Controls.Add(btnLogout);
             Name = "AccountingManagerForm";
-            Text = "Accounting Manager Form";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Accounting Statistics";
             Load += AccountingManagerForm_Load;
             ((System.ComponentModel.ISupportInitialize)flightBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFlights).EndInit();

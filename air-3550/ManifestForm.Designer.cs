@@ -50,7 +50,8 @@
             ClientSize = new Size(800, 450);
             Controls.Add(dataGridViewManifest);
             Name = "ManifestForm";
-            Text = "ManifestForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Flight Manifest";
             Load += ManifestForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewManifest).EndInit();
             ResumeLayout(false);

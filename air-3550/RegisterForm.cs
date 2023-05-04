@@ -20,7 +20,7 @@ namespace air_3550
         private void btnSignUp_Click(object sender, EventArgs e)
         {
 
-           
+
             // Now build the User object to send to the DB.
             int UserID = db.UserIdSequences.GetNextUserID();
             string Password = txtPassword.Text;
@@ -34,7 +34,8 @@ namespace air_3550
             if (!IsValidFormat(FirstName, LastName, Password, Age, Phone, Address, CreditCard))
             {
                 // Do nothing if format is invalid--handled by IsValidFormat
-            } else
+            }
+            else
             {
                 User user = new User();
                 user.UserID = UserID;
@@ -61,7 +62,7 @@ namespace air_3550
                 this.Hide();
             }
 
-           
+
         }
         // Validate and handle user input.
         private bool IsValidFormat(string fName, string lName, string pass, string age, string phone, string add, string card)
@@ -83,7 +84,7 @@ namespace air_3550
             // If password is less than 8 characters, reject.
             if (pass.Length < 8)
             {
-                MessageBox.Show("Password must be four characters or more. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Password must be 8 characters or more. Please re-enter.", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPassword.Clear();
                 return false;
             }
@@ -117,12 +118,13 @@ namespace air_3550
                 return false;
             }
             // If card can't be numerically parse or it's less than 16 digits, reject.
-            if (!Int64.TryParse(card, out long cardNum) || card.Length != 16) {
+            if (!Int64.TryParse(card, out long cardNum) || card.Length != 16)
+            {
                 MessageBox.Show("Card number should be 16 digits. Please re-enter", "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtCreditCard.Clear();
                 return false;
             }
-            
+
             return true;
         }
     }
